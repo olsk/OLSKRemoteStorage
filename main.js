@@ -8,7 +8,7 @@ exports.OLSKRemoteStorageJSONSchema = function(inputData) {
 		properties: Object.entries(inputData).reduce(function (coll, [key, val]) {
 			coll[key] = {};
 
-			coll[key].type = [...val].shift().replace('XYZErrorNot', '').toLowerCase().replace('filled', 'string');
+			coll[key].type = exports._OLSKRemoteStorageInferredType([...val].shift()).replace('filled', 'string');
 
 			if (coll[key].type === 'date') {
 				coll[key].type = 'string';
@@ -23,6 +23,14 @@ exports.OLSKRemoteStorageJSONSchema = function(inputData) {
 			return key;
 		}),
 	};
+};
+
+exports._OLSKRemoteStorageInferredType = function(inputData) {
+	if (typeof inputData !== 'string') {
+		throw 'OLSKErrorInputInvalid'
+	}
+
+	return inputData.replace(/\w+ErrorNot/, '').toLowerCase();
 };
 
 exports.OLSKRemoteStorageChangeDelegateMethods = function() {

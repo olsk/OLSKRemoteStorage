@@ -196,6 +196,32 @@ describe('OLSKRemoteStorageJSONSchema', function OLSKRemoteStorageJSONSchema() {
 
 });
 
+describe('_OLSKRemoteStorageInferredType', function test_OLSKRemoteStorageInferredType() {
+
+	it('throws error if not string', function() {
+		throws(function() {
+			mainModule._OLSKRemoteStorageInferredType(null);
+		}, /OLSKErrorInputInvalid/);
+	});
+
+	it('converts if string', function() {
+		deepEqual(mainModule._OLSKRemoteStorageInferredType('XYZErrorNotString'), 'string');
+	});
+
+	it('converts if boolean', function() {
+		deepEqual(mainModule._OLSKRemoteStorageInferredType('XYZErrorNotBoolean'), 'boolean');
+	});
+
+	it('converts if date', function() {
+		deepEqual(mainModule._OLSKRemoteStorageInferredType('XYZErrorNotDate'), 'date');
+	});
+
+	it('converts variable prefix', function() {
+		deepEqual(mainModule._OLSKRemoteStorageInferredType('ABCErrorNotDate'), 'date');
+	});
+
+});
+
 describe('OLSKRemoteStorageChangeDelegateMethods', function testOLSKRemoteStorageChangeDelegateMethods() {
 
 	it('returns array', function() {
