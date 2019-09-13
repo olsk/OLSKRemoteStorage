@@ -24,3 +24,39 @@ exports.OLSKRemoteStorageJSONSchema = function(inputData) {
 		}),
 	};
 };
+
+exports.OLSKRemoteStorageChangeDelegateMethods = function() {
+	return [
+		'OLSKChangeDelegateCreate',
+		'OLSKChangeDelegateUpdate',
+		'OLSKChangeDelegateDelete',
+		];
+};
+
+exports.OLSKRemoteStorageChangeDelegateProperty = function(inputData) {
+	if (typeof inputData !== 'object' || inputData === null) {
+		return;
+	}
+
+	if (inputData.origin === 'remote' && typeof inputData.oldValue === 'undefined' && typeof inputData.newValue !== 'undefined') {
+		return 'OLSKChangeDelegateCreate';
+	};
+
+	if (inputData.origin === 'remote' && typeof inputData.oldValue !== 'undefined' && typeof inputData.newValue !== 'undefined') {
+		return 'OLSKChangeDelegateUpdate';
+	};
+
+	if (inputData.origin === 'remote' && typeof inputData.oldValue !== 'undefined' && typeof inputData.newValue === 'undefined') {
+		return 'OLSKChangeDelegateDelete';
+	};
+
+	return;
+};
+
+exports.OLSKRemoteStorageChangeDelegateInput = function(inputData) {
+	if (exports.OLSKRemoteStorageChangeDelegateMethods().indexOf(inputData) === -1) {
+		throw new Error('LCHErrorInputInvalid');
+	}
+
+	return inputData === 'OLSKChangeDelegateDelete' ? 'oldValue' : 'newValue';
+};
