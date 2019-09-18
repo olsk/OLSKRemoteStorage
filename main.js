@@ -68,3 +68,47 @@ exports.OLSKRemoteStorageChangeDelegateInput = function(inputData) {
 
 	return inputData === 'OLSKChangeDelegateDelete' ? 'oldValue' : 'newValue';
 };
+
+exports.OLSKRemoteStorageStatus = function(param1, param2, OLSKLocalized = function (inputData) {
+	return inputData;
+}) {
+	if (typeof param1 !== 'object' || param1 === null) {
+		throw 'OLSKErrorInputInvalid';
+	}
+
+	if (typeof param1.on !== 'function') {
+		throw 'OLSKErrorInputInvalid';
+	}
+
+	if (typeof param2 !== 'function') {
+		throw 'OLSKErrorInputInvalid';
+	}
+
+	param1.on('connected', function () {
+		param2(OLSKLocalized('OLSKRemoteStorageStatusOnline'))
+	})
+
+	let isOffline;
+	param1.on('network-offline', function () {
+		param2(OLSKLocalized('OLSKRemoteStorageStatusNetworkOffline'));
+
+		isOffline = true;
+	})
+
+	param1.on('network-online', function () {
+		param2(OLSKLocalized('OLSKRemoteStorageStatusOnline'))
+	})
+
+	param1.on('error', function (inputData) {
+		if (isOffline && inputData.message === 'Sync failed: Network request failed.') {
+			return;
+		};
+
+		param2(OLSKLocalized('OLSKRemoteStorageStatusError'))
+	})
+
+	param1.on('disconnected', function () {
+		param2('')
+	})
+};
+

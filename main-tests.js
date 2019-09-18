@@ -73,6 +73,16 @@ const kTesting = {
 			relativePath: 'xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
 	 };
 	},
+
+	StubEventListener: function(inputData) {
+		return {
+			on (param1, param2) {
+				if (param1 === inputData) {
+					param2()
+				};
+			},
+		};
+	},
 };
 
 describe('OLSKRemoteStorageJSONSchema', function OLSKRemoteStorageJSONSchema() {
@@ -287,3 +297,111 @@ describe('OLSKRemoteStorageChangeDelegateInput', function testOLSKRemoteStorageC
 	});
 
 });
+
+import { OLSKRemoteStorageStatus } from './main.js';
+
+describe('OLSKRemoteStorageStatus', function testOLSKRemoteStorageStatus() {
+
+	it('throws error if param1 not object', function() {
+		throws(function() {
+			OLSKRemoteStorageStatus(null);
+		}, /OLSKErrorInputInvalid/);
+	});
+
+	it('throws error if param1 no event method', function() {
+		throws(function() {
+			OLSKRemoteStorageStatus({});
+		}, /OLSKErrorInputInvalid/);
+	});
+
+	it('throws error if param2 not function', function() {
+		throws(function() {
+			OLSKRemoteStorageStatus(kTesting.StubEventListener(), null);
+		}, /OLSKErrorInputInvalid/);
+	});
+
+	it('returns undefined', function() {
+		deepEqual(OLSKRemoteStorageStatus(kTesting.StubEventListener(), function () {}), undefined);
+	});
+
+	it('returns string on connected', function() {
+		let item;
+		OLSKRemoteStorageStatus(kTesting.StubEventListener('connected'), function (inputData) {
+			item = inputData;
+		})
+		deepEqual(item, 'OLSKRemoteStorageStatusOnline');
+	});
+
+	it('returns string on network-offline', function() {
+		let item;
+		OLSKRemoteStorageStatus(kTesting.StubEventListener('network-offline'), function (inputData) {
+			item = inputData;
+		})
+		deepEqual(item, 'OLSKRemoteStorageStatusNetworkOffline');
+	});
+
+	it('returns string on network-online', function() {
+		let item;
+		OLSKRemoteStorageStatus(kTesting.StubEventListener('network-online'), function (inputData) {
+			item = inputData;
+		})
+		deepEqual(item, 'OLSKRemoteStorageStatusOnline');
+	});
+
+	it('returns string on error', function() {
+		let item;
+		OLSKRemoteStorageStatus(kTesting.StubEventListener('error'), function (inputData) {
+			item = inputData;
+		})
+		deepEqual(item, 'OLSKRemoteStorageStatusError');
+	});
+
+	it('ignores SyncError on network-offline', function() {
+		let item = [];
+		OLSKRemoteStorageStatus({
+			on (param1, param2) {
+				if (param1 === 'network-offline') {
+					param2()
+				};
+
+				if (param1 === 'error') {
+					param2(new Error('Sync failed: Network request failed.'))
+				};
+			},
+		}, function (inputData) {
+			item.push(inputData);
+		})
+		deepEqual(item, ['OLSKRemoteStorageStatusNetworkOffline']);
+	});
+
+	it('allows other errors on network-offline', function() {
+		let item = [];
+		OLSKRemoteStorageStatus({
+			on (param1, param2) {
+				if (param1 === 'network-offline') {
+					param2()
+				};
+
+				if (param1 === 'error') {
+					param2(new Error('Sync failed: Network request failed.x'))
+				};
+			},
+		}, function (inputData) {
+			item.push(inputData);
+		})
+		deepEqual(item, [
+			'OLSKRemoteStorageStatusNetworkOffline',
+			'OLSKRemoteStorageStatusError',
+			]);
+	});
+
+	it('returns string on disconnected', function() {
+		let item;
+		OLSKRemoteStorageStatus(kTesting.StubEventListener('disconnected'), function (inputData) {
+			item = inputData;
+		})
+		deepEqual(item, '');
+	});
+
+});
+
