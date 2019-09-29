@@ -90,7 +90,7 @@ describe('OLSKRemoteStorageJSONSchema', function OLSKRemoteStorageJSONSchema() {
 	it('throws error if not object', function() {
 		throws(function() {
 			mainModule.OLSKRemoteStorageJSONSchema(null);
-		}, /OLSKErrorInputInvalid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns object', function() {
@@ -211,7 +211,7 @@ describe('_OLSKRemoteStorageInferredType', function test_OLSKRemoteStorageInferr
 	it('throws error if not string', function() {
 		throws(function() {
 			mainModule._OLSKRemoteStorageInferredType(null);
-		}, /OLSKErrorInputInvalid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('converts if string', function() {
@@ -281,7 +281,7 @@ describe('OLSKRemoteStorageChangeDelegateInput', function testOLSKRemoteStorageC
 	it('throws if not valid', function() {
 		throws(function () {
 			mainModule.OLSKRemoteStorageChangeDelegateInput('alfa');
-		}, /LCHErrorInputInvalid/);
+		}, /LCHErrorInputNotValid/);
 	});
 
 	it('returns newValue if OLSKChangeDelegateCreate', function() {
@@ -305,19 +305,19 @@ describe('OLSKRemoteStorageStatus', function testOLSKRemoteStorageStatus() {
 	it('throws error if param1 not object', function() {
 		throws(function() {
 			OLSKRemoteStorageStatus(null);
-		}, /OLSKErrorInputInvalid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws error if param1 no event method', function() {
 		throws(function() {
 			OLSKRemoteStorageStatus({});
-		}, /OLSKErrorInputInvalid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws error if param2 not function', function() {
 		throws(function() {
 			OLSKRemoteStorageStatus(kTesting.StubEventListener(), null);
-		}, /OLSKErrorInputInvalid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns undefined', function() {

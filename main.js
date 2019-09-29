@@ -1,6 +1,6 @@
 exports.OLSKRemoteStorageJSONSchema = function(inputData) {
 	if (typeof inputData !== 'object' || inputData === null) {
-		throw new Error('OLSKErrorInputInvalid')
+		throw new Error('OLSKErrorInputNotValid')
 	}
 
 	return {
@@ -27,7 +27,7 @@ exports.OLSKRemoteStorageJSONSchema = function(inputData) {
 
 exports._OLSKRemoteStorageInferredType = function(inputData) {
 	if (typeof inputData !== 'string') {
-		throw new Error('OLSKErrorInputInvalid')
+		throw new Error('OLSKErrorInputNotValid')
 	}
 
 	return inputData.replace(/\w+ErrorNot/, '').toLowerCase();
@@ -63,7 +63,7 @@ exports.OLSKRemoteStorageChangeDelegateProperty = function(inputData) {
 
 exports.OLSKRemoteStorageChangeDelegateInput = function(inputData) {
 	if (exports.OLSKRemoteStorageChangeDelegateMethods().indexOf(inputData) === -1) {
-		throw new Error('LCHErrorInputInvalid');
+		throw new Error('LCHErrorInputNotValid');
 	}
 
 	return inputData === 'OLSKChangeDelegateDelete' ? 'oldValue' : 'newValue';
@@ -73,15 +73,15 @@ exports.OLSKRemoteStorageStatus = function(param1, param2, OLSKLocalized = funct
 	return inputData;
 }) {
 	if (typeof param1 !== 'object' || param1 === null) {
-		throw new Error('OLSKErrorInputInvalid');
+		throw new Error('OLSKErrorInputNotValid');
 	}
 
 	if (typeof param1.on !== 'function') {
-		throw new Error('OLSKErrorInputInvalid');
+		throw new Error('OLSKErrorInputNotValid');
 	}
 
 	if (typeof param2 !== 'function') {
-		throw new Error('OLSKErrorInputInvalid');
+		throw new Error('OLSKErrorInputNotValid');
 	}
 
 	param1.on('connected', function () {
