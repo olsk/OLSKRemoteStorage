@@ -247,19 +247,19 @@ describe('OLSKRemoteStorageChangeDelegateMethods', function testOLSKRemoteStorag
 describe('OLSKRemoteStorageChangeDelegateProperty', function testOLSKRemoteStorageChangeDelegateProperty() {
 
 	it('returns undefined', function() {
-		deepEqual(typeof mainModule.OLSKRemoteStorageChangeDelegateProperty(), 'undefined');
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(), undefined);
 	});
 
 	it('returns undefined if window', function() {
-		deepEqual(typeof mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectWindow()), 'undefined');
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectWindow()), undefined);
 	});
 
 	it('returns undefined if conflict', function() {
-		deepEqual(typeof mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectConflict()), 'undefined');
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectConflict()), undefined);
 	});
 
 	it('returns undefined if local init', function() {
-		deepEqual(typeof mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectLocalInit()), 'undefined');
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectLocalInit()), undefined);
 	});
 
 	it('returns string if remote create', function() {
