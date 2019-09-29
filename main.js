@@ -1,6 +1,6 @@
 exports.OLSKRemoteStorageJSONSchema = function(inputData) {
 	if (typeof inputData !== 'object' || inputData === null) {
-		throw 'OLSKErrorInputInvalid'
+		throw new Error('OLSKErrorInputInvalid')
 	}
 
 	return {
@@ -27,7 +27,7 @@ exports.OLSKRemoteStorageJSONSchema = function(inputData) {
 
 exports._OLSKRemoteStorageInferredType = function(inputData) {
 	if (typeof inputData !== 'string') {
-		throw 'OLSKErrorInputInvalid'
+		throw new Error('OLSKErrorInputInvalid')
 	}
 
 	return inputData.replace(/\w+ErrorNot/, '').toLowerCase();
@@ -73,15 +73,15 @@ exports.OLSKRemoteStorageStatus = function(param1, param2, OLSKLocalized = funct
 	return inputData;
 }) {
 	if (typeof param1 !== 'object' || param1 === null) {
-		throw 'OLSKErrorInputInvalid';
+		throw new Error('OLSKErrorInputInvalid');
 	}
 
 	if (typeof param1.on !== 'function') {
-		throw 'OLSKErrorInputInvalid';
+		throw new Error('OLSKErrorInputInvalid');
 	}
 
 	if (typeof param2 !== 'function') {
-		throw 'OLSKErrorInputInvalid';
+		throw new Error('OLSKErrorInputInvalid');
 	}
 
 	param1.on('connected', function () {
