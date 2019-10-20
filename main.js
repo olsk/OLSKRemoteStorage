@@ -96,7 +96,9 @@ exports.OLSKRemoteStorageStatus = function(param1, param2, OLSKLocalized = funct
 	})
 
 	param1.on('network-online', function () {
-		param2(OLSKLocalized('OLSKRemoteStorageStatusOnline'))
+		param2(OLSKLocalized('OLSKRemoteStorageStatusOnline'));
+
+		isOffline = false;
 	})
 
 	param1.on('error', function (inputData) {

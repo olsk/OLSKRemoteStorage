@@ -395,6 +395,28 @@ describe('OLSKRemoteStorageStatus', function testOLSKRemoteStorageStatus() {
 			]);
 	});
 
+	it('allows SyncError after network-online', function() {
+		let item = [];
+		OLSKRemoteStorageStatus({
+			on (param1, param2) {
+				if (param1 === 'network-offline') {
+					param2()
+				};
+
+				if (param1 === 'network-online') {
+					param2()
+				};
+
+				if (param1 === 'error') {
+					param2(new Error('Sync failed: Network request failed.'))
+				};
+			},
+		}, function (inputData) {
+			item.push(inputData);
+		})
+		deepEqual(item, ['OLSKRemoteStorageStatusNetworkOffline', 'OLSKRemoteStorageStatusOnline', 'OLSKRemoteStorageStatusError']);
+	});
+
 	it('returns string on disconnected', function() {
 		let item;
 		OLSKRemoteStorageStatus(kTesting.StubEventListener('disconnected'), function (inputData) {
