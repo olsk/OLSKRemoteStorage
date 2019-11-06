@@ -298,7 +298,7 @@ describe('OLSKRemoteStorageChangeDelegateInput', function testOLSKRemoteStorageC
 
 });
 
-import { OLSKRemoteStorageStatus } from './main.js';
+const { OLSKRemoteStorageStatus } = require('./main.js');
 
 describe('OLSKRemoteStorageStatus', function testOLSKRemoteStorageStatus() {
 
