@@ -232,7 +232,7 @@ describe('_OLSKRemoteStorageInferredType', function test_OLSKRemoteStorageInferr
 
 });
 
-describe('OLSKRemoteStorageChangeDelegateMethods', function testOLSKRemoteStorageChangeDelegateMethods() {
+describe('OLSKRemoteStorageChangeDelegateMethods', function test_OLSKRemoteStorageChangeDelegateMethods() {
 
 	it('returns array', function() {
 		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateMethods(), [
@@ -244,7 +244,7 @@ describe('OLSKRemoteStorageChangeDelegateMethods', function testOLSKRemoteStorag
 
 });
 
-describe('OLSKRemoteStorageChangeDelegateProperty', function testOLSKRemoteStorageChangeDelegateProperty() {
+describe('OLSKRemoteStorageChangeDelegateProperty', function test_OLSKRemoteStorageChangeDelegateProperty() {
 
 	it('returns undefined', function() {
 		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(), undefined);
@@ -276,7 +276,7 @@ describe('OLSKRemoteStorageChangeDelegateProperty', function testOLSKRemoteStora
 
 });
 
-describe('OLSKRemoteStorageChangeDelegateInput', function testOLSKRemoteStorageChangeDelegateInput() {
+describe('OLSKRemoteStorageChangeDelegateInput', function test_OLSKRemoteStorageChangeDelegateInput() {
 
 	it('throws if not valid', function() {
 		throws(function () {
@@ -300,7 +300,7 @@ describe('OLSKRemoteStorageChangeDelegateInput', function testOLSKRemoteStorageC
 
 const { OLSKRemoteStorageStatus } = require('./main.js');
 
-describe('OLSKRemoteStorageStatus', function testOLSKRemoteStorageStatus() {
+describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 
 	it('throws error if param1 not object', function() {
 		throws(function() {
