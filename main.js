@@ -2,7 +2,7 @@ const mod = {
 
 	OLSKRemoteStorageJSONSchema (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
-			throw new Error('OLSKErrorInputNotValid')
+			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
@@ -29,7 +29,7 @@ const mod = {
 
 	_OLSKRemoteStorageInferredType (inputData) {
 		if (typeof inputData !== 'string') {
-			throw new Error('OLSKErrorInputNotValid')
+			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return inputData.replace(/\w+ErrorNot/, '').toLowerCase();
@@ -40,7 +40,7 @@ const mod = {
 			'OLSKChangeDelegateCreate',
 			'OLSKChangeDelegateUpdate',
 			'OLSKChangeDelegateDelete',
-			];
+		];
 	},
 
 	OLSKRemoteStorageChangeDelegateProperty (inputData) {
@@ -50,15 +50,15 @@ const mod = {
 
 		if (inputData.origin === 'remote' && typeof inputData.oldValue === 'undefined' && typeof inputData.newValue !== 'undefined') {
 			return 'OLSKChangeDelegateCreate';
-		};
+		}
 
 		if (inputData.origin === 'remote' && typeof inputData.oldValue !== 'undefined' && typeof inputData.newValue !== 'undefined') {
 			return 'OLSKChangeDelegateUpdate';
-		};
+		}
 
 		if (inputData.origin === 'remote' && typeof inputData.oldValue !== 'undefined' && typeof inputData.newValue === 'undefined') {
 			return 'OLSKChangeDelegateDelete';
-		};
+		}
 
 		return;
 	},
@@ -87,35 +87,35 @@ const mod = {
 		}
 
 		param1.on('connected', function () {
-			param2(OLSKLocalized('OLSKRemoteStorageStatusOnline'))
-		})
+			param2(OLSKLocalized('OLSKRemoteStorageStatusOnline'));
+		});
 
 		let isOffline;
 		param1.on('network-offline', function () {
 			param2(OLSKLocalized('OLSKRemoteStorageStatusNetworkOffline'));
 
 			isOffline = true;
-		})
+		});
 
 		param1.on('network-online', function () {
 			param2(OLSKLocalized('OLSKRemoteStorageStatusOnline'));
 
 			isOffline = false;
-		})
+		});
 
 		param1.on('error', function (inputData) {
 			if (isOffline && inputData.message === 'Sync failed: Network request failed.') {
 				return;
-			};
+			}
 
-			param2(OLSKLocalized('OLSKRemoteStorageStatusError'))
-		})
+			param2(OLSKLocalized('OLSKRemoteStorageStatusError'));
+		});
 
 		param1.on('disconnected', function () {
-			param2('')
-		})
+			param2('');
+		});
 	},
 
 };
 
-Object.assign(exports, mod)
+Object.assign(exports, mod);

@@ -78,8 +78,8 @@ const kTesting = {
 		return {
 			on (param1, param2) {
 				if (param1 === inputData) {
-					param2()
-				};
+					param2();
+				}
 			},
 		};
 	},
@@ -239,8 +239,8 @@ describe('OLSKRemoteStorageChangeDelegateMethods', function test_OLSKRemoteStora
 			'OLSKChangeDelegateCreate',
 			'OLSKChangeDelegateUpdate',
 			'OLSKChangeDelegateDelete',
-			]);
-	})
+		]);
+	});
 
 });
 
@@ -328,7 +328,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 		let item;
 		OLSKRemoteStorageStatus(kTesting.StubEventListener('connected'), function (inputData) {
 			item = inputData;
-		})
+		});
 		deepEqual(item, 'OLSKRemoteStorageStatusOnline');
 	});
 
@@ -336,7 +336,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 		let item;
 		OLSKRemoteStorageStatus(kTesting.StubEventListener('network-offline'), function (inputData) {
 			item = inputData;
-		})
+		});
 		deepEqual(item, 'OLSKRemoteStorageStatusNetworkOffline');
 	});
 
@@ -344,7 +344,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 		let item;
 		OLSKRemoteStorageStatus(kTesting.StubEventListener('network-online'), function (inputData) {
 			item = inputData;
-		})
+		});
 		deepEqual(item, 'OLSKRemoteStorageStatusOnline');
 	});
 
@@ -352,7 +352,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 		let item;
 		OLSKRemoteStorageStatus(kTesting.StubEventListener('error'), function (inputData) {
 			item = inputData;
-		})
+		});
 		deepEqual(item, 'OLSKRemoteStorageStatusError');
 	});
 
@@ -361,16 +361,16 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 		OLSKRemoteStorageStatus({
 			on (param1, param2) {
 				if (param1 === 'network-offline') {
-					param2()
-				};
+					param2();
+				}
 
 				if (param1 === 'error') {
-					param2(new Error('Sync failed: Network request failed.'))
-				};
+					param2(new Error('Sync failed: Network request failed.'));
+				}
 			},
 		}, function (inputData) {
 			item.push(inputData);
-		})
+		});
 		deepEqual(item, ['OLSKRemoteStorageStatusNetworkOffline']);
 	});
 
@@ -379,20 +379,20 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 		OLSKRemoteStorageStatus({
 			on (param1, param2) {
 				if (param1 === 'network-offline') {
-					param2()
-				};
+					param2();
+				}
 
 				if (param1 === 'error') {
-					param2(new Error('Sync failed: Network request failed.x'))
-				};
+					param2(new Error('Sync failed: Network request failed.x'));
+				}
 			},
 		}, function (inputData) {
 			item.push(inputData);
-		})
+		});
 		deepEqual(item, [
 			'OLSKRemoteStorageStatusNetworkOffline',
 			'OLSKRemoteStorageStatusError',
-			]);
+		]);
 	});
 
 	it('allows SyncError after network-online', function() {
@@ -400,20 +400,20 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 		OLSKRemoteStorageStatus({
 			on (param1, param2) {
 				if (param1 === 'network-offline') {
-					param2()
-				};
+					param2();
+				}
 
 				if (param1 === 'network-online') {
-					param2()
-				};
+					param2();
+				}
 
 				if (param1 === 'error') {
-					param2(new Error('Sync failed: Network request failed.'))
-				};
+					param2(new Error('Sync failed: Network request failed.'));
+				}
 			},
 		}, function (inputData) {
 			item.push(inputData);
-		})
+		});
 		deepEqual(item, ['OLSKRemoteStorageStatusNetworkOffline', 'OLSKRemoteStorageStatusOnline', 'OLSKRemoteStorageStatusError']);
 	});
 
@@ -421,7 +421,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 		let item;
 		OLSKRemoteStorageStatus(kTesting.StubEventListener('disconnected'), function (inputData) {
 			item = inputData;
-		})
+		});
 		deepEqual(item, '');
 	});
 
