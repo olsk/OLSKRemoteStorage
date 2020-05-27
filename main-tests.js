@@ -762,3 +762,11 @@ describe('_OLSKRemoteStorageReset', function test__OLSKRemoteStorageReset() {
 	});
 
 });
+
+describe('_OLSKRemoteStoragePrivateClient', function test__OLSKRemoteStoragePrivateClient() {
+
+	it('returns object', function() {
+		deepEqual(typeof mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'object');
+	});
+
+});

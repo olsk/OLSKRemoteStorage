@@ -207,6 +207,10 @@ const mod = {
 							}));
 						},
 						
+						_OLSKRemoteStoragePrivateClient () {
+							return privateClient;
+						},
+						
 					};
 
 					privateClient.cache(kModuleName + '/');
@@ -269,6 +273,10 @@ const mod = {
 
 	async _OLSKRemoteStorageReset (storageModule) {
 		return await storageModule.__DEBUG._OLSKRemoteStorageReset();
+	},
+
+	_OLSKRemoteStoragePrivateClient (storageModule) {
+		return storageModule.__DEBUG._OLSKRemoteStoragePrivateClient();
 	},
 
 };
