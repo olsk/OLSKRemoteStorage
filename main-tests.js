@@ -602,6 +602,12 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 								charlie: 'delta',
 							})
 						});
+						
+						it('sets excludes __DEBUG if no option.OLSKOptionIncludeDebug', function () {
+							deepEqual(typeof mainModule.OLSKRemoteStorageDataModuleGenerator('alfa')([function () {
+								return kTesting.StubCollectionObjectValid();
+							}]).builder(uInputValid()).exports.__DEBUG, 'undefined');
+						});
 					
 					});
 				

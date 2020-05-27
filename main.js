@@ -152,7 +152,7 @@ const mod = {
 		return true;
 	},
 
-	OLSKRemoteStorageDataModuleGenerator (kModuleName) {
+	OLSKRemoteStorageDataModuleGenerator (kModuleName, options = {}) {
 		if (typeof kModuleName !== 'string') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -236,7 +236,7 @@ const mod = {
 							coll[collection.OLSKRemoteStorageCollectionName] = collection.OLSKRemoteStorageCollectionExports;
 
 							return coll;
-						}, { __DEBUG }),
+						}, options.OLSKOptionIncludeDebug ? { __DEBUG } : {}),
 					};
 				},
 			};
