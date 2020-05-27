@@ -179,24 +179,8 @@ const mod = {
 							return (await privateClient.getFile(inputData)).data;
 						},
 						
-						async _OLSKRemoteStorageList (inputData) {
-							return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
-								if (typeof path !== 'string') {
-									return Promise.reject(new Error('OLSKErrorInputNotValid'));
-								}
-
-								try {
-									return await Object.keys(await privateClient.getListing(path)).map(function (e) {
-										return path + e;
-									});
-								} catch {}
-
-								return [];
-							})));
-						},
-						
 						async _OLSKRemoteStorageListObjectsRecursive (inputData) {
-							return uFlatten(await Promise.all((await __DEBUG._OLSKRemoteStorageList(inputData)).map(async function (e) {
+							return uFlatten(await Promise.all((await mod.OLSKRemoteStorageList(privateClient, inputData)).map(async function (e) {
 								return e.slice(-1) == '/' ? await __DEBUG._OLSKRemoteStorageListObjectsRecursive(e) : e;
 							})));
 						},
@@ -243,6 +227,22 @@ const mod = {
 		return !!inputData.trim();
 	},
 
+	async OLSKRemoteStorageList (privateClient, inputData) {
+		return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
+			if (typeof path !== 'string') {
+				return Promise.reject(new Error('OLSKErrorInputNotValid'));
+			}
+
+			try {
+				return await Object.keys(await privateClient.getListing(path)).map(function (e) {
+					return path + e;
+				});
+			} catch {}
+
+			return [];
+		})));
+	},
+
 	async _OLSKRemoteStorageWrite (storageModule, param1, param2) {
 		if (!mod._OLSKRemoteStorageIsPath(param1)) {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
@@ -261,10 +261,6 @@ const mod = {
 		}
 
 		return await storageModule.__DEBUG._OLSKRemoteStorageRead(inputData);
-	},
-
-	async _OLSKRemoteStorageList (storageModule, inputData) {
-		return await storageModule.__DEBUG._OLSKRemoteStorageList(inputData);
 	},
 
 	async _OLSKRemoteStorageListObjectsRecursive (storageModule, inputData) {
