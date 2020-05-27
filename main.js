@@ -169,6 +169,10 @@ const mod = {
 
 					return {
 						exports: inputData.reduce(function (coll, item) {
+							if (!mod.OLSKRemoteStorageIsCollection(item)) {
+								throw new Error('OLSKErrorInputNotValid');
+							}
+							
 							return coll;
 						}, {}),
 					};

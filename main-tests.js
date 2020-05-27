@@ -531,27 +531,41 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 			});
 
 			context('builder', function () {
+
+				const uInputValid = function () {
+					return { cache () {} };
+				};
 				
 				it('sets to function', function () {
 					deepEqual(typeof mod.builder, 'function')
 				});
 
-				it('calls param1.cache', function () {
-					let item = [];
+				context('function', function () {
 					
-					mod.builder({
-						cache (inputData) {
-							item.push(inputData);
-						},
+					it('throws if collection not valid', function () {
+						throws(function () {
+							item([{}]).builder(uInputValid());
+						}, /OLSKErrorInputNotValid/);
 					});
-					
-					deepEqual(item, ['alfa/'])
-				});
 
-				it('returns object', function () {
-					deepEqual(mod.builder({ cache () {} }), {
-						exports: {},
+					it('calls param1.cache', function () {
+						let item = [];
+						
+						mod.builder(Object.assign(uInputValid, {
+							cache (inputData) {
+								item.push(inputData);
+							},
+						}));
+						
+						deepEqual(item, ['alfa/'])
 					});
+
+					it('returns object', function () {
+						deepEqual(mod.builder(uInputValid()), {
+							exports: {},
+						});
+					});
+				
 				});
 			
 			});
