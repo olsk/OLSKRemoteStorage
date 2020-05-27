@@ -1,3 +1,7 @@
+const uFlatten = function (inputData) {
+	return [].concat.apply([], inputData);
+};
+
 const mod = {
 
 	OLSKRemoteStorageJSONSchema (inputData) {
@@ -165,6 +169,58 @@ const mod = {
 			return {
 				name: kModuleName,
 				builder (privateClient, publicClient) {
+					const __DEBUG = {
+
+						async _OLSKRemoteStorageWrite (param1, param2) {
+							return await privateClient.storeFile('text/plain', param1, param2);
+						},
+						
+						async _OLSKRemoteStorageRead (inputData) {
+							return (await privateClient.getFile(inputData)).data;
+						},
+						
+						async _OLSKRemoteStorageList (inputData) {
+							return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
+								try {
+									return await Object.keys(await privateClient.getListing(path, false)).map(function (e) {
+										return path + e;
+									});
+								} catch {}
+
+								return [];
+							})));
+						},
+						
+						async _OLSKRemoteStorageList (inputData) {
+							return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
+								if (typeof path !== 'string') {
+									return Promise.reject(new Error('OLSKErrorInputNotValid'));
+								}
+
+								try {
+									return await Object.keys(await privateClient.getListing(path)).map(function (e) {
+										return path + e;
+									});
+								} catch {}
+
+								return [];
+							})));
+						},
+						
+						async _OLSKRemoteStorageListObjectsRecursive (inputData) {
+							return uFlatten(await Promise.all((await __DEBUG._OLSKRemoteStorageList(inputData)).map(async function (e) {
+								return e.slice(-1) == '/' ? await __DEBUG._OLSKRemoteStorageListObjectsRecursive(e) : e;
+							})));
+						},
+						
+						async _OLSKRemoteStorageReset () {
+							return await Promise.all((await __DEBUG._OLSKRemoteStorageListObjectsRecursive('')).map(async function (path) {
+								return await privateClient.remove(path);
+							}));
+						},
+						
+					};
+
 					privateClient.cache(kModuleName + '/');
 
 					return {
@@ -180,11 +236,51 @@ const mod = {
 							coll[collection.OLSKRemoteStorageCollectionName] = collection.OLSKRemoteStorageCollectionExports;
 
 							return coll;
-						}, {}),
+						}, { __DEBUG }),
 					};
 				},
 			};
 		};
+	},
+
+	_OLSKRemoteStorageIsPath (inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return !!inputData.trim();
+	},
+
+	async _OLSKRemoteStorageWrite (storageModule, param1, param2) {
+		if (!mod._OLSKRemoteStorageIsPath(param1)) {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		if (typeof param2 !== 'string') {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		return await storageModule.__DEBUG._OLSKRemoteStorageWrite(param1, param2);
+	},
+
+	async _OLSKRemoteStorageRead (storageModule, inputData) {
+		if (!mod._OLSKRemoteStorageIsPath(inputData)) {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		return await storageModule.__DEBUG._OLSKRemoteStorageRead(inputData);
+	},
+
+	async _OLSKRemoteStorageList (storageModule, inputData) {
+		return await storageModule.__DEBUG._OLSKRemoteStorageList(inputData);
+	},
+
+	async _OLSKRemoteStorageListObjectsRecursive (storageModule, inputData) {
+		return await storageModule.__DEBUG._OLSKRemoteStorageListObjectsRecursive(inputData);
+	},
+
+	async _OLSKRemoteStorageReset (storageModule) {
+		return await storageModule.__DEBUG._OLSKRemoteStorageReset();
 	},
 
 };

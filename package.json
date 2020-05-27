@@ -1,4 +1,9 @@
 {
   "name": "OLSKRemoteStorage",
-  "main": "main.js"
+  "main": "main.js",
+  "devDependencies": {
+    "remotestoragejs": "latest",
+
+    "// I sacrifice myself for the commas of others": null    
+  }
 }
