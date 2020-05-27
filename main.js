@@ -116,6 +116,38 @@ const mod = {
 		});
 	},
 
+	OLSKRemoteStorageIsCollection (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof inputData.OLSKRemoteStorageCollectionName !== 'string') {
+			return false;
+		}
+
+		if (inputData.OLSKRemoteStorageCollectionName.trim() === '') {
+			return false;
+		}
+
+		if (typeof inputData.OLSKRemoteStorageCollectionType !== 'string') {
+			return false;
+		}
+
+		if (inputData.OLSKRemoteStorageCollectionType.trim() === '') {
+			return false;
+		}
+
+		if (!Array.isArray(inputData.OLSKRemoteStorageCollectionModelErrors)) {
+			return false;
+		}
+
+		if (typeof inputData.OLSKRemoteStorageCollectionExports !== 'object' || inputData.OLSKRemoteStorageCollectionExports === null) {
+			return false;
+		}
+
+		return true;
+	},
+
 	OLSKRemoteStorageDataModuleGenerator (kModuleName) {
 		if (typeof kModuleName !== 'string') {
 			throw new Error('OLSKErrorInputNotValid');

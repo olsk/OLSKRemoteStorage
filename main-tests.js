@@ -83,6 +83,15 @@ const kTesting = {
 			},
 		};
 	},
+
+	StubCollectionObjectValid () {
+		return {
+			OLSKRemoteStorageCollectionName: 'alfa',
+			OLSKRemoteStorageCollectionType: 'bravo',
+			OLSKRemoteStorageCollectionModelErrors: [],
+			OLSKRemoteStorageCollectionExports: [],
+		};
+	},
 };
 
 describe('OLSKRemoteStorageJSONSchema', function OLSKRemoteStorageJSONSchema() {
@@ -423,6 +432,56 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 			item = inputData;
 		});
 		deepEqual(item, '');
+	});
+
+});
+
+describe('OLSKRemoteStorageIsCollection', function test_OLSKRemoteStorageIsCollection() {
+
+	it('throws error if not object', function() {
+		throws(function() {
+			mainModule.OLSKRemoteStorageIsCollection(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns false if OLSKRemoteStorageCollectionName not string', function() {
+		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(kTesting.StubCollectionObjectValid(), {
+			OLSKRemoteStorageCollectionName: null,
+		})), false);
+	});
+
+	it('returns false if OLSKRemoteStorageCollectionName not filled', function() {
+		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(kTesting.StubCollectionObjectValid(), {
+			OLSKRemoteStorageCollectionName: ' ',
+		})), false);
+	});
+
+	it('returns false if OLSKRemoteStorageCollectionType not string', function() {
+		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(kTesting.StubCollectionObjectValid(), {
+			OLSKRemoteStorageCollectionType: null,
+		})), false);
+	});
+
+	it('returns false if OLSKRemoteStorageCollectionType not filled', function() {
+		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(kTesting.StubCollectionObjectValid(), {
+			OLSKRemoteStorageCollectionType: ' ',
+		})), false);
+	});
+
+	it('returns false if OLSKRemoteStorageCollectionModelErrors not array', function() {
+		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(kTesting.StubCollectionObjectValid(), {
+			OLSKRemoteStorageCollectionModelErrors: null,
+		})), false);
+	});
+
+	it('returns false if OLSKRemoteStorageCollectionExports not object', function() {
+		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(kTesting.StubCollectionObjectValid(), {
+			OLSKRemoteStorageCollectionExports: null,
+		})), false);
+	});
+
+	it('returns true', function() {
+		deepEqual(mainModule.OLSKRemoteStorageIsCollection(kTesting.StubCollectionObjectValid()), true);
 	});
 
 });
