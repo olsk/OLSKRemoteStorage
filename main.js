@@ -137,7 +137,7 @@ const mod = {
 			return false;
 		}
 
-		if (!Array.isArray(inputData.OLSKRemoteStorageCollectionModelErrors)) {
+		if (typeof inputData.OLSKRemoteStorageCollectionModelErrors !== 'object' || inputData.OLSKRemoteStorageCollectionModelErrors === null) {
 			return false;
 		}
 

@@ -88,7 +88,7 @@ const kTesting = {
 		return {
 			OLSKRemoteStorageCollectionName: 'alfa',
 			OLSKRemoteStorageCollectionType: 'bravo',
-			OLSKRemoteStorageCollectionModelErrors: [],
+			OLSKRemoteStorageCollectionModelErrors: {},
 			OLSKRemoteStorageCollectionExports: [],
 		};
 	},
@@ -384,7 +384,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 	});
 
 	it('allows other errors on network-offline', function() {
-		let item = [];
+		const item = [];
 		OLSKRemoteStorageStatus({
 			on (param1, param2) {
 				if (param1 === 'network-offline') {
@@ -405,7 +405,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 	});
 
 	it('allows SyncError after network-online', function() {
-		let item = [];
+		const item = [];
 		OLSKRemoteStorageStatus({
 			on (param1, param2) {
 				if (param1 === 'network-offline') {
@@ -468,7 +468,7 @@ describe('OLSKRemoteStorageIsCollection', function test_OLSKRemoteStorageIsColle
 		})), false);
 	});
 
-	it('returns false if OLSKRemoteStorageCollectionModelErrors not array', function() {
+	it('returns false if OLSKRemoteStorageCollectionModelErrors not object', function() {
 		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(kTesting.StubCollectionObjectValid(), {
 			OLSKRemoteStorageCollectionModelErrors: null,
 		})), false);
