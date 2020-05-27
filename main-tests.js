@@ -506,21 +506,21 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 
 	context('function', function () {
 		
-		const item = mainModule.OLSKRemoteStorageDataModuleGenerator('alfa');
+		const generator = mainModule.OLSKRemoteStorageDataModuleGenerator('alfa');
 
 		it('throws if not array', function () {
 			throws(function () {
-				item(null)
+				generator(null)
 			}, /OLSKErrorInputNotValid/);
 		});
 
 		it('returns object', function () {
-			deepEqual(typeof item([]), 'object');
+			deepEqual(typeof generator([]), 'object');
 		});
 
 		context('object', function () {
 			
-			const mod = item([])
+			const mod = generator([])
 
 			context('name', function () {
 				
@@ -533,7 +533,7 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 			context('builder', function () {
 
 				const uInputValid = function () {
-					return { cache () {} };
+					return { cache () {}, declareType () {} };
 				};
 				
 				it('sets to function', function () {
@@ -544,20 +544,44 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 					
 					it('throws if collection not valid', function () {
 						throws(function () {
-							item([{}]).builder(uInputValid());
+							generator([function () {
+								return {};
+							}]).builder(uInputValid());
 						}, /OLSKErrorInputNotValid/);
 					});
 
 					it('calls param1.cache', function () {
-						let item = [];
+						let item;
 						
 						mod.builder(Object.assign(uInputValid, {
 							cache (inputData) {
-								item.push(inputData);
+								item = inputData;
 							},
 						}));
 						
-						deepEqual(item, ['alfa/'])
+						deepEqual(item, 'alfa/')
+					});
+
+					it('calls param1.declareType', function () {
+						const item = [];
+						
+						generator([function () {
+							return Object.assign(kTesting.StubCollectionObjectValid(), {
+								OLSKRemoteStorageCollectionType: 'bravo',
+								OLSKRemoteStorageCollectionModelErrors: {
+									charlie: ['XYZErrorNotString'],
+								},
+							});
+						}]).builder(Object.assign(uInputValid, {
+							declareType (param1, param2) {
+								item.push(param1);
+								item.push(param2);
+							},
+						}));
+						
+						deepEqual(item, ['bravo', mainModule.OLSKRemoteStorageJSONSchema({
+							charlie: ['XYZErrorNotString'],
+						})])
 					});
 
 					it('returns object', function () {

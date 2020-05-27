@@ -169,10 +169,14 @@ const mod = {
 
 					return {
 						exports: inputData.reduce(function (coll, item) {
-							if (!mod.OLSKRemoteStorageIsCollection(item)) {
+							const collection = item(privateClient, publicClient, item.OLSKChangeDelegate);
+
+							if (!mod.OLSKRemoteStorageIsCollection(collection)) {
 								throw new Error('OLSKErrorInputNotValid');
 							}
-							
+
+							privateClient.declareType(collection.OLSKRemoteStorageCollectionType, mod.OLSKRemoteStorageJSONSchema(collection.OLSKRemoteStorageCollectionModelErrors));
+
 							return coll;
 						}, {}),
 					};
