@@ -585,9 +585,7 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 					});
 
 					it('returns object', function () {
-						deepEqual(mod.builder(uInputValid()), {
-							exports: {},
-						});
+						deepEqual(typeof mod.builder(uInputValid()), 'object');
 					});
 
 					context('object.exports', function () {
@@ -600,10 +598,8 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 										charlie: 'delta'
 									},
 								});
-							}]).builder(uInputValid()).exports, {
-								bravo: {
-									charlie: 'delta',
-								},
+							}]).builder(uInputValid()).exports.bravo, {
+								charlie: 'delta',
 							})
 						});
 					
