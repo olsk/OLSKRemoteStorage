@@ -426,3 +426,80 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 	});
 
 });
+
+describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorageDataModuleGenerator() {
+
+	it('throws error if not string', function() {
+		throws(function() {
+			mainModule.OLSKRemoteStorageDataModuleGenerator(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws error if not filled', function() {
+		throws(function() {
+			mainModule.OLSKRemoteStorageDataModuleGenerator(' ');
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns function', function () {
+		deepEqual(typeof mainModule.OLSKRemoteStorageDataModuleGenerator('alfa'), 'function');
+	});
+
+	context('function', function () {
+		
+		const item = mainModule.OLSKRemoteStorageDataModuleGenerator('alfa');
+
+		it('throws if not array', function () {
+			throws(function () {
+				item(null)
+			}, /OLSKErrorInputNotValid/);
+		});
+
+		it('returns object', function () {
+			deepEqual(typeof item([]), 'object');
+		});
+
+		context('object', function () {
+			
+			const mod = item([])
+
+			context('name', function () {
+				
+				it('sets to inputData', function () {
+					deepEqual(mod.name, 'alfa')
+				});
+			
+			});
+
+			context('builder', function () {
+				
+				it('sets to function', function () {
+					deepEqual(typeof mod.builder, 'function')
+				});
+
+				it('calls param1.cache', function () {
+					let item = [];
+					
+					mod.builder({
+						cache (inputData) {
+							item.push(inputData);
+						},
+					});
+					
+					deepEqual(item, ['alfa/'])
+				});
+
+				it('returns object', function () {
+					deepEqual(mod.builder({ cache () {} }), {
+						exports: {},
+					});
+				});
+			
+			});
+		
+		});
+	
+	});
+
+});
+

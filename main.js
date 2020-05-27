@@ -116,6 +116,35 @@ const mod = {
 		});
 	},
 
+	OLSKRemoteStorageDataModuleGenerator (kModuleName) {
+		if (typeof kModuleName !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!kModuleName.trim()) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return function (inputData) {
+			if (!Array.isArray(inputData)) {
+				throw new Error('OLSKErrorInputNotValid');
+			}
+
+			return {
+				name: kModuleName,
+				builder (privateClient, publicClient) {
+					privateClient.cache(kModuleName + '/');
+
+					return {
+						exports: inputData.reduce(function (coll, item) {
+							return coll;
+						}, {}),
+					};
+				},
+			};
+		};
+	},
+
 };
 
 Object.assign(exports, mod);
