@@ -426,4 +426,3 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 	});
 
 });
-
