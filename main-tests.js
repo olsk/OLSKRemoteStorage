@@ -589,6 +589,25 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 							exports: {},
 						});
 					});
+
+					context('object.exports', function () {
+						
+						it('sets exports to OLSKRemoteStorageCollectionExports', function () {
+							deepEqual(generator([function () {
+								return Object.assign(kTesting.StubCollectionObjectValid(), {
+									OLSKRemoteStorageCollectionName: 'bravo',
+									OLSKRemoteStorageCollectionExports: {
+										charlie: 'delta'
+									},
+								});
+							}]).builder(uInputValid()).exports, {
+								bravo: {
+									charlie: 'delta',
+								},
+							})
+						});
+					
+					});
 				
 				});
 			
