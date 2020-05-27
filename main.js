@@ -179,14 +179,8 @@ const mod = {
 							return (await privateClient.getFile(inputData)).data;
 						},
 						
-						async _OLSKRemoteStorageListObjectsRecursive (inputData) {
-							return uFlatten(await Promise.all((await mod.OLSKRemoteStorageList(privateClient, inputData)).map(async function (e) {
-								return e.slice(-1) == '/' ? await __DEBUG._OLSKRemoteStorageListObjectsRecursive(e) : e;
-							})));
-						},
-						
 						async _OLSKRemoteStorageReset () {
-							return await Promise.all((await __DEBUG._OLSKRemoteStorageListObjectsRecursive('')).map(async function (path) {
+							return await Promise.all((await mod.OLSKRemoteStorageListObjectsRecursive(privateClient, '')).map(async function (path) {
 								return await privateClient.remove(path);
 							}));
 						},
@@ -240,6 +234,12 @@ const mod = {
 			} catch {}
 
 			return [];
+		})));
+	},
+
+	async OLSKRemoteStorageListObjectsRecursive (privateClient, inputData) {
+		return uFlatten(await Promise.all((await mod.OLSKRemoteStorageList(privateClient, inputData)).map(async function (e) {
+			return e.slice(-1) == '/' ? await mod.OLSKRemoteStorageListObjectsRecursive(privateClient, e) : e;
 		})));
 	},
 
