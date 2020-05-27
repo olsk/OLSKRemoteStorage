@@ -181,18 +181,6 @@ const mod = {
 						
 						async _OLSKRemoteStorageList (inputData) {
 							return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
-								try {
-									return await Object.keys(await privateClient.getListing(path, false)).map(function (e) {
-										return path + e;
-									});
-								} catch {}
-
-								return [];
-							})));
-						},
-						
-						async _OLSKRemoteStorageList (inputData) {
-							return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
 								if (typeof path !== 'string') {
 									return Promise.reject(new Error('OLSKErrorInputNotValid'));
 								}
