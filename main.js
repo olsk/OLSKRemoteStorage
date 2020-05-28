@@ -263,10 +263,6 @@ const mod = {
 		return await storageModule.__DEBUG._OLSKRemoteStorageRead(inputData);
 	},
 
-	async _OLSKRemoteStorageListObjectsRecursive (storageModule, inputData) {
-		return await storageModule.__DEBUG._OLSKRemoteStorageListObjectsRecursive(inputData);
-	},
-
 	async _OLSKRemoteStorageReset (storageModule) {
 		return await storageModule.__DEBUG._OLSKRemoteStorageReset();
 	},
