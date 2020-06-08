@@ -271,6 +271,30 @@ const mod = {
 		return storageModule.__DEBUG._OLSKRemoteStoragePrivateClient();
 	},
 
+	OLSKRemoteStoragePreJSONSchemaValidate (inputData) {
+		for (const key in inputData) {
+			if (key.slice(-4) === 'Date') {
+				inputData[key] = inputData[key].toISOString();
+			}
+		}
+
+		return inputData;
+	},
+
+	OLKSRemoteStoragePostJSONParse (inputData) {
+		if (!inputData) {
+			return inputData;
+		}
+
+		for (const key in inputData) {
+			if (key.slice(-4) === 'Date') {
+				inputData[key] = new Date(inputData[key]);
+			}
+		}
+
+		return inputData;
+	},
+
 };
 
 Object.assign(exports, mod);

@@ -782,3 +782,39 @@ describe('_OLSKRemoteStoragePrivateClient', function test__OLSKRemoteStoragePriv
 	});
 
 });
+
+describe('OLSKRemoteStoragePreJSONSchemaValidate', function test_OLSKRemoteStoragePreJSONSchemaValidate() {
+
+	it('returns input', function() {
+		deepEqual(mainModule.OLSKRemoteStoragePreJSONSchemaValidate({}), {});
+	});
+
+	it('returns input with *Date as string', function() {
+		deepEqual(mainModule.OLSKRemoteStoragePreJSONSchemaValidate({
+			alfaDate: new Date('2018-12-09T19:07:01.902Z'),
+		}), {
+			alfaDate: '2018-12-09T19:07:01.902Z',
+		});
+	});
+
+});
+
+describe('OLKSRemoteStoragePostJSONParse', function test_OLKSRemoteStoragePostJSONParse() {
+
+	it('returns input null', function() {
+		deepEqual(mainModule.OLKSRemoteStoragePostJSONParse(null), null);
+	});
+
+	it('returns input object', function() {
+		deepEqual(mainModule.OLKSRemoteStoragePostJSONParse({}), {});
+	});
+
+	it('returns input with *nDate as date', function() {
+		deepEqual(mainModule.OLKSRemoteStoragePostJSONParse({
+			alfaDate: '2018-12-09T19:07:01.902Z',
+		}), {
+			alfaDate: new Date('2018-12-09T19:07:01.902Z'),
+		});
+	});
+
+});
