@@ -281,7 +281,7 @@ const mod = {
 		return inputData;
 	},
 
-	OLKSRemoteStoragePostJSONParse (inputData) {
+	OLSKRemoteStoragePostJSONParse (inputData) {
 		if (!inputData) {
 			return inputData;
 		}

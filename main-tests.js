@@ -799,18 +799,18 @@ describe('OLSKRemoteStoragePreJSONSchemaValidate', function test_OLSKRemoteStora
 
 });
 
-describe('OLKSRemoteStoragePostJSONParse', function test_OLKSRemoteStoragePostJSONParse() {
+describe('OLSKRemoteStoragePostJSONParse', function test_OLSKRemoteStoragePostJSONParse() {
 
 	it('returns input null', function() {
-		deepEqual(mainModule.OLKSRemoteStoragePostJSONParse(null), null);
+		deepEqual(mainModule.OLSKRemoteStoragePostJSONParse(null), null);
 	});
 
 	it('returns input object', function() {
-		deepEqual(mainModule.OLKSRemoteStoragePostJSONParse({}), {});
+		deepEqual(mainModule.OLSKRemoteStoragePostJSONParse({}), {});
 	});
 
 	it('returns input with *nDate as date', function() {
-		deepEqual(mainModule.OLKSRemoteStoragePostJSONParse({
+		deepEqual(mainModule.OLSKRemoteStoragePostJSONParse({
 			alfaDate: '2018-12-09T19:07:01.902Z',
 		}), {
 			alfaDate: new Date('2018-12-09T19:07:01.902Z'),
