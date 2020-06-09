@@ -68,7 +68,7 @@ const mod = {
 	},
 
 	OLSKRemoteStorageChangeDelegateInput (inputData) {
-		if (mod.OLSKRemoteStorageChangeDelegateMethods().indexOf(inputData) === -1) {
+		if (!mod.OLSKRemoteStorageChangeDelegateMethods().includes(inputData)) {
 			throw new Error('LCHErrorInputNotValid');
 		}
 
