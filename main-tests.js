@@ -290,7 +290,7 @@ describe('OLSKRemoteStorageChangeDelegateInput', function test_OLSKRemoteStorage
 	it('throws if not valid', function() {
 		throws(function () {
 			mainModule.OLSKRemoteStorageChangeDelegateInput('alfa');
-		}, /LCHErrorInputNotValid/);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns newValue if OLSKChangeDelegateCreate', function() {

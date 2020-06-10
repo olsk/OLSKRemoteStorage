@@ -69,7 +69,7 @@ const mod = {
 
 	OLSKRemoteStorageChangeDelegateInput (inputData) {
 		if (!mod.OLSKRemoteStorageChangeDelegateMethods().includes(inputData)) {
-			throw new Error('LCHErrorInputNotValid');
+			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return inputData === 'OLSKChangeDelegateDelete' ? 'oldValue' : 'newValue';
