@@ -289,6 +289,8 @@ const mod = {
 		for (const key in inputData) {
 			if (key.slice(-4) === 'Date') {
 				inputData[key] = new Date(inputData[key]);
+			} else if (Array.isArray(inputData[key])) {
+				inputData[key].map(mod.OLSKRemoteStoragePostJSONParse);
 			}
 		}
 
