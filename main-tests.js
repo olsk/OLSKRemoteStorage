@@ -797,6 +797,22 @@ describe('OLSKRemoteStoragePreJSONSchemaValidate', function test_OLSKRemoteStora
 		});
 	});
 
+	it('returns input with Array *Date as string', function() {
+		deepEqual(mainModule.OLSKRemoteStoragePreJSONSchemaValidate({
+			alfa: [
+				{
+					bravoDate: new Date('2018-12-09T19:07:01.902Z'),
+				}
+			],
+		}), {
+			alfa: [
+				{
+					bravoDate: '2018-12-09T19:07:01.902Z',
+				}
+			],
+		});
+	});
+
 });
 
 describe('OLSKRemoteStoragePostJSONParse', function test_OLSKRemoteStoragePostJSONParse() {
