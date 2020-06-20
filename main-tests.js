@@ -809,7 +809,7 @@ describe('OLSKRemoteStoragePostJSONParse', function test_OLSKRemoteStoragePostJS
 		deepEqual(mainModule.OLSKRemoteStoragePostJSONParse({}), {});
 	});
 
-	it('returns input with *nDate as date', function() {
+	it('returns input with *Date as date', function() {
 		deepEqual(mainModule.OLSKRemoteStoragePostJSONParse({
 			alfaDate: '2018-12-09T19:07:01.902Z',
 		}), {
