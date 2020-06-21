@@ -228,7 +228,7 @@ const mod = {
 			}
 
 			try {
-				return await Object.keys(await privateClient.getListing(path)).map(function (e) {
+				return await Object.keys(await privateClient.getListing(path, false)).map(function (e) {
 					return path + e;
 				});
 			} catch {}
