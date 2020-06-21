@@ -191,8 +191,6 @@ const mod = {
 						
 					};
 
-					privateClient.cache(kModuleName + '/');
-
 					return {
 						exports: inputData.reduce(function (coll, item) {
 							const collection = item(privateClient, publicClient, item.OLSKChangeDelegate);
