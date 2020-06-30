@@ -261,6 +261,7 @@ describe('OLSKRemoteStorageChangeDelegateMethods', function test_OLSKRemoteStora
 			'OLSKChangeDelegateCreate',
 			'OLSKChangeDelegateUpdate',
 			'OLSKChangeDelegateDelete',
+			'OLSKChangeDelegateConflict',
 		]);
 	});
 

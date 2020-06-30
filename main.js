@@ -44,6 +44,7 @@ const mod = {
 			'OLSKChangeDelegateCreate',
 			'OLSKChangeDelegateUpdate',
 			'OLSKChangeDelegateDelete',
+			'OLSKChangeDelegateConflict',
 		];
 	},
 
