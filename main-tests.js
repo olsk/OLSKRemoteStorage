@@ -321,6 +321,44 @@ describe('OLSKRemoteStorageChangeDelegateInput', function test_OLSKRemoteStorage
 
 });
 
+describe('OLSKRemoteStorageChangeDelegateData', function test_OLSKRemoteStorageChangeDelegateData() {
+
+	it('throws if param1 not valid', function() {
+		throws(function () {
+			mainModule.OLSKRemoteStorageChangeDelegateData('alfa', kTesting.StubChangeObjectRemoteCreate());
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not valid', function() {
+		throws(function () {
+			mainModule.OLSKRemoteStorageChangeDelegateData('alfa', Object.assign(kTesting.StubChangeObjectRemoteCreate(), {
+				origin: null,
+			}));
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns newValue if OLSKChangeDelegateCreate', function() {
+		const item = kTesting.StubChangeObjectRemoteCreate();
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateData('OLSKChangeDelegateCreate', item), item.newValue);
+	});
+
+	it('returns newValue if OLSKChangeDelegateUpdate', function() {
+		const item = kTesting.StubChangeObjectRemoteUpdate();
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateData('OLSKChangeDelegateUpdate', item), item.newValue);
+	});
+
+	it('returns oldValue if OLSKChangeDelegateDelete', function() {
+		const item = kTesting.StubChangeObjectRemoteDelete();
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateData('OLSKChangeDelegateDelete', item), item.oldValue);
+	});
+
+	it('returns param2 if OLSKChangeDelegateConflict', function() {
+		const item = kTesting.StubChangeObjectConflict();
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateData('OLSKChangeDelegateConflict', item), item);
+	});
+
+});
+
 const { OLSKRemoteStorageStatus } = require('./main.js');
 
 describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {

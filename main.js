@@ -80,6 +80,22 @@ const mod = {
 		return inputData === 'OLSKChangeDelegateDelete' ? 'oldValue' : 'newValue';
 	},
 
+	OLSKRemoteStorageChangeDelegateData (param1, param2) {
+		if (!mod.OLSKRemoteStorageChangeDelegateMethods().includes(param1)) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!param2.origin) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (param1 === 'OLSKChangeDelegateConflict') {
+			return param2;
+		}
+
+		return param2[param1 === 'OLSKChangeDelegateDelete' ? 'oldValue' : 'newValue'];
+	},
+
 	OLSKRemoteStorageStatus (param1, param2, OLSKLocalized = function (inputData) {
 		return inputData;
 	}) {
