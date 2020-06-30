@@ -73,6 +73,19 @@ const kTesting = {
 			newContentType: undefined,
 	 };
 	},
+	StubChangeObjectConflict () {
+		return {
+			origin: 'conflict',
+			path: '/wikiavec/kvc_notes/2020-06-30/01EC2QANYW93VS50P3JCCHH5EW/main',
+			relativePath: 'kvc_notes/2020-06-30/01EC2QANYW93VS50P3JCCHH5EW/main',
+			oldValue: {KVCNoteBody: 'echo-3', KVCNoteID: '01EC2QANYW93VS50P3JCCHH5EW', KVCNoteCreationDate: '2020-06-30T13:40:43.100Z', KVCNoteModificationDate: '2020-06-30T13:42:08.514Z', '@context': 'http://remotestorage.io/spec/modules/wikiavec/kvc_note'},
+			oldContentType: 'application/json; charset=UTF-8',
+			newValue: {KVCNoteBody: 'echo-2', KVCNoteID: '01EC2QANYW93VS50P3JCCHH5EW', KVCNoteCreationDate: '2020-06-30T13:40:43.100Z', KVCNoteModificationDate: '2020-06-30T13:42:06.557Z', '@context': 'http://remotestorage.io/spec/modules/wikiavec/kvc_note'},
+			newContentType: 'application/json; charset=UTF-8',
+			lastCommonValue: {KVCNoteBody: 'echo-1', KVCNoteID: '01EC2QANYW93VS50P3JCCHH5EW', KVCNoteCreationDate: '2020-06-30T13:40:43.100Z', KVCNoteModificationDate: '2020-06-30T13:41:36.608Z', '@context': 'http://remotestorage.io/spec/modules/wikiavec/kvc_note'},
+			lastCommonContentType: 'application/json; charset=UTF-8',
+		};
+	},
 
 	StubEventListener: function(inputData) {
 		return {
