@@ -65,6 +65,10 @@ const mod = {
 			return 'OLSKChangeDelegateDelete';
 		}
 
+		if (inputData.origin === 'conflict') {
+			return 'OLSKChangeDelegateConflict';
+		}
+
 		return;
 	},
 

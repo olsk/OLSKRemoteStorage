@@ -277,10 +277,6 @@ describe('OLSKRemoteStorageChangeDelegateProperty', function test_OLSKRemoteStor
 		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectWindow()), undefined);
 	});
 
-	it('returns undefined if conflict', function() {
-		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectConflict()), undefined);
-	});
-
 	it('returns undefined if local init', function() {
 		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectLocalInit()), undefined);
 	});
@@ -295,6 +291,10 @@ describe('OLSKRemoteStorageChangeDelegateProperty', function test_OLSKRemoteStor
 
 	it('returns string if remote delete', function() {
 		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectRemoteDelete()), 'OLSKChangeDelegateDelete');
+	});
+
+	it('returns string if conflict', function() {
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateProperty(kTesting.StubChangeObjectConflict()), 'OLSKChangeDelegateConflict');
 	});
 
 });
