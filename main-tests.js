@@ -550,18 +550,6 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 						}, /OLSKErrorInputNotValid/);
 					});
 
-					it('calls param1.cache', function () {
-						let item;
-						
-						mod.builder(Object.assign(uInputValid, {
-							cache (inputData) {
-								item = inputData;
-							},
-						}));
-						
-						deepEqual(item, 'alfa/')
-					});
-
 					it('calls param1.declareType', function () {
 						const item = [];
 						
