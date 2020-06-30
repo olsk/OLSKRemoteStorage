@@ -33,44 +33,44 @@ const kTesting = {
 		return {
 			origin: 'local',
 			path: '/remotestorage_quantity_test/xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
+			relativePath: 'xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
 			oldValue: undefined,
 			oldContentType: undefined,
 			newValue: {XYZDocumentName: '', XYZDocumentModificationDate: '2019-09-01T21:30:29.470Z', XYZDocumentID: '01DKQBS2PY79VJRZ80T54EA3YV', XYZDocumentCreationDate: '2019-09-01T21:30:29.470Z', '@context': 'http://remotestorage.io/spec/modules/remotestorage_quantity_test/xyz_document'},
 			newContentType: 'application/json; charset=UTF-8',
-			relativePath: 'xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
 	 };
 	},
 	StubChangeObjectRemoteCreate () {
 		return {
 			origin: 'remote',
 			path: '/remotestorage_quantity_test/xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
+			relativePath: 'xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
 			oldValue: undefined,
 			oldContentType: undefined,
 			newValue: {XYZDocumentName: '', XYZDocumentModificationDate: '2019-09-01T21:30:29.470Z', XYZDocumentID: '01DKQBS2PY79VJRZ80T54EA3YV', XYZDocumentCreationDate: '2019-09-01T21:30:29.470Z', '@context': 'http://remotestorage.io/spec/modules/remotestorage_quantity_test/xyz_document'},
 			newContentType: 'application/json; charset=UTF-8',
-			relativePath: 'xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
 	 };
 	},
 	StubChangeObjectRemoteUpdate () {
 		return {
 			origin: 'remote',
 			path: '/remotestorage_quantity_test/xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
+			relativePath: 'xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
 			oldValue: {XYZDocumentName: '', XYZDocumentModificationDate: '2019-09-01T21:30:29.470Z', XYZDocumentID: '01DKQBS2PY79VJRZ80T54EA3YV', XYZDocumentCreationDate: '2019-09-01T21:30:29.470Z', '@context': 'http://remotestorage.io/spec/modules/remotestorage_quantity_test/xyz_document'},
 			oldContentType: 'application/json; charset=UTF-8',
 			newValue: {XYZDocumentName: 'test', XYZDocumentModificationDate: '2019-09-01T21:32:29.470Z', XYZDocumentID: '01DKQBS2PY79VJRZ80T54EA3YV', XYZDocumentCreationDate: '2019-09-01T21:30:29.470Z', '@context': 'http://remotestorage.io/spec/modules/remotestorage_quantity_test/xyz_document'},
 			newContentType: 'application/json; charset=UTF-8',
-			relativePath: 'xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
 	 };
 	},
 	StubChangeObjectRemoteDelete () {
 		return {
 			origin: 'remote',
 			path: '/remotestorage_quantity_test/xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
+			relativePath: 'xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
 			oldValue: {XYZDocumentName: 'test', XYZDocumentModificationDate: '2019-09-01T21:32:59.908Z', XYZDocumentID: '01DKQBS2PY79VJRZ80T54EA3YV', XYZDocumentCreationDate: '2019-09-01T21:30:29.470Z', '@context': 'http://remotestorage.io/spec/modules/remotestorage_quantity_test/xyz_document'},
 			oldContentType: 'application/json; charset=UTF-8',
 			newValue: undefined,
 			newContentType: undefined,
-			relativePath: 'xyz_documents/01DKQBS2PY79VJRZ80T54EA3YV',
 	 };
 	},
 
