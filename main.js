@@ -73,6 +73,8 @@ const mod = {
 	},
 
 	OLSKRemoteStorageChangeDelegateInput (inputData) {
+		console.log('OLSKRemoteStorageChangeDelegateInput DEPRECATED: use OLSKRemoteStorageChangeDelegateData');
+		
 		if (!mod.OLSKRemoteStorageChangeDelegateMethods().includes(inputData)) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
