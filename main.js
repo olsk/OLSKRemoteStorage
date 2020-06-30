@@ -98,6 +98,24 @@ const mod = {
 		return param2[param1 === 'OLSKChangeDelegateDelete' ? 'oldValue' : 'newValue'];
 	},
 
+	OLSKRemoteStorageChangeDelegateConflictSelectRecent (inputData) {
+		if (inputData.origin !== 'conflict') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (Object.entries(inputData.oldValue).filter(function (e) {
+			if (!e[0].match('ModificationDate')) {
+				return false;
+			}
+
+			return e[1] > inputData.newValue[e[0]];
+		}).length) {
+			return inputData.oldValue;
+		}
+
+		return inputData.newValue;
+	},
+
 	OLSKRemoteStorageStatus (param1, param2, OLSKLocalized = function (inputData) {
 		return inputData;
 	}) {

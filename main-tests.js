@@ -359,6 +359,34 @@ describe('OLSKRemoteStorageChangeDelegateData', function test_OLSKRemoteStorageC
 
 });
 
+describe('OLSKRemoteStorageChangeDelegateConflictSelectRecent', function test_OLSKRemoteStorageChangeDelegateConflictSelectRecent() {
+
+	it('throws if not valid', function() {
+		throws(function () {
+			mainModule.OLSKRemoteStorageChangeDelegateConflictSelectRecent(kTesting.StubChangeObjectRemoteCreate());
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns newValue if no *ModificationDate', function() {
+		const item = JSON.parse(JSON.stringify(kTesting.StubChangeObjectConflict()).split('ModificationDate').join('AlfaDate'));
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateConflictSelectRecent(item), item.newValue);
+	});
+
+	it('returns newValue if *ModificationDate and newer', function() {
+		const item = kTesting.StubChangeObjectConflict();
+
+		item.newValue.KVCNoteModificationDate = (new Date()).toJSON();
+		
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateConflictSelectRecent(item), item.newValue);
+	});
+
+	it('returns oldValue if *ModificationDate and newer', function() {
+		const item = kTesting.StubChangeObjectConflict();
+		deepEqual(mainModule.OLSKRemoteStorageChangeDelegateConflictSelectRecent(item), item.oldValue);
+	});
+
+});
+
 const { OLSKRemoteStorageStatus } = require('./main.js');
 
 describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
