@@ -230,6 +230,10 @@ const mod = {
 							return privateClient;
 						},
 						
+						_OLSKRemoteStoragePublicClient () {
+							return publicClient;
+						},
+						
 					};
 
 					return {
@@ -308,6 +312,10 @@ const mod = {
 
 	_OLSKRemoteStoragePrivateClient (storageModule) {
 		return storageModule.__DEBUG._OLSKRemoteStoragePrivateClient();
+	},
+
+	_OLSKRemoteStoragePublicClient (storageModule) {
+		return storageModule.__DEBUG._OLSKRemoteStoragePublicClient();
 	},
 
 	OLSKRemoteStoragePreJSONSchemaValidate (inputData) {
