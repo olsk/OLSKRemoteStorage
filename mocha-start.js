@@ -14,7 +14,7 @@ const mainModule = require('./main.js');
 		global.OLSKTestingStorageModule = OLSKTestingStorageClient.test_module;
 	});
 
-	beforeEach(async function() {
-		return await global.OLSKTestingStorageClient[storageModule.name].__DEBUG._OLSKRemoteStorageReset();
+	beforeEach(function() {
+		return mainModule._OLSKRemoteStorageReset(global.OLSKTestingStorageModule);
 	});
 })();

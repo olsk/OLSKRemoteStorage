@@ -220,17 +220,17 @@ const mod = {
 							return (await privateClient.getFile(inputData)).data;
 						},
 						
-						async _OLSKRemoteStorageReset () {
+						async __OLSKRemoteStorageReset () {
 							return await Promise.all((await mod.OLSKRemoteStorageListObjectsRecursive(privateClient, '')).map(async function (path) {
 								return await privateClient.remove(path);
 							}));
 						},
 						
-						_OLSKRemoteStoragePrivateClient () {
+						__OLSKRemoteStoragePrivateClient () {
 							return privateClient;
 						},
 						
-						_OLSKRemoteStoragePublicClient () {
+						__OLSKRemoteStoragePublicClient () {
 							return publicClient;
 						},
 						
@@ -306,16 +306,16 @@ const mod = {
 		return await storageModule.__DEBUG.__OLSKRemoteStorageReadFileText(inputData);
 	},
 
-	async _OLSKRemoteStorageReset (storageModule) {
-		return await storageModule.__DEBUG._OLSKRemoteStorageReset();
+	_OLSKRemoteStorageReset (storageModule) {
+		return storageModule.__DEBUG.__OLSKRemoteStorageReset();
 	},
 
 	_OLSKRemoteStoragePrivateClient (storageModule) {
-		return storageModule.__DEBUG._OLSKRemoteStoragePrivateClient();
+		return storageModule.__DEBUG.__OLSKRemoteStoragePrivateClient();
 	},
 
 	_OLSKRemoteStoragePublicClient (storageModule) {
-		return storageModule.__DEBUG._OLSKRemoteStoragePublicClient();
+		return storageModule.__DEBUG.__OLSKRemoteStoragePublicClient();
 	},
 
 	OLSKRemoteStorageSafeCopy (inputData) {
