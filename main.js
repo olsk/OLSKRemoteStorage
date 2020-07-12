@@ -212,11 +212,11 @@ const mod = {
 				builder (privateClient, publicClient) {
 					const __DEBUG = {
 
-						__OLSKRemoteStorageWriteText (param1, param2) {
+						__OLSKRemoteStorageWriteFileText (param1, param2) {
 							return privateClient.storeFile('text/plain', param1, param2);
 						},
 						
-						async __OLSKRemoteStorageReadFileData (inputData) {
+						async __OLSKRemoteStorageReadFileText (inputData) {
 							return (await privateClient.getFile(inputData)).data;
 						},
 						
@@ -295,7 +295,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		return await storageModule.__DEBUG.__OLSKRemoteStorageWriteText(param1, param2);
+		return await storageModule.__DEBUG.__OLSKRemoteStorageWriteFileText(param1, param2);
 	},
 
 	async _OLSKRemoteStorageRead (storageModule, inputData) {
@@ -303,7 +303,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		return await storageModule.__DEBUG.__OLSKRemoteStorageReadFileData(inputData);
+		return await storageModule.__DEBUG.__OLSKRemoteStorageReadFileText(inputData);
 	},
 
 	async _OLSKRemoteStorageReset (storageModule) {
