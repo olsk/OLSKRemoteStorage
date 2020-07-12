@@ -387,35 +387,33 @@ describe('OLSKRemoteStorageChangeDelegateConflictSelectRecent', function test_OL
 
 });
 
-const { OLSKRemoteStorageStatus } = require('./main.js');
-
 describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 
 	it('throws error if param1 not object', function() {
 		throws(function() {
-			OLSKRemoteStorageStatus(null);
+			mainModule.OLSKRemoteStorageStatus(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws error if param1 no event method', function() {
 		throws(function() {
-			OLSKRemoteStorageStatus({});
+			mainModule.OLSKRemoteStorageStatus({});
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws error if param2 not function', function() {
 		throws(function() {
-			OLSKRemoteStorageStatus(kTesting.StubEventListener(), null);
+			mainModule.OLSKRemoteStorageStatus(kTesting.StubEventListener(), null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns undefined', function() {
-		deepEqual(OLSKRemoteStorageStatus(kTesting.StubEventListener(), function () {}), undefined);
+		deepEqual(mainModule.OLSKRemoteStorageStatus(kTesting.StubEventListener(), function () {}), undefined);
 	});
 
 	it('returns string on connected', function() {
 		let item;
-		OLSKRemoteStorageStatus(kTesting.StubEventListener('connected'), function (inputData) {
+		mainModule.OLSKRemoteStorageStatus(kTesting.StubEventListener('connected'), function (inputData) {
 			item = inputData;
 		});
 		deepEqual(item, 'OLSKRemoteStorageStatusOnline');
@@ -423,7 +421,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 
 	it('returns string on network-offline', function() {
 		let item;
-		OLSKRemoteStorageStatus(kTesting.StubEventListener('network-offline'), function (inputData) {
+		mainModule.OLSKRemoteStorageStatus(kTesting.StubEventListener('network-offline'), function (inputData) {
 			item = inputData;
 		});
 		deepEqual(item, 'OLSKRemoteStorageStatusNetworkOffline');
@@ -431,7 +429,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 
 	it('returns string on network-online', function() {
 		let item;
-		OLSKRemoteStorageStatus(kTesting.StubEventListener('network-online'), function (inputData) {
+		mainModule.OLSKRemoteStorageStatus(kTesting.StubEventListener('network-online'), function (inputData) {
 			item = inputData;
 		});
 		deepEqual(item, 'OLSKRemoteStorageStatusOnline');
@@ -439,7 +437,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 
 	it('returns string on error', function() {
 		let item;
-		OLSKRemoteStorageStatus(kTesting.StubEventListener('error'), function (inputData) {
+		mainModule.OLSKRemoteStorageStatus(kTesting.StubEventListener('error'), function (inputData) {
 			item = inputData;
 		});
 		deepEqual(item, 'OLSKRemoteStorageStatusError');
@@ -447,7 +445,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 
 	it('ignores SyncError on network-offline', function() {
 		let item = [];
-		OLSKRemoteStorageStatus({
+		mainModule.OLSKRemoteStorageStatus({
 			on (param1, param2) {
 				if (param1 === 'network-offline') {
 					param2();
@@ -465,7 +463,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 
 	it('allows other errors on network-offline', function() {
 		const item = [];
-		OLSKRemoteStorageStatus({
+		mainModule.OLSKRemoteStorageStatus({
 			on (param1, param2) {
 				if (param1 === 'network-offline') {
 					param2();
@@ -486,7 +484,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 
 	it('allows SyncError after network-online', function() {
 		const item = [];
-		OLSKRemoteStorageStatus({
+		mainModule.OLSKRemoteStorageStatus({
 			on (param1, param2) {
 				if (param1 === 'network-offline') {
 					param2();
@@ -508,7 +506,7 @@ describe('OLSKRemoteStorageStatus', function test_OLSKRemoteStorageStatus() {
 
 	it('returns string on disconnected', function() {
 		let item;
-		OLSKRemoteStorageStatus(kTesting.StubEventListener('disconnected'), function (inputData) {
+		mainModule.OLSKRemoteStorageStatus(kTesting.StubEventListener('disconnected'), function (inputData) {
 			item = inputData;
 		});
 		deepEqual(item, '');
