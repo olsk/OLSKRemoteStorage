@@ -216,7 +216,7 @@ const mod = {
 							return privateClient.storeFile('text/plain', param1, param2);
 						},
 						
-						async _OLSKRemoteStorageRead (inputData) {
+						async __OLSKRemoteStorageReadFileData (inputData) {
 							return (await privateClient.getFile(inputData)).data;
 						},
 						
@@ -303,7 +303,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		return await storageModule.__DEBUG._OLSKRemoteStorageRead(inputData);
+		return await storageModule.__DEBUG.__OLSKRemoteStorageReadFileData(inputData);
 	},
 
 	async _OLSKRemoteStorageReset (storageModule) {
