@@ -15,7 +15,7 @@ const mainModule = require('./main.js');
 	});
 
 	beforeEach(function() {
-		return mainModule._OLSKRemoteStorageReset(global.OLSKTestingStorageModule);
+		return mainModule._TestReset(global.OLSKTestingStorageModule);
 	});
 })();
 
