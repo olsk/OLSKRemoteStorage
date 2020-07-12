@@ -858,6 +858,27 @@ describe('_OLSKRemoteStoragePublicClient', function test__OLSKRemoteStoragePubli
 
 });
 
+describe('OLSKRemoteStorageSafeCopy', function test_OLSKRemoteStorageSafeCopy() {
+
+	const item = {
+		alfa: 'bravo',
+		$charlie: 'delta',
+	};
+	
+	it('returns object', function () {
+		deepEqual(mainModule.OLSKRemoteStorageSafeCopy(item).alfa, 'bravo');
+	});
+
+	it('creates copy', function () {
+		deepEqual(mainModule.OLSKRemoteStorageSafeCopy(item) !== item, true);
+	});
+	
+	it('ignores $dynamic fields', function () {
+		deepEqual(mainModule.OLSKRemoteStorageSafeCopy(item).$charlie, undefined);
+	});
+
+});
+
 describe('OLSKRemoteStoragePreJSONSchemaValidate', function test_OLSKRemoteStoragePreJSONSchemaValidate() {
 
 	it('returns input', function() {

@@ -318,6 +318,16 @@ const mod = {
 		return storageModule.__DEBUG._OLSKRemoteStoragePublicClient();
 	},
 
+	OLSKRemoteStorageSafeCopy (inputData) {
+		return Object.keys(inputData).reduce(function (coll, item) {
+			if (item[0] !== '$') {
+				coll[item] = inputData[item];
+			}
+
+			return coll
+		}, {});
+	},
+
 	OLSKRemoteStoragePreJSONSchemaValidate (inputData) {
 		for (const key in inputData) {
 			if (key.slice(-4) === 'Date') {
