@@ -236,6 +236,14 @@ const mod = {
 						
 					};
 
+					const __HOTFIX = {
+
+						__OLSKRemoteStorageHotfixFlushData () {
+							return privateClient.flush(`/${ kModuleName }/`)
+						},
+						
+					};
+
 					return {
 						exports: inputData.reduce(function (coll, item) {
 							const collection = item(privateClient, publicClient, item.OLSKChangeDelegate);
@@ -249,7 +257,7 @@ const mod = {
 							coll[collection.OLSKRemoteStorageCollectionName] = collection.OLSKRemoteStorageCollectionExports;
 
 							return coll;
-						}, options.OLSKOptionIncludeDebug ? { __DEBUG } : {}),
+						}, Object.assign(options.OLSKOptionIncludeDebug ? { __DEBUG } : {}, { __HOTFIX })),
 					};
 				},
 			};
