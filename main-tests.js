@@ -710,6 +710,58 @@ describe('_TestReadFileText', function test__TestReadFileText() {
 
 });
 
+describe('_TestWriteObject', function test__TestWriteObject() {
+
+	it('rejects if param1 not path', async function() {
+		await rejects(mainModule._TestWriteObject(OLSKTestingStorageModule, null, 'alfa'), /OLSKErrorInputNotValid/);
+	});
+
+	it('rejects if param2 not object', async function() {
+		await rejects(mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', null), /OLSKErrorInputNotValid/);
+	});
+
+	it('returns undefined', async function() {
+		deepEqual(typeof await mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', {
+			bravo: 'charlie',
+		}), 'undefined');
+	});
+
+	it('writes object to param1', async function() {
+		await mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', {
+			bravo: 'charlie',
+		})
+
+		deepEqual(await mainModule._TestReadObject(OLSKTestingStorageModule, 'alfa'), {
+			'@context': 'http://remotestorage.io/spec/modules/test_module/xyz_document',
+			bravo: 'charlie',
+		});
+	});
+
+});
+
+describe('_TestReadObject', function test__TestReadObject() {
+
+	it('rejects if not path', async function() {
+		await rejects(mainModule._TestReadObject(OLSKTestingStorageModule, null), /OLSKErrorInputNotValid/);
+	});
+
+	it('returns null if no data', async function() {
+		deepEqual(await mainModule._TestReadObject(OLSKTestingStorageModule, 'alfa'), null);
+	});
+
+	it('returns data', async function() {
+		await mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', {
+			bravo: 'charlie',
+		});
+
+		deepEqual(await mainModule._TestReadObject(OLSKTestingStorageModule, 'alfa'), {
+			'@context': 'http://remotestorage.io/spec/modules/test_module/xyz_document',
+			bravo: 'charlie',
+		});
+	});
+
+});
+
 describe('_TestReset', function test__TestReset() {
 
 	it('returns array', async function() {

@@ -232,6 +232,26 @@ const mod = {
 							return (await privateClient.getFile(inputData, false)).data;
 						},
 						
+						__TestWriteObject (param1, param2) {
+							if (!mod._OLSKRemoteStorageIsPath(param1)) {
+								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+							}
+
+							if (typeof param2 !== 'object' || param2 === null) {
+								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+							}
+
+							return privateClient.storeObject('xyz_document', param1, param2);
+						},
+						
+						async __TestReadObject (inputData) {
+							if (!mod._OLSKRemoteStorageIsPath(inputData)) {
+								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+							}
+
+							return await privateClient.getObject(inputData, false);
+						},
+						
 						async __OLSKRemoteStorageReset () {
 							return await Promise.all((await mod.OLSKRemoteStorageListingRecursive(privateClient, '')).map(async function (path) {
 								return await privateClient.remove(path);
@@ -312,6 +332,14 @@ const mod = {
 
 	async _TestReadFileText (storageModule, inputData) {
 		return await storageModule.__DEBUG.__TestReadFileText(inputData);
+	},
+
+	async _TestWriteObject (storageModule, param1, param2) {
+		return await storageModule.__DEBUG.__TestWriteObject(param1, param2);
+	},
+
+	async _TestReadObject (storageModule, param1, param2) {
+		return await storageModule.__DEBUG.__TestReadObject(param1, param2);
 	},
 
 	_TestReset (storageModule) {

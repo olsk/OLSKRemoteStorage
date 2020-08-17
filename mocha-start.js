@@ -5,7 +5,14 @@ const mainModule = require('./main.js');
 (function OLSKMochaStorage() {
 	const storageModule = mainModule.OLSKRemoteStorageDataModuleGenerator('test_module', {
 		OLSKOptionIncludeDebug: true,
-	})([]);
+	})([function (privateClient, publicClient, changeDelegate) {
+		return {
+			OLSKRemoteStorageCollectionName: 'xyz_documents',
+			OLSKRemoteStorageCollectionType: 'xyz_document',
+			OLSKRemoteStorageCollectionModelErrors: {},
+			OLSKRemoteStorageCollectionExports: {},
+		};
+	}]);
 
 	before(function() {
 		global.OLSKTestingStorageClient = new RemoteStorage({ modules: [ storageModule ] });
