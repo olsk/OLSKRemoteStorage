@@ -272,7 +272,7 @@ const mod = {
 		return !!inputData.trim();
 	},
 
-	async OLSKRemoteStorageList (privateClient, inputData) {
+	async OLSKRemoteStorageListing (privateClient, inputData) {
 		return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
 			if (typeof path !== 'string') {
 				return Promise.reject(new Error('OLSKErrorInputNotValid'));
@@ -289,7 +289,7 @@ const mod = {
 	},
 
 	async OLSKRemoteStorageListObjectsRecursive (privateClient, inputData) {
-		return uFlatten(await Promise.all((await mod.OLSKRemoteStorageList(privateClient, inputData)).map(async function (e) {
+		return uFlatten(await Promise.all((await mod.OLSKRemoteStorageListing(privateClient, inputData)).map(async function (e) {
 			return e.slice(-1) == '/' ? await mod.OLSKRemoteStorageListObjectsRecursive(privateClient, e) : e;
 		})));
 	},
