@@ -684,6 +684,12 @@ describe('_TestWriteFileText', function test__TestWriteFileText() {
 		deepEqual(typeof await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', 'bravo'), 'undefined');
 	});
 
+	it('writes param2 to param1', async function() {
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', 'bravo')
+
+		deepEqual(await mainModule._TestReadFileText(OLSKTestingStorageModule, 'alfa'), 'bravo');
+	});
+
 });
 
 describe('_TestReadFileText', function test__TestReadFileText() {
