@@ -221,7 +221,7 @@ const mod = {
 						},
 						
 						async __OLSKRemoteStorageReset () {
-							return await Promise.all((await mod.OLSKRemoteStorageListObjectsRecursive(privateClient, '')).map(async function (path) {
+							return await Promise.all((await mod.OLSKRemoteStorageListingRecursive(privateClient, '')).map(async function (path) {
 								return await privateClient.remove(path);
 							}));
 						},
@@ -288,9 +288,9 @@ const mod = {
 		})));
 	},
 
-	async OLSKRemoteStorageListObjectsRecursive (privateClient, inputData) {
+	async OLSKRemoteStorageListingRecursive (privateClient, inputData) {
 		return uFlatten(await Promise.all((await mod.OLSKRemoteStorageListing(privateClient, inputData)).map(async function (e) {
-			return e.slice(-1) == '/' ? await mod.OLSKRemoteStorageListObjectsRecursive(privateClient, e) : e;
+			return e.slice(-1) == '/' ? await mod.OLSKRemoteStorageListingRecursive(privateClient, e) : e;
 		})));
 	},
 

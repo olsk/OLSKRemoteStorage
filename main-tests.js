@@ -640,7 +640,7 @@ describe('OLSKRemoteStorageListing', function test_OLSKRemoteStorageListing() {
 
 });
 
-describe('OLSKRemoteStorageListObjectsRecursive', function test_OLSKRemoteStorageListObjectsRecursive() {
+describe('OLSKRemoteStorageListingRecursive', function test_OLSKRemoteStorageListingRecursive() {
 
 	let privateClient;
 
@@ -649,23 +649,23 @@ describe('OLSKRemoteStorageListObjectsRecursive', function test_OLSKRemoteStorag
 	});
 
 	it('rejects if not path', async function() {
-		await rejects(mainModule.OLSKRemoteStorageListObjectsRecursive(privateClient, null), /OLSKErrorInputNotValid/);
+		await rejects(mainModule.OLSKRemoteStorageListingRecursive(privateClient, null), /OLSKErrorInputNotValid/);
 	});
 
 	it('returns array', async function() {
-		deepEqual(await mainModule.OLSKRemoteStorageListObjectsRecursive(privateClient, 'alfa'), []);
+		deepEqual(await mainModule.OLSKRemoteStorageListingRecursive(privateClient, 'alfa'), []);
 	});
 
 	it('includes document at root', async function() {
 		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa', 'bravo');
 
-		deepEqual(await mainModule.OLSKRemoteStorageListObjectsRecursive(privateClient, ''), ['alfa']);
+		deepEqual(await mainModule.OLSKRemoteStorageListingRecursive(privateClient, ''), ['alfa']);
 	});
 
 	it('includes document at subfolder', async function() {
 		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa/bravo', 'charlie');
 
-		deepEqual(await mainModule.OLSKRemoteStorageListObjectsRecursive(privateClient, ''), ['alfa/bravo']);
+		deepEqual(await mainModule.OLSKRemoteStorageListingRecursive(privateClient, ''), ['alfa/bravo']);
 	});
 
 });
