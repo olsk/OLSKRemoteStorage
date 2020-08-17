@@ -294,7 +294,7 @@ const mod = {
 		})));
 	},
 
-	async _TestWrite (storageModule, param1, param2) {
+	async _TestWriteFileText (storageModule, param1, param2) {
 		if (!mod._OLSKRemoteStorageIsPath(param1)) {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
@@ -306,7 +306,7 @@ const mod = {
 		return await storageModule.__DEBUG.__TestWriteFileText(param1, param2);
 	},
 
-	async _TestRead (storageModule, inputData) {
+	async _TestReadFileText (storageModule, inputData) {
 		if (!mod._OLSKRemoteStorageIsPath(inputData)) {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}

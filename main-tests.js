@@ -617,20 +617,20 @@ describe('OLSKRemoteStorageListing', function test_OLSKRemoteStorageListing() {
 	});
 
 	it('includes document at root', async function() {
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa', 'bravo');
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', 'bravo');
 
 		deepEqual(await mainModule.OLSKRemoteStorageListing(privateClient, ''), ['alfa']);
 	});
 
 	it('includes folder at root', async function() {
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa/bravo', 'charlie');
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa/bravo', 'charlie');
 
 		deepEqual(await mainModule.OLSKRemoteStorageListing(privateClient, ''), ['alfa/']);
 	});
 
 	it('accepts array', async function() {
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa/bravo', 'charlie');
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa/bravo/charlie', 'delta');
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa/bravo', 'charlie');
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa/bravo/charlie', 'delta');
 
 		deepEqual(await mainModule.OLSKRemoteStorageListing(privateClient, await mainModule.OLSKRemoteStorageListing(privateClient, '')), [
 			'alfa/bravo',
@@ -657,49 +657,49 @@ describe('OLSKRemoteStorageListingRecursive', function test_OLSKRemoteStorageLis
 	});
 
 	it('includes document at root', async function() {
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa', 'bravo');
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', 'bravo');
 
 		deepEqual(await mainModule.OLSKRemoteStorageListingRecursive(privateClient, ''), ['alfa']);
 	});
 
 	it('includes document at subfolder', async function() {
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa/bravo', 'charlie');
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa/bravo', 'charlie');
 
 		deepEqual(await mainModule.OLSKRemoteStorageListingRecursive(privateClient, ''), ['alfa/bravo']);
 	});
 
 });
 
-describe('_TestWrite', function test__TestWrite() {
+describe('_TestWriteFileText', function test__TestWriteFileText() {
 
 	it('rejects if param1 not path', async function() {
-		await rejects(mainModule._TestWrite(OLSKTestingStorageModule, null, 'alfa'), /OLSKErrorInputNotValid/);
+		await rejects(mainModule._TestWriteFileText(OLSKTestingStorageModule, null, 'alfa'), /OLSKErrorInputNotValid/);
 	});
 
 	it('rejects if param2 not string', async function() {
-		await rejects(mainModule._TestWrite(OLSKTestingStorageModule, 'alfa', null), /OLSKErrorInputNotValid/);
+		await rejects(mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', null), /OLSKErrorInputNotValid/);
 	});
 
 	it('returns undefined', async function() {
-		deepEqual(typeof await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa', 'bravo'), 'undefined');
+		deepEqual(typeof await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', 'bravo'), 'undefined');
 	});
 
 });
 
-describe('_TestRead', function test__TestRead() {
+describe('_TestReadFileText', function test__TestReadFileText() {
 
 	it('rejects if not path', async function() {
-		await rejects(mainModule._TestRead(OLSKTestingStorageModule, null), /OLSKErrorInputNotValid/);
+		await rejects(mainModule._TestReadFileText(OLSKTestingStorageModule, null), /OLSKErrorInputNotValid/);
 	});
 
 	it('returns null if no data', async function() {
-		deepEqual(await mainModule._TestRead(OLSKTestingStorageModule, 'alfa'), null);
+		deepEqual(await mainModule._TestReadFileText(OLSKTestingStorageModule, 'alfa'), null);
 	});
 
 	it('returns data', async function() {
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa', 'bravo')
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', 'bravo')
 
-		deepEqual(await mainModule._TestRead(OLSKTestingStorageModule, 'alfa'), 'bravo');
+		deepEqual(await mainModule._TestReadFileText(OLSKTestingStorageModule, 'alfa'), 'bravo');
 	});
 
 });
@@ -711,7 +711,7 @@ describe('_TestReset', function test__TestReset() {
 	});
 
 	it('deletes document at root', async function() {
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa', 'bravo');
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', 'bravo');
 
 		await mainModule._TestReset(OLSKTestingStorageModule)
 
@@ -719,7 +719,7 @@ describe('_TestReset', function test__TestReset() {
 	});
 
 	it('deletes document at folder', async function() {
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa/bravo', 'charlie');
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa/bravo', 'charlie');
 
 		await mainModule._TestReset(OLSKTestingStorageModule)
 
@@ -727,7 +727,7 @@ describe('_TestReset', function test__TestReset() {
 	});
 
 	it('deletes document at subfolder', async function() {
-		await mainModule._TestWrite(OLSKTestingStorageModule, 'alfa/bravo/charlie', 'delta');
+		await mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa/bravo/charlie', 'delta');
 
 		await mainModule._TestReset(OLSKTestingStorageModule)
 
