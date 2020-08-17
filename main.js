@@ -229,7 +229,7 @@ const mod = {
 								return Promise.reject(new Error('OLSKErrorInputNotValid'));
 							}
 
-							return (await privateClient.getFile(inputData)).data;
+							return (await privateClient.getFile(inputData, false)).data;
 						},
 						
 						async __OLSKRemoteStorageReset () {
