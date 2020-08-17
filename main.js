@@ -213,10 +213,22 @@ const mod = {
 					const __DEBUG = {
 
 						__TestWriteFileText (param1, param2) {
+							if (!mod._OLSKRemoteStorageIsPath(param1)) {
+								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+							}
+
+							if (typeof param2 !== 'string') {
+								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+							}
+
 							return privateClient.storeFile('text/plain', param1, param2);
 						},
 						
 						async __TestReadFileText (inputData) {
+							if (!mod._OLSKRemoteStorageIsPath(inputData)) {
+								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+							}
+
 							return (await privateClient.getFile(inputData)).data;
 						},
 						
@@ -295,22 +307,10 @@ const mod = {
 	},
 
 	async _TestWriteFileText (storageModule, param1, param2) {
-		if (!mod._OLSKRemoteStorageIsPath(param1)) {
-			return Promise.reject(new Error('OLSKErrorInputNotValid'));
-		}
-
-		if (typeof param2 !== 'string') {
-			return Promise.reject(new Error('OLSKErrorInputNotValid'));
-		}
-
 		return await storageModule.__DEBUG.__TestWriteFileText(param1, param2);
 	},
 
 	async _TestReadFileText (storageModule, inputData) {
-		if (!mod._OLSKRemoteStorageIsPath(inputData)) {
-			return Promise.reject(new Error('OLSKErrorInputNotValid'));
-		}
-
 		return await storageModule.__DEBUG.__TestReadFileText(inputData);
 	},
 
