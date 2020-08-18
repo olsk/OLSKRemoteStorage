@@ -326,6 +326,43 @@ const mod = {
 		})));
 	},
 
+	async OLSKRemoteStorageObjects (privateClient, inputData) {
+		if (typeof inputData !== 'string') {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		return Object.entries(await privateClient.getAll(inputData, false)).reduce(function (coll, item) {
+			if (item[0].includes('/')) {
+				coll.folders.push(item[0]);
+			} else {
+				coll.objects.push(item[1]);
+			}
+
+			return coll;
+		}, {
+			objects: [],
+			folders: [],
+		});
+	},
+
+	async OLSKRemoteStorageObjectsRecursive (privateClient, inputData) {
+		if (typeof inputData !== 'string') {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		return await Object.entries(await privateClient.getAll(inputData, false)).reduce(async function (coll, item) {
+			const _coll = await coll;
+
+			if (item[0].includes('/')) {
+				return Promise.resolve(Object.assign(_coll, await mod.OLSKRemoteStorageObjectsRecursive(privateClient, inputData + item[0])));
+			}
+
+			_coll[inputData + item[0]] = item[1];
+
+			return Promise.resolve(_coll);
+		}, Promise.resolve({}))
+	},
+
 	async _TestWriteFileText (storageModule, param1, param2) {
 		return await storageModule.__DEBUG.__TestWriteFileText(param1, param2);
 	},
