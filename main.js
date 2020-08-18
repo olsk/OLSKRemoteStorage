@@ -270,6 +270,10 @@ const mod = {
 
 					const __HOTFIX = {
 
+						__OLSKRemoteStorageHotfixPlungeData () {
+							return mod.OLSKRemoteStorageObjectsRecursive(privateClient, '', 0);
+						},
+
 						__OLSKRemoteStorageHotfixFlushData () {
 							return privateClient.flush(`/${ kModuleName }/`)
 						},
