@@ -345,12 +345,12 @@ const mod = {
 		});
 	},
 
-	async OLSKRemoteStorageObjectsRecursive (privateClient, inputData) {
+	async OLSKRemoteStorageObjectsRecursive (privateClient, inputData, cacheAge = false) {
 		if (typeof inputData !== 'string') {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		return await Object.entries(await privateClient.getAll(inputData, false)).reduce(async function (coll, item) {
+		return await Object.entries(await privateClient.getAll(inputData, cacheAge)).reduce(async function (coll, item) {
 			const _coll = await coll;
 
 			if (item[0].includes('/')) {
