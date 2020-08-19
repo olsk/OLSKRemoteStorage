@@ -361,7 +361,9 @@ const mod = {
 				return Promise.resolve(Object.assign(_coll, await mod.OLSKRemoteStorageObjectsRecursive(privateClient, inputData + item[0])));
 			}
 
-			_coll[inputData + item[0]] = item[1];
+			if (item[1] !== true) { // #remotestorage-cache-true
+				_coll[inputData + item[0]] = item[1];
+			}
 
 			return Promise.resolve(_coll);
 		}, Promise.resolve({}))
