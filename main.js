@@ -433,6 +433,8 @@ const mod = {
 				inputData[key] = new Date(inputData[key]);
 			} else if (Array.isArray(inputData[key])) {
 				inputData[key].map(mod.OLSKRemoteStoragePostJSONParse);
+			} else if (typeof inputData[key] === 'object') {
+				mod.OLSKRemoteStoragePostJSONParse(inputData[key]);
 			}
 		}
 
