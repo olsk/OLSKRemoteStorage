@@ -993,4 +993,12 @@ describe('OLSKRemoteStoragePostJSONParse', function test_OLSKRemoteStoragePostJS
 		});
 	});
 
+	it('returns input array with objects parsed', function() {
+		deepEqual(mainModule.OLSKRemoteStoragePostJSONParse([{
+			alfaDate: '2018-12-09T19:07:01.902Z',
+		}]), [{
+			alfaDate: new Date('2018-12-09T19:07:01.902Z'),
+		}]);
+	});
+
 });
