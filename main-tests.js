@@ -933,6 +933,14 @@ describe('OLSKRemoteStoragePreJSONSchemaValidate', function test_OLSKRemoteStora
 		deepEqual(mainModule.OLSKRemoteStoragePreJSONSchemaValidate({}), {});
 	});
 
+	it('returns passes string', function() {
+		deepEqual(mainModule.OLSKRemoteStoragePreJSONSchemaValidate({
+			alfaDate: '2018-12-09T19:07:01.902Z',
+		}), {
+			alfaDate: '2018-12-09T19:07:01.902Z',
+		});
+	});
+
 	it('returns input with *Date as string', function() {
 		deepEqual(mainModule.OLSKRemoteStoragePreJSONSchemaValidate({
 			alfaDate: new Date('2018-12-09T19:07:01.902Z'),

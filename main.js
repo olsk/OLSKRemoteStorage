@@ -410,7 +410,11 @@ const mod = {
 	OLSKRemoteStoragePreJSONSchemaValidate (inputData) {
 		for (const key in inputData) {
 			if (key.slice(-4) === 'Date') {
-				inputData[key] = inputData[key].toISOString();
+				if (inputData[key] instanceof Date) {
+					inputData[key] = inputData[key].toISOString();
+				} else {
+					console.error('! OLSKRemoteStoragePreJSONSchemaValidateNotDate', key, inputData[key]);
+				}
 			} else if (Array.isArray(inputData[key])) {
 				inputData[key].map(mod.OLSKRemoteStoragePreJSONSchemaValidate);
 			}
