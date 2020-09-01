@@ -1056,6 +1056,16 @@ describe('OLSKRemoteStorageWriteObject', function test_OLSKRemoteStorageWriteObj
 
 		deepEqual(await mainModule.OLSKRemoteStorageReadObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa'), item);
 	});
+	
+	it('ignores $dynamic fields', async function () {
+		const item = uObj(new Date());
+
+		await mainModule.OLSKRemoteStorageWriteObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa', Object.assign({
+				$charlie: 'delta',
+			}, item));
+
+		deepEqual(await mainModule.OLSKRemoteStorageReadObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa'), item);
+	});
 
 });
 
