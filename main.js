@@ -445,6 +445,28 @@ const mod = {
 		return inputData;
 	},
 
+	async OLSKRemoteStorageWriteObject (privateClient, param1, param2) {
+		if (!mod._OLSKRemoteStorageIsPath(param1)) {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		if (typeof param2 !== 'object' || param2 === null) {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		await privateClient.storeFile('application/json', param1, param2);
+
+		return param2;
+	},
+
+	async OLSKRemoteStorageReadObject (privateClient, inputData) {
+		if (!mod._OLSKRemoteStorageIsPath(inputData)) {
+			return Promise.reject(new Error('OLSKErrorInputNotValid'));
+		}
+
+		return await privateClient.getObject(inputData, false);
+	},	
+
 };
 
 Object.assign(exports, mod);

@@ -1022,3 +1022,65 @@ describe('OLSKRemoteStoragePostJSONParse', function test_OLSKRemoteStoragePostJS
 	});
 
 });
+
+describe('OLSKRemoteStorageWriteObject', function test_OLSKRemoteStorageWriteObject() {
+
+	const uObj = function (inputData) {
+		return {
+			bravo: inputData || new Date(),
+		};
+	};
+	
+	it('rejects if param1 not path', async function() {
+		await rejects(mainModule.OLSKRemoteStorageWriteObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), null, 'alfa'), /OLSKErrorInputNotValid/);
+	});
+
+	it('rejects if param2 not object', async function() {
+		await rejects(mainModule.OLSKRemoteStorageWriteObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa', null), /OLSKErrorInputNotValid/);
+	});
+
+	it('returns param2', async function() {
+		const item = uObj();
+		deepEqual(await mainModule.OLSKRemoteStorageWriteObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa', item) === item, true);
+	});
+
+	it('leaves param2 unmodified', async function() {
+		const item = new Date();
+		deepEqual(await mainModule.OLSKRemoteStorageWriteObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa', uObj(item)), uObj(item));
+	});
+
+	it('writes stringified param2 to param1', async function() {
+		const item = uObj(new Date());
+
+		await mainModule.OLSKRemoteStorageWriteObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa', item);
+
+		deepEqual(await mainModule.OLSKRemoteStorageReadObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa'), item);
+	});
+
+});
+
+describe('OLSKRemoteStorageReadObject', function test_OLSKRemoteStorageReadObject() {
+
+	const uObj = function () {
+		return {
+			bravo: new Date(),
+		};
+	};
+	
+	it('rejects if not path', async function() {
+		await rejects(mainModule.OLSKRemoteStorageReadObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), null), /OLSKErrorInputNotValid/);
+	});
+
+	it('returns null if no data', async function() {
+		deepEqual(await mainModule.OLSKRemoteStorageReadObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa'), null);
+	});
+
+	it('returns data', async function() {
+		const item = uObj();
+
+		await mainModule.OLSKRemoteStorageWriteObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa', item);
+
+		deepEqual(await mainModule.OLSKRemoteStorageReadObject(mainModule._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'alfa'), item);
+	});
+
+});
