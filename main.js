@@ -454,7 +454,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		await privateClient.storeFile('application/json', param1, mod.OLSKRemoteStorageSafeCopy(param2));
+		await privateClient.storeFile('application/json', param1, JSON.stringify(mod.OLSKRemoteStorageSafeCopy(param2)));
 
 		return param2;
 	},
@@ -464,7 +464,7 @@ const mod = {
 			return Promise.reject(new Error('OLSKErrorInputNotValid'));
 		}
 
-		return await privateClient.getObject(inputData, false);
+		return mod.OLSKRemoteStoragePostJSONParse(await privateClient.getObject(inputData, false));
 	},	
 
 };

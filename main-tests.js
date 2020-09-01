@@ -1027,7 +1027,7 @@ describe('OLSKRemoteStorageWriteObject', function test_OLSKRemoteStorageWriteObj
 
 	const uObj = function (inputData) {
 		return {
-			bravo: inputData || new Date(),
+			bravoDate: inputData || new Date(),
 		};
 	};
 	
@@ -1073,7 +1073,7 @@ describe('OLSKRemoteStorageReadObject', function test_OLSKRemoteStorageReadObjec
 
 	const uObj = function () {
 		return {
-			bravo: new Date(),
+			bravoDate: new Date(),
 		};
 	};
 	
