@@ -429,12 +429,6 @@ describe('OLSKRemoteStorageIsCollection', function test_OLSKRemoteStorageIsColle
 		})), false);
 	});
 
-	it('returns false if OLSKRemoteStorageCollectionModelErrors not object', function() {
-		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(StubCollectionObjectValid(), {
-			OLSKRemoteStorageCollectionModelErrors: null,
-		})), false);
-	});
-
 	it('returns false if OLSKRemoteStorageCollectionExports not object', function() {
 		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(StubCollectionObjectValid(), {
 			OLSKRemoteStorageCollectionExports: null,
@@ -509,27 +503,6 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 								return {};
 							}]).builder(uInputValid());
 						}, /OLSKErrorInputNotValid/);
-					});
-
-					it('calls param1.declareType', function () {
-						const item = [];
-						
-						generator([function () {
-							return Object.assign(StubCollectionObjectValid(), {
-								OLSKRemoteStorageCollectionModelErrors: {
-									charlie: ['XYZErrorNotString'],
-								},
-							});
-						}]).builder(Object.assign(uInputValid, {
-							declareType (param1, param2) {
-								item.push(param1);
-								item.push(param2);
-							},
-						}));
-						
-						deepEqual(item, ['bravo', mainModule.OLSKRemoteStorageJSONSchema({
-							charlie: ['XYZErrorNotString'],
-						})])
 					});
 
 					it('returns object', function () {
@@ -810,21 +783,22 @@ describe('_TestWriteObject', function test__TestWriteObject() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('returns undefined', async function() {
-		deepEqual(typeof await mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', {
+	it('returns input', async function() {
+		const item = {
 			bravo: 'charlie',
-		}), 'undefined');
+		};
+
+		deepEqual(await mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', item), item);
 	});
 
 	it('writes object to param1', async function() {
-		await mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', {
+		const item = {
 			bravo: 'charlie',
-		})
+		};
 
-		deepEqual(await mainModule._TestReadObject(OLSKTestingStorageModule, 'alfa'), {
-			'@context': 'http://remotestorage.io/spec/modules/test_module/xyz_document',
-			bravo: 'charlie',
-		});
+		await mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', item)
+
+		deepEqual(await mainModule._TestReadObject(OLSKTestingStorageModule, 'alfa'), item);
 	});
 
 });
@@ -845,7 +819,6 @@ describe('_TestReadObject', function test__TestReadObject() {
 		});
 
 		deepEqual(await mainModule._TestReadObject(OLSKTestingStorageModule, 'alfa'), {
-			'@context': 'http://remotestorage.io/spec/modules/test_module/xyz_document',
 			bravo: 'charlie',
 		});
 	});

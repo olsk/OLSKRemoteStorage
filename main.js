@@ -174,10 +174,6 @@ const mod = {
 			return false;
 		}
 
-		if (typeof inputData.OLSKRemoteStorageCollectionModelErrors !== 'object' || inputData.OLSKRemoteStorageCollectionModelErrors === null) {
-			return false;
-		}
-
 		if (typeof inputData.OLSKRemoteStorageCollectionExports !== 'object' || inputData.OLSKRemoteStorageCollectionExports === null) {
 			return false;
 		}
@@ -233,7 +229,7 @@ const mod = {
 								throw new Error('OLSKErrorInputNotValid');
 							}
 
-							return privateClient.storeObject('xyz_document', param1, param2);
+							return mod.OLSKRemoteStorageWriteObject(privateClient, param1, param2);
 						},
 						
 						async __TestReadObject (inputData) {
