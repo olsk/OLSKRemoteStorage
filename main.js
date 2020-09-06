@@ -206,11 +206,11 @@ const mod = {
 
 						__TestWriteFileText (param1, param2) {
 							if (!mod._OLSKRemoteStorageIsPath(param1)) {
-								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+								throw new Error('OLSKErrorInputNotValid');
 							}
 
 							if (typeof param2 !== 'string') {
-								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+								throw new Error('OLSKErrorInputNotValid');
 							}
 
 							return privateClient.storeFile('text/plain', param1, param2);
@@ -226,11 +226,11 @@ const mod = {
 						
 						__TestWriteObject (param1, param2) {
 							if (!mod._OLSKRemoteStorageIsPath(param1)) {
-								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+								throw new Error('OLSKErrorInputNotValid');
 							}
 
 							if (typeof param2 !== 'object' || param2 === null) {
-								return Promise.reject(new Error('OLSKErrorInputNotValid'));
+								throw new Error('OLSKErrorInputNotValid');
 							}
 
 							return privateClient.storeObject('xyz_document', param1, param2);
@@ -359,20 +359,20 @@ const mod = {
 		}, Promise.resolve({}))
 	},
 
-	async _TestWriteFileText (storageModule, param1, param2) {
-		return await storageModule.__DEBUG.__TestWriteFileText(param1, param2);
+	_TestWriteFileText (storageModule, param1, param2) {
+		return storageModule.__DEBUG.__TestWriteFileText(param1, param2);
 	},
 
-	async _TestReadFileText (storageModule, inputData) {
-		return await storageModule.__DEBUG.__TestReadFileText(inputData);
+	_TestReadFileText (storageModule, inputData) {
+		return storageModule.__DEBUG.__TestReadFileText(inputData);
 	},
 
-	async _TestWriteObject (storageModule, param1, param2) {
-		return await storageModule.__DEBUG.__TestWriteObject(param1, param2);
+	_TestWriteObject (storageModule, param1, param2) {
+		return storageModule.__DEBUG.__TestWriteObject(param1, param2);
 	},
 
-	async _TestReadObject (storageModule, param1, param2) {
-		return await storageModule.__DEBUG.__TestReadObject(param1, param2);
+	_TestReadObject (storageModule, param1, param2) {
+		return storageModule.__DEBUG.__TestReadObject(param1, param2);
 	},
 
 	_TestReset (storageModule) {

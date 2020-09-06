@@ -754,12 +754,16 @@ describe('OLSKRemoteStorageObjectsRecursive', function test_OLSKRemoteStorageObj
 
 describe('_TestWriteFileText', function test__TestWriteFileText() {
 
-	it('rejects if param1 not path', async function() {
-		await rejects(mainModule._TestWriteFileText(OLSKTestingStorageModule, null, 'alfa'), /OLSKErrorInputNotValid/);
+	it('throws if param1 not path', function () {
+		throws(function () {
+			mainModule._TestWriteFileText(OLSKTestingStorageModule, null, 'alfa')
+		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('rejects if param2 not string', async function() {
-		await rejects(mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', null), /OLSKErrorInputNotValid/);
+	it('throws if param2 not string', function () {
+		throws(function () {
+			mainModule._TestWriteFileText(OLSKTestingStorageModule, 'alfa', null)
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns undefined', async function() {
@@ -794,12 +798,16 @@ describe('_TestReadFileText', function test__TestReadFileText() {
 
 describe('_TestWriteObject', function test__TestWriteObject() {
 
-	it('rejects if param1 not path', async function() {
-		await rejects(mainModule._TestWriteObject(OLSKTestingStorageModule, null, 'alfa'), /OLSKErrorInputNotValid/);
+	it('throws if param1 not path', function () {
+		throws(function () {
+			mainModule._TestWriteObject(OLSKTestingStorageModule, null, 'alfa');
+		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('rejects if param2 not object', async function() {
-		await rejects(mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', null), /OLSKErrorInputNotValid/);
+	it('throws if param2 not object', function () {
+		throws(function () {
+			mainModule._TestWriteObject(OLSKTestingStorageModule, 'alfa', null);
+		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns undefined', async function() {
