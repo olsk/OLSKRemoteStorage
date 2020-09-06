@@ -174,14 +174,6 @@ const mod = {
 			return false;
 		}
 
-		if (typeof inputData.OLSKRemoteStorageCollectionType !== 'string') {
-			return false;
-		}
-
-		if (inputData.OLSKRemoteStorageCollectionType.trim() === '') {
-			return false;
-		}
-
 		if (typeof inputData.OLSKRemoteStorageCollectionModelErrors !== 'object' || inputData.OLSKRemoteStorageCollectionModelErrors === null) {
 			return false;
 		}
@@ -287,8 +279,6 @@ const mod = {
 							if (!mod.OLSKRemoteStorageIsCollection(collection)) {
 								throw new Error('OLSKErrorInputNotValid');
 							}
-
-							privateClient.declareType(collection.OLSKRemoteStorageCollectionType, mod.OLSKRemoteStorageJSONSchema(collection.OLSKRemoteStorageCollectionModelErrors));
 
 							coll[collection.OLSKRemoteStorageCollectionName] = collection.OLSKRemoteStorageCollectionExports;
 

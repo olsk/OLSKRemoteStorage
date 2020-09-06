@@ -429,18 +429,6 @@ describe('OLSKRemoteStorageIsCollection', function test_OLSKRemoteStorageIsColle
 		})), false);
 	});
 
-	it('returns false if OLSKRemoteStorageCollectionType not string', function() {
-		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(StubCollectionObjectValid(), {
-			OLSKRemoteStorageCollectionType: null,
-		})), false);
-	});
-
-	it('returns false if OLSKRemoteStorageCollectionType not filled', function() {
-		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(StubCollectionObjectValid(), {
-			OLSKRemoteStorageCollectionType: ' ',
-		})), false);
-	});
-
 	it('returns false if OLSKRemoteStorageCollectionModelErrors not object', function() {
 		deepEqual(mainModule.OLSKRemoteStorageIsCollection(Object.assign(StubCollectionObjectValid(), {
 			OLSKRemoteStorageCollectionModelErrors: null,
@@ -528,7 +516,6 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 						
 						generator([function () {
 							return Object.assign(StubCollectionObjectValid(), {
-								OLSKRemoteStorageCollectionType: 'bravo',
 								OLSKRemoteStorageCollectionModelErrors: {
 									charlie: ['XYZErrorNotString'],
 								},

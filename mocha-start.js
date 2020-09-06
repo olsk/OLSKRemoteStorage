@@ -8,7 +8,6 @@ const mainModule = require('./main.js');
 	})([function (privateClient, publicClient, changeDelegate) {
 		return {
 			OLSKRemoteStorageCollectionName: 'xyz_documents',
-			OLSKRemoteStorageCollectionType: 'xyz_document',
 			OLSKRemoteStorageCollectionModelErrors: {},
 			OLSKRemoteStorageCollectionExports: {},
 		};
@@ -126,7 +125,6 @@ const mainModule = require('./main.js');
 		StubCollectionObjectValid () {
 			return {
 				OLSKRemoteStorageCollectionName: 'alfa',
-				OLSKRemoteStorageCollectionType: 'bravo',
 				OLSKRemoteStorageCollectionModelErrors: {},
 				OLSKRemoteStorageCollectionExports: [],
 			};
