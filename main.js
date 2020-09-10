@@ -451,7 +451,67 @@ const mod = {
 		}
 
 		return mod.OLSKRemoteStoragePostJSONParse(await privateClient.getObject(inputData, false));
-	},	
+	},
+
+	OLSKRemoteStorageQueryFunction (param1, param2, param3, param4) {
+		if (typeof param1 !== 'function' || !param1.prototype) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'object' || param2 === null || !param2.name) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param3 !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param4 !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return function (inputData) {
+			if (typeof inputData !== 'function') {
+				throw new Error('OLSKErrorInputNotValid');
+			}
+			const storageClient = new (param1)({
+				cache: false,
+				modules: [param2],
+			});
+
+			storageClient.access.claim(param2.name, 'rw');
+
+			storageClient.stopSync();
+
+			return new Promise(function (res, rej) {
+				let didReject, outputData;
+
+				storageClient.on('error', function (err) {
+					if (didReject) {
+						return;
+					}
+
+					didReject = true;
+					return rej(err);
+				});
+
+				storageClient.on('connected', async function () {
+					try {
+						outputData = await inputData(storageClient);
+					} catch (e) {
+						didReject = true;
+						return rej(e);
+					}
+
+					res(outputData);
+					
+					return storageClient.disconnect();
+				});
+
+				storageClient.connect(param3, param4);
+			});
+		};
+	},
 
 };
 

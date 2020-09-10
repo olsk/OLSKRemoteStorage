@@ -1062,3 +1062,196 @@ describe('OLSKRemoteStorageReadObject', function test_OLSKRemoteStorageReadObjec
 	});
 
 });
+
+describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryFunction() {
+
+	const uStorage = function (inputData = {}) {
+		return function () {
+			Object.assign(this, {
+				access: {
+					claim () {},
+				},
+				stopSync () {},
+				on () {},
+				connect () {},
+				disconnect () {},
+			}, inputData);
+		};
+	};
+
+	const uModule = function () {
+		return {
+			name: 'alfa',
+		};
+	};
+
+	it('throws if param1 not remotestoragejs', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageQueryFunction({}, uModule(), '', '');
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not storagemodule', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageQueryFunction(uStorage(), {}, '', '');
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param3 not string', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageQueryFunction(uStorage(), uModule(), null, '');
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param4 not string', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageQueryFunction(uStorage(), uModule(), '', null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns function', function () {
+		deepEqual(typeof mainModule.OLSKRemoteStorageQueryFunction(uStorage(), uModule(), '', ''), 'function');
+	});
+
+	context('function', function () {
+
+		const uQueryFunction = function (param1 = uStorage(), param2 = uModule(), param3 = '', param4 = '') {
+			return mainModule.OLSKRemoteStorageQueryFunction(param1, uModule(), param3, param4);
+		};
+
+		it('throws if not function', function () {
+			throws(function () {
+				uQueryFunction()();
+			}, /OLSKErrorInputNotValid/);
+		});
+		
+		it('initializes param1', function () {
+			const item = [];
+			const remotestoragejs = function () {
+			  item.push(Array.from(arguments))
+
+			  Object.assign(this, new (uStorage()));
+			};
+			const storagemodule = uModule();
+
+			uQueryFunction(remotestoragejs, storagemodule)(function () {});
+
+			deepEqual(item, [[{
+				cache: false,
+				modules: [storagemodule],
+			}]])
+		});
+
+		it('calls access.claim', function () {
+			const item = [];
+			uQueryFunction(uStorage({
+				access: {
+					claim () {
+					  item.push(Array.from(arguments))
+					},
+				},
+			}))(function () {});
+
+			deepEqual(item, [[uModule().name, 'rw']])
+		});
+
+		it('calls stopSync', function () {
+			const item = [];
+			uQueryFunction(uStorage({
+				stopSync () {
+				  item.push(Array.from(arguments))
+				},
+			}))(function () {});
+
+			deepEqual(item, [[]])
+		});
+
+		it('rejects on error', async function () {
+			const item = new Error('whoops');
+			const map = {};
+			await rejects(uQueryFunction(uStorage({
+				on (param1, param2) {
+					map[param1] = param2;
+				},
+				connect () {
+				  map.connected();
+				},
+			}))(function () {
+				throw item;
+			}), item);
+		});
+
+		it('rejects on storage error', async function () {
+			const item = new Error('whoops');
+			const map = {};
+			await rejects(uQueryFunction(uStorage({
+				on (param1, param2) {
+					map[param1] = param2;
+				},
+				connect () {
+				  map.connected();
+				},
+			}))(function (inputData) {
+				map.error(item);
+			}), item);
+		});
+
+		it('calls connect with param3, param4', function () {
+			const item = [];
+			uQueryFunction(uStorage({
+				connect () {
+				  item.push(Array.from(arguments));
+				},
+			}), uModule(), 'alfa', 'bravo')(function () {});
+
+			deepEqual(item, [['alfa', 'bravo']])
+		});
+
+		it('calls inputData on connected', async function () {
+			const item = [];
+
+			const map = {};
+			deepEqual(await uQueryFunction(uStorage({
+				on (param1, param2) {
+					map[param1] = param2;
+				},
+				connect () {
+				  map.connected();
+				},
+			}))(function () {
+				return 'alfa';
+			}), 'alfa');
+		});
+
+		it('calls connect with param3, param4', function () {
+			const item = [];
+			uQueryFunction(uStorage({
+				connect () {
+				  item.push(Array.from(arguments))
+				},
+			}), uModule(), 'alfa', 'bravo')(function () {});
+
+			deepEqual(item, [['alfa', 'bravo']])
+		});
+
+		it('calls disconnect', async function () {
+			const item = [];
+			const map = {};
+			await uQueryFunction(uStorage({
+				on (param1, param2) {
+					map[param1] = param2;
+				},
+				connect () {
+				  map.connected();
+				},
+				disconnect () {
+				  item.push(Array.from(arguments))
+				},
+			}))(function () {});
+
+			deepEqual(item, [[]])
+		});
+	
+	});
+
+});
