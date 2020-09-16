@@ -513,6 +513,36 @@ const mod = {
 		};
 	},
 
+	OLSKRemoteStorageLauncherItemOpenLoginLinkCallback (param1, param2) {
+		if (!param1.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		const item = param1.prompt(param2('OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText'));
+
+		if (!item) {
+			return;
+		}
+
+		param1.location.href = item;
+	},
+
+	OLSKRemoteStorageLauncherItemOpenLoginLink (OLSKLocalized) {
+		if (typeof OLSKLocalized !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemOpenLoginLink',
+			LCHRecipeName: OLSKLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkText'),
+			LCHRecipeCallback: mod.OLSKRemoteStorageLauncherItemOpenLoginLinkCallback,
+		};
+	},
+
 };
 
 Object.assign(exports, mod);
