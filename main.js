@@ -543,6 +543,18 @@ const mod = {
 		};
 	},
 
+	OLSKRemoteStorageRecipes (storageClient, OLSKLocalized) {
+		if (!storageClient.remote) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof OLSKLocalized !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return [mod.OLSKRemoteStorageLauncherItemOpenLoginLink(OLSKLocalized)];
+	},
+
 };
 
 Object.assign(exports, mod);

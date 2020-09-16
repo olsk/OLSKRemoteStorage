@@ -1342,3 +1342,36 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 
 });
 
+describe('OLSKRemoteStorageRecipes', function test_OLSKRemoteStorageRecipes() {
+
+	const uStorage = function (inputData = {}) {
+		return Object.assign({
+			remote: {},
+		}, inputData);
+	};
+
+	it('throws if param1 not storageClient', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageRecipes({}, uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not OLSKLocalized', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageRecipes(uStorage(), null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns array', function () {
+		deepEqual(Array.isArray(mainModule.OLSKRemoteStorageRecipes(uStorage(), uLocalized)), true);
+	});
+
+	context('connected false', function () {
+
+		it('includes recipes', function () {
+			deepEqual(mainModule.OLSKRemoteStorageRecipes(uStorage(), uLocalized), [mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uLocalized)]);
+		});		
+	
+	});
+
+});
