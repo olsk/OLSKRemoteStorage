@@ -513,6 +513,16 @@ const mod = {
 		};
 	},
 
+	OLSKRemoteStorageLauncherFakeItemProxyCallback () {},
+
+	OLSKRemoteStorageLauncherFakeItemProxy () {
+		return {
+			LCHRecipeSignature: 'OLSKRemoteStorageLauncherFakeItemProxy',
+			LCHRecipeName: 'OLSKRemoteStorageLauncherFakeItemProxy',
+			LCHRecipeCallback: mod.OLSKRemoteStorageLauncherFakeItemProxyCallback,
+		};
+	},
+
 	OLSKRemoteStorageLauncherItemOpenLoginLinkCallback (param1, param2) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -552,7 +562,10 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		return [mod.OLSKRemoteStorageLauncherItemOpenLoginLink(OLSKLocalized)];
+		return [
+			mod.OLSKRemoteStorageLauncherFakeItemProxy(),
+			mod.OLSKRemoteStorageLauncherItemOpenLoginLink(OLSKLocalized),
+		];
 	},
 
 };

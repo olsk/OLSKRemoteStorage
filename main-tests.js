@@ -1260,6 +1260,26 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 
 });
 
+describe('OLSKRemoteStorageLauncherFakeItemProxyCallback', function test_OLSKRemoteStorageLauncherFakeItemProxyCallback() {
+
+	it('returns undefined', function () {
+		deepEqual(mainModule.OLSKRemoteStorageLauncherFakeItemProxyCallback(), undefined);
+	});
+
+});
+
+describe('OLSKRemoteStorageLauncherFakeItemProxy', function test_OLSKRemoteStorageLauncherFakeItemProxy() {
+
+	it('returns object', function () {
+		deepEqual(mainModule.OLSKRemoteStorageLauncherFakeItemProxy(), {
+			LCHRecipeSignature: 'OLSKRemoteStorageLauncherFakeItemProxy',
+			LCHRecipeName: 'OLSKRemoteStorageLauncherFakeItemProxy',
+			LCHRecipeCallback: mainModule.OLSKRemoteStorageLauncherFakeItemProxyCallback,
+		});
+	});
+
+});
+
 describe('OLSKRemoteStorageLauncherItemOpenLoginLinkCallback', function test_OLSKRemoteStorageLauncherItemOpenLoginLinkCallback() {
 
 	const uWindow = function (inputData = {}) {
@@ -1362,16 +1382,12 @@ describe('OLSKRemoteStorageRecipes', function test_OLSKRemoteStorageRecipes() {
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('returns array', function () {
-		deepEqual(Array.isArray(mainModule.OLSKRemoteStorageRecipes(uStorage(), uLocalized)), true);
-	});
-
-	context('connected false', function () {
-
-		it('includes recipes', function () {
-			deepEqual(mainModule.OLSKRemoteStorageRecipes(uStorage(), uLocalized), [mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uLocalized)]);
-		});		
-	
+	it('includes all recipes', function () {
+		deepEqual(mainModule.OLSKRemoteStorageRecipes(uStorage(), uLocalized).map(function (e) {
+			return e.LCHRecipeSignature;
+		}), Object.keys(mainModule).filter(function (e) {
+			return e.match(/Launcher/) && !e.match(/Callback$/);
+		}));
 	});
 
 });
