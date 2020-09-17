@@ -10,4 +10,8 @@ describe('OLSKRemoteStorage_Access', function () {
 		return browser.assert.OLSKLauncherItems('OLSKRemoteStorageLauncherFakeItemProxy', 1);
 	});
 
+	it('shows OLSKRemoteStorageLauncherItemOpenLoginLink', function () {
+		return browser.assert.OLSKLauncherItems('OLSKRemoteStorageLauncherItemOpenLoginLink', 1);
+	});
+
 });

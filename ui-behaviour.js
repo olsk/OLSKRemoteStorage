@@ -19,7 +19,7 @@ window.OLSKRemoteStorageBehaviour = {
 
 	InterfaceLauncherButtonDidClick () {
 		window.Launchlet.LCHSingletonCreate({
-			LCHOptionRecipes: exports.OLSKRemoteStorageRecipes(this.DataFakeStorageClient(), window.OLSKLocalized),
+			LCHOptionRecipes: exports.OLSKRemoteStorageRecipes(window, this.DataFakeStorageClient(), window.OLSKLocalized),
 		});
 	},
 

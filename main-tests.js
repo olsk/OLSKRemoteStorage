@@ -2,6 +2,13 @@ const { throws, rejects, deepEqual } = require('assert');
 
 const mainModule = require('./main.js');
 
+const uWindow = function (inputData = {}) {
+	return Object.assign({
+		prompt () {},
+		location: {},
+	}, inputData);
+};
+
 const uLocalized = function (inputData) {
 	return inputData + 'LOCALIZED';
 };
@@ -1260,104 +1267,93 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 
 });
 
-describe('OLSKRemoteStorageLauncherFakeItemProxyCallback', function test_OLSKRemoteStorageLauncherFakeItemProxyCallback() {
-
-	it('returns undefined', function () {
-		deepEqual(mainModule.OLSKRemoteStorageLauncherFakeItemProxyCallback(), undefined);
-	});
-
-});
-
 describe('OLSKRemoteStorageLauncherFakeItemProxy', function test_OLSKRemoteStorageLauncherFakeItemProxy() {
 
 	it('returns object', function () {
-		deepEqual(mainModule.OLSKRemoteStorageLauncherFakeItemProxy(), {
+		const item = mainModule.OLSKRemoteStorageLauncherFakeItemProxy();
+		deepEqual(item, {
 			LCHRecipeSignature: 'OLSKRemoteStorageLauncherFakeItemProxy',
 			LCHRecipeName: 'OLSKRemoteStorageLauncherFakeItemProxy',
-			LCHRecipeCallback: mainModule.OLSKRemoteStorageLauncherFakeItemProxyCallback,
+			LCHRecipeCallback: item.LCHRecipeCallback,
 		});
 	});
 
-});
-
-describe('OLSKRemoteStorageLauncherItemOpenLoginLinkCallback', function test_OLSKRemoteStorageLauncherItemOpenLoginLinkCallback() {
-
-	const uWindow = function (inputData = {}) {
-		return Object.assign({
-			prompt () {},
-			location: {},
-		}, inputData);
-	};
-
-	it('throws if param1 not window', function () {
-		throws(function () {
-			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLinkCallback({}, uLocalized);
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if param2 not OLSKLocalized', function () {
-		throws(function () {
-			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLinkCallback(uWindow(), null);
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('returns undefined', function () {
-		deepEqual(mainModule.OLSKRemoteStorageLauncherItemOpenLoginLinkCallback(uWindow(), uLocalized), undefined);
-	});
-
-	it('calls prompt', function () {
-		const item = [];
-
-		mainModule.OLSKRemoteStorageLauncherItemOpenLoginLinkCallback(uWindow({
-			prompt () {
-				item.push(...Array.from(arguments));
-			},
-		}), uLocalized);
-
-		deepEqual(item, [uLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText')]);
-	});
-
-	it('skips set location if prompt empty', function () {
-		const item = {};
-
-		mainModule.OLSKRemoteStorageLauncherItemOpenLoginLinkCallback(uWindow({
-			location: item,
-		}), uLocalized);
-
-		deepEqual(item, {});
-	});
-
-	it('sets location to prompt', function () {
-		const item = {};
-
-		mainModule.OLSKRemoteStorageLauncherItemOpenLoginLinkCallback(uWindow({
-			prompt () {
-				return 'alfa';
-			},
-			location: item,
-		}), uLocalized);
-
-		deepEqual(item, {
-			href: 'alfa',
+	context('LCHRecipeCallback', function () {
+		
+		it('returns undefined', function () {
+			deepEqual(mainModule.OLSKRemoteStorageLauncherFakeItemProxy().LCHRecipeCallback(), undefined);
 		});
+
 	});
 
 });
 
 describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteStorageLauncherItemOpenLoginLink() {
 
-	it('throws if not OLSKLocalized', function () {
+	it('throws if param1 not window', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(null);
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink({}, uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not OLSKLocalized', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		deepEqual(mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uLocalized), {
+		const item = mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uLocalized);
+		deepEqual(item, {
 			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemOpenLoginLink',
 			LCHRecipeName: uLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkText'),
-			LCHRecipeCallback: mainModule.OLSKRemoteStorageLauncherItemOpenLoginLinkCallback,
+			LCHRecipeCallback: item.LCHRecipeCallback,
 		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('returns undefined', function () {
+			deepEqual(mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uLocalized).LCHRecipeCallback(), undefined);
+		});
+
+		it('calls prompt', function () {
+			const item = [];
+
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow({
+				prompt () {
+					item.push(...Array.from(arguments));
+				},
+			}), uLocalized).LCHRecipeCallback();
+
+			deepEqual(item, [uLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText')]);
+		});
+
+		it('skips set location if prompt empty', function () {
+			const item = {};
+
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow({
+				location: item,
+			}), uLocalized).LCHRecipeCallback();
+
+			deepEqual(item, {});
+		});
+
+		it('sets location to prompt', function () {
+			const item = {};
+
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow({
+				prompt () {
+					return 'alfa';
+				},
+				location: item,
+			}), uLocalized).LCHRecipeCallback();
+
+			deepEqual(item, {
+				href: 'alfa',
+			});
+		});
+
 	});
 
 });
@@ -1370,20 +1366,26 @@ describe('OLSKRemoteStorageRecipes', function test_OLSKRemoteStorageRecipes() {
 		}, inputData);
 	};
 
-	it('throws if param1 not storageClient', function () {
+	it('throws if param1 not window', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageRecipes({}, uLocalized);
+			mainModule.OLSKRemoteStorageRecipes({}, uStorage(), uLocalized);
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if param2 not OLSKLocalized', function () {
+	it('throws if param2 not storageClient', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageRecipes(uStorage(), null);
+			mainModule.OLSKRemoteStorageRecipes(uWindow(), {}, uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param3 not OLSKLocalized', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('includes all recipes', function () {
-		deepEqual(mainModule.OLSKRemoteStorageRecipes(uStorage(), uLocalized).map(function (e) {
+		deepEqual(mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), uLocalized).map(function (e) {
 			return e.LCHRecipeSignature;
 		}), Object.keys(mainModule).filter(function (e) {
 			return e.match(/Launcher/) && !e.match(/Callback$/);

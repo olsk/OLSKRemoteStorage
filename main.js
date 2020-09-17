@@ -513,17 +513,15 @@ const mod = {
 		};
 	},
 
-	OLSKRemoteStorageLauncherFakeItemProxyCallback () {},
-
 	OLSKRemoteStorageLauncherFakeItemProxy () {
 		return {
 			LCHRecipeSignature: 'OLSKRemoteStorageLauncherFakeItemProxy',
 			LCHRecipeName: 'OLSKRemoteStorageLauncherFakeItemProxy',
-			LCHRecipeCallback: mod.OLSKRemoteStorageLauncherFakeItemProxyCallback,
+			LCHRecipeCallback () {},
 		};
 	},
 
-	OLSKRemoteStorageLauncherItemOpenLoginLinkCallback (param1, param2) {
+	OLSKRemoteStorageLauncherItemOpenLoginLink (param1, param2) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -532,39 +530,37 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		const item = param1.prompt(param2('OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText'));
-
-		if (!item) {
-			return;
-		}
-
-		param1.location.href = item;
-	},
-
-	OLSKRemoteStorageLauncherItemOpenLoginLink (OLSKLocalized) {
-		if (typeof OLSKLocalized !== 'function') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
 		return {
 			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemOpenLoginLink',
-			LCHRecipeName: OLSKLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkText'),
-			LCHRecipeCallback: mod.OLSKRemoteStorageLauncherItemOpenLoginLinkCallback,
+			LCHRecipeName: param2('OLSKRemoteStorageLauncherItemOpenLoginLinkText'),
+			LCHRecipeCallback () {
+				const item = param1.prompt(param2('OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText'));
+
+				if (!item) {
+					return;
+				}
+
+				param1.location.href = item;
+			},
 		};
 	},
 
-	OLSKRemoteStorageRecipes (storageClient, OLSKLocalized) {
-		if (!storageClient.remote) {
+	OLSKRemoteStorageRecipes (param1, param2, param3) {
+		if (!param1.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (!param2.remote) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof OLSKLocalized !== 'function') {
+		if (typeof param3 !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return [
 			mod.OLSKRemoteStorageLauncherFakeItemProxy(),
-			mod.OLSKRemoteStorageLauncherItemOpenLoginLink(OLSKLocalized),
+			mod.OLSKRemoteStorageLauncherItemOpenLoginLink(param1, param3),
 		];
 	},
 
