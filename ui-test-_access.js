@@ -26,6 +26,10 @@ describe('OLSKRemoteStorage_Access', function () {
 
 		it('shows OLSKRemoteStorageLauncherItemCopyLoginLink', function () {
 			return browser.assert.OLSKLauncherItems('OLSKRemoteStorageLauncherItemCopyLoginLink', 1);
+		});		
+
+		it('shows OLSKRemoteStorageLauncherItemDebugFlushData', function () {
+			return browser.assert.OLSKLauncherItems('OLSKRemoteStorageLauncherItemDebugFlushData', 1);
 		});
 	
 	});

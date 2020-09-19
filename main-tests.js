@@ -5,7 +5,10 @@ const mainModule = require('./main.js');
 const uWindow = function (inputData = {}) {
 	return Object.assign({
 		prompt () {},
-		location: {},
+		confirm () {},
+		location: {
+			reload () {},
+		},
 	}, inputData);
 };
 
@@ -1449,6 +1452,113 @@ describe('OLSKRemoteStorageLauncherItemCopyLoginLink', function test_OLSKRemoteS
 
 		it('returns true', function () {
 			deepEqual(mainModule.OLSKRemoteStorageLauncherItemCopyLoginLink(uWindow(), uStorage(), uLocalized).LCHRecipeIsExcluded(), true);
+		});
+
+	});
+
+});
+
+describe('OLSKRemoteStorageLauncherItemDebugFlushData', function test_OLSKRemoteStorageLauncherItemDebugFlushData() {
+
+	it('throws if param1 not window', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageLauncherItemDebugFlushData({}, uStorage(), uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not storageClient', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageLauncherItemDebugFlushData(uWindow(), {}, uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param3 not OLSKLocalized', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage(), null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mainModule.OLSKRemoteStorageLauncherItemDebugFlushData(uWindow(), uStorage(), uLocalized);
+
+		deepEqual(item, {
+			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemDebugFlushData',
+			LCHRecipeName: uLocalized('OLSKRemoteStorageLauncherItemDebugFlushDataText'),
+			LCHRecipeCallback: item.LCHRecipeCallback,
+			LCHRecipeIsExcluded: item.LCHRecipeIsExcluded,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls confirm', function () {
+			const item = [];
+
+			mainModule.OLSKRemoteStorageLauncherItemDebugFlushData(uWindow({
+				confirm () {
+					item.push(...Array.from(arguments));
+				},
+			}), uStorage(), uLocalized).LCHRecipeCallback();
+
+			deepEqual(item, [uLocalized('OLSKRemoteStorageLauncherItemDebugFlushDataConfirmText')]);
+		});
+
+		it('skips flush if confirm false', function () {
+			const item = {};
+
+			mainModule.OLSKRemoteStorageLauncherItemDebugFlushData(uWindow(), uStorage({
+				alfa: {
+					__HOTFIX: {
+						__OLSKRemoteStorageHotfixFlushData () {
+							item.bravo = 'charlie';
+						},
+					},
+				},
+			}), uLocalized).LCHRecipeCallback();
+
+			deepEqual(item, {});
+		});
+
+		it('calls flush then reload', async function () {
+			const item = {};
+
+			await mainModule.OLSKRemoteStorageLauncherItemDebugFlushData(uWindow({
+				confirm () {
+					return true;
+				},
+				location: {
+					reload () {
+						item.delta = item.bravo;
+					},
+				},
+			}), uStorage({
+				alfa: {
+					__HOTFIX: {
+						async __OLSKRemoteStorageHotfixFlushData () {
+							item.bravo = 'charlie';
+						},
+					},
+				},
+			}), uLocalized).LCHRecipeCallback();
+
+			deepEqual(item, {
+				bravo: 'charlie',
+				delta: 'charlie',
+			});
+		});
+
+	});
+
+	context('LCHRecipeIsExcluded', function () {
+
+		it('returns false if storageClient.connected', function () {
+			deepEqual(mainModule.OLSKRemoteStorageLauncherItemDebugFlushData(uWindow(), uStorage({
+				connected: true,
+			}), uLocalized).LCHRecipeIsExcluded(), false);
+		});
+
+		it('returns true', function () {
+			deepEqual(mainModule.OLSKRemoteStorageLauncherItemDebugFlushData(uWindow(), uStorage(), uLocalized).LCHRecipeIsExcluded(), true);
 		});
 
 	});

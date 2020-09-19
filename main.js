@@ -591,6 +591,41 @@ const mod = {
 		};
 	},
 
+	OLSKRemoteStorageLauncherItemDebugFlushData (param1, param2, param3) {
+		if (!param1.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!param2.remote) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param3 !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemDebugFlushData',
+			LCHRecipeName: param3('OLSKRemoteStorageLauncherItemDebugFlushDataText'),
+			async LCHRecipeCallback () {
+				if (!param1.confirm(param3('OLSKRemoteStorageLauncherItemDebugFlushDataConfirmText'))) {
+					return;
+				}
+
+				await Promise.all(Object.entries(param2).filter(function (e) {
+					return e[1].__HOTFIX;
+				}).map(function (e) {
+					return e[1].__HOTFIX.__OLSKRemoteStorageHotfixFlushData();
+				}));
+
+				param1.location.reload();
+			},
+			LCHRecipeIsExcluded () {
+				return !param2.connected;
+			},
+		};
+	},
+
 	OLSKRemoteStorageRecipes (param1, param2, param3, param4) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -613,6 +648,7 @@ const mod = {
 			mod.OLSKRemoteStorageLauncherItemOpenLoginLink(param1, param2, param3),
 			mod.OLSKRemoteStorageLauncherFakeItemConnected(param2),
 			mod.OLSKRemoteStorageLauncherItemCopyLoginLink(param1, param2, param3),
+			mod.OLSKRemoteStorageLauncherItemDebugFlushData(param1, param2, param3),
 		].filter(function (e) {
 			if (param4) {
 				return true;

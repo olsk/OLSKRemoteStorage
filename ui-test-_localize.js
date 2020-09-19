@@ -45,6 +45,28 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 			it('localizes OLSKRemoteStorageLauncherItemCopyLoginLink', function () {
 				return browser.assert.OLSKLauncherItemText('OLSKRemoteStorageLauncherItemCopyLoginLink', uLocalized('OLSKRemoteStorageLauncherItemCopyLoginLinkText'));
 			});
+
+			it('localizes OLSKRemoteStorageLauncherItemDebugFlushData', function () {
+				return browser.assert.OLSKLauncherItemText('OLSKRemoteStorageLauncherItemDebugFlushData', uLocalized('OLSKRemoteStorageLauncherItemDebugFlushDataText'));
+			});
+
+			context('OLSKRemoteStorageLauncherItemDebugFlushData', function () {
+				
+				before(function () {
+					return browser.pressButton('.OLSKAppToolbarLauncherButton');
+				});
+
+				before(async function () {
+					return browser.fill('.LCHLauncherFilterInput', 'OLSKRemoteStorageLauncherItemDebugFlushData');
+				});
+				
+				it('localizes OLSKRemoteStorageLauncherItemDebugFlushDataConfirm', function () {
+					browser.assert.OLSKConfirmQuestion(function () {
+						return browser.click('.LCHLauncherPipeItem');
+					}, uLocalized('OLSKRemoteStorageLauncherItemDebugFlushDataConfirmText'));
+				});
+			
+			});
 		
 		});
 

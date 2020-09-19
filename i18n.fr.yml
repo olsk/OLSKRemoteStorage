@@ -4,3 +4,5 @@ OLSKRemoteStorageStatusError: Erreur
 OLSKRemoteStorageLauncherItemOpenLoginLinkText: Ouvrir lien d'accès
 OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText: Lien d'accès
 OLSKRemoteStorageLauncherItemCopyLoginLinkText: Copier lien d'accès privé
+OLSKRemoteStorageLauncherItemDebugFlushDataText: Flusher les données
+OLSKRemoteStorageLauncherItemDebugFlushDataConfirmText: Êtes-vous sûr.e?
