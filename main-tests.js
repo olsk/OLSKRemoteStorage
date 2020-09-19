@@ -1315,6 +1315,7 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 
 	it('returns object', function () {
 		const item = mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage(), uLocalized);
+
 		deepEqual(item, {
 			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemOpenLoginLink',
 			LCHRecipeName: uLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkText'),
@@ -1378,6 +1379,76 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 
 		it('returns false', function () {
 			deepEqual(mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage(), uLocalized).LCHRecipeIsExcluded(), false);
+		});
+
+	});
+
+});
+
+describe('OLSKRemoteStorageLauncherItemCopyLoginLink', function test_OLSKRemoteStorageLauncherItemCopyLoginLink() {
+
+	it('throws if param1 not window', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageLauncherItemCopyLoginLink({}, uStorage(), uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not storageClient', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageLauncherItemCopyLoginLink(uWindow(), {}, uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param3 not OLSKLocalized', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage(), null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mainModule.OLSKRemoteStorageLauncherItemCopyLoginLink(uWindow(), uStorage(), uLocalized);
+
+		deepEqual(item, {
+			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemCopyLoginLink',
+			LCHRecipeName: uLocalized('OLSKRemoteStorageLauncherItemCopyLoginLinkText'),
+			LCHRecipeCallback: item.LCHRecipeCallback,
+			LCHRecipeIsExcluded: item.LCHRecipeIsExcluded,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('returns LCHCopyToClipboard with link', function () {
+			deepEqual(mainModule.OLSKRemoteStorageLauncherItemCopyLoginLink(uWindow({
+				location: {
+					href: 'alfa######',
+				},
+			}), uStorage({
+				remote: {
+					userAddress: 'bravo',
+					token: 'charlie',
+				},
+			}), uLocalized).LCHRecipeCallback.call({
+				api: {
+					LCHCopyToClipboard () {
+						return Array.from(arguments);
+					},
+				},
+			}), ['alfa#remotestorage=bravo&access_token=charlie']);
+		});
+
+	});
+
+	context('LCHRecipeIsExcluded', function () {
+
+		it('returns false if storageClient.connected', function () {
+			deepEqual(mainModule.OLSKRemoteStorageLauncherItemCopyLoginLink(uWindow(), uStorage({
+				connected: true,
+			}), uLocalized).LCHRecipeIsExcluded(), false);
+		});
+
+		it('returns true', function () {
+			deepEqual(mainModule.OLSKRemoteStorageLauncherItemCopyLoginLink(uWindow(), uStorage(), uLocalized).LCHRecipeIsExcluded(), true);
 		});
 
 	});

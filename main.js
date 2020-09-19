@@ -566,6 +566,31 @@ const mod = {
 		};
 	},
 
+	OLSKRemoteStorageLauncherItemCopyLoginLink (param1, param2, param3) {
+		if (!param1.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!param2.remote) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof param3 !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemCopyLoginLink',
+			LCHRecipeName: param3('OLSKRemoteStorageLauncherItemCopyLoginLinkText'),
+			LCHRecipeCallback () {
+				return this.api.LCHCopyToClipboard(`${ param1.location.href }#remotestorage=${ param2.remote.userAddress }&access_token=${ param2.remote.token }`.replace(/#+/g, '#'));
+			},
+			LCHRecipeIsExcluded () {
+				return !param2.connected;
+			},
+		};
+	},
+
 	OLSKRemoteStorageRecipes (param1, param2, param3, param4) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -587,6 +612,7 @@ const mod = {
 			mod.OLSKRemoteStorageLauncherFakeItemProxy(),
 			mod.OLSKRemoteStorageLauncherItemOpenLoginLink(param1, param2, param3),
 			mod.OLSKRemoteStorageLauncherFakeItemConnected(param2),
+			mod.OLSKRemoteStorageLauncherItemCopyLoginLink(param1, param2, param3),
 		].filter(function (e) {
 			if (param4) {
 				return true;

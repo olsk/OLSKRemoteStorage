@@ -36,6 +36,18 @@ kDefaultRoute.OLSKRouteLanguages.forEach(function (languageCode) {
 		
 		});
 
+		context('storageClient.connected', function () {
+
+			before(function () {
+				return browser.OLSKLauncherRun('OLSKRemoteStorageLauncherFakeItemConnected');
+			});
+
+			it('localizes OLSKRemoteStorageLauncherItemCopyLoginLink', function () {
+				return browser.assert.OLSKLauncherItemText('OLSKRemoteStorageLauncherItemCopyLoginLink', uLocalized('OLSKRemoteStorageLauncherItemCopyLoginLinkText'));
+			});
+		
+		});
+
 	});
 
 });

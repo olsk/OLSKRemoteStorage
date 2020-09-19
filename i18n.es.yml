@@ -3,3 +3,4 @@ OLSKRemoteStorageStatusNetworkOffline: Sin conexión
 OLSKRemoteStorageStatusError: Error
 OLSKRemoteStorageLauncherItemOpenLoginLinkText: Abrir enlace de acceso
 OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText: Enlace de acceso
+OLSKRemoteStorageLauncherItemCopyLoginLinkText: Copiar enlace de acceso privado
