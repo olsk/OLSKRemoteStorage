@@ -14,4 +14,16 @@ describe('OLSKRemoteStorage_Access', function () {
 		return browser.assert.OLSKLauncherItems('OLSKRemoteStorageLauncherItemOpenLoginLink', 1);
 	});
 
+	context('storageClient.connected', function () {
+
+		before(function () {
+			return browser.OLSKLauncherRun('OLSKRemoteStorageLauncherFakeItemConnected');
+		});
+
+		it('hides OLSKRemoteStorageLauncherItemOpenLoginLink', function () {
+			return browser.assert.OLSKLauncherItems('OLSKRemoteStorageLauncherItemOpenLoginLink', 0);
+		});		
+	
+	});
+
 });

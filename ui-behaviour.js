@@ -1,26 +1,48 @@
-window.OLSKRemoteStorageBehaviour = {
+(function() {
+	const mod = {
 
-	// DATA
+		// VALUE
 
-	DataFakeStorageClient (inputData = {}) {
-		return Object.assign({
-			access: {
-				claim () {},
-			},
-			stopSync () {},
-			on () {},
-			connect () {},
-			disconnect () {},
-			remote: {},
-		}, inputData);
-	},
+		_ValueStorageClient: undefined,
 
-	// INTERFACE
+		// DATA
 
-	InterfaceLauncherButtonDidClick () {
-		window.Launchlet.LCHSingletonCreate({
-			LCHOptionRecipes: exports.OLSKRemoteStorageRecipes(window, this.DataFakeStorageClient(), window.OLSKLocalized),
-		});
-	},
+		DataFakeStorageClient (inputData = {}) {
+			return Object.assign({
+				access: {
+					claim () {},
+				},
+				stopSync () {},
+				on () {},
+				connect () {},
+				disconnect () {},
+				remote: {},
+			}, inputData);
+		},
 
-};
+		// INTERFACE
+
+		InterfaceLauncherButtonDidClick () {
+			window.Launchlet.LCHSingletonCreate({
+				LCHOptionRecipes: exports.OLSKRemoteStorageRecipes(window, mod._ValueStorageClient, window.OLSKLocalized, true),
+			});
+		},
+
+		// SETUP
+
+		SetupEverything () {
+			mod._ValueStorageClient = mod.DataFakeStorageClient();
+		},
+
+		// LIFECYCLE
+
+		LifecycleModuleDidLoad() {
+			mod.SetupEverything();
+		},
+
+	};
+
+	mod.LifecycleModuleDidLoad();
+
+	window.OLSKRemoteStorageBehaviour = mod;
+})();

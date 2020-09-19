@@ -551,6 +551,21 @@ const mod = {
 		};
 	},
 
+	OLSKRemoteStorageLauncherFakeItemConnected (inputData) {
+		return {
+			LCHRecipeName: 'OLSKRemoteStorageLauncherFakeItemConnected',
+			LCHRecipeCallback () {
+				Object.assign(inputData, {
+					connected: true,
+					remote: Object.assign(inputData.remote, {
+						userAddress: 'alfa',
+						token: 'bravo',
+					}),
+				});
+			},
+		};
+	},
+
 	OLSKRemoteStorageRecipes (param1, param2, param3, param4) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -571,6 +586,7 @@ const mod = {
 		return [
 			mod.OLSKRemoteStorageLauncherFakeItemProxy(),
 			mod.OLSKRemoteStorageLauncherItemOpenLoginLink(param1, param2, param3),
+			mod.OLSKRemoteStorageLauncherFakeItemConnected(param2),
 		].filter(function (e) {
 			if (param4) {
 				return true;
