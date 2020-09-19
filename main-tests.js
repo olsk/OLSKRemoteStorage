@@ -1355,18 +1355,23 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 			deepEqual(item, {});
 		});
 
-		it('sets location to prompt', function () {
+		it('sets location to prompt then calls reload', function () {
 			const item = {};
 
 			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow({
 				prompt () {
-					return 'alfa';
+					return 'bravo';
 				},
-				location: item,
+				location: {
+					href: 'alfa',
+					reload () {
+						item.charlie = this.href;
+					},
+				},
 			}), uStorage(), uLocalized).LCHRecipeCallback();
 
 			deepEqual(item, {
-				href: 'alfa',
+				charlie: 'bravo',
 			});
 		});
 

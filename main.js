@@ -544,6 +544,7 @@ const mod = {
 				}
 
 				param1.location.href = item;
+				param1.location.reload();
 			},
 			LCHRecipeIsExcluded () {
 				return !!param2.connected;
