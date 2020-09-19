@@ -1272,7 +1272,6 @@ describe('OLSKRemoteStorageLauncherFakeItemProxy', function test_OLSKRemoteStora
 	it('returns object', function () {
 		const item = mainModule.OLSKRemoteStorageLauncherFakeItemProxy();
 		deepEqual(item, {
-			LCHRecipeSignature: 'OLSKRemoteStorageLauncherFakeItemProxy',
 			LCHRecipeName: 'OLSKRemoteStorageLauncherFakeItemProxy',
 			LCHRecipeCallback: item.LCHRecipeCallback,
 		});
@@ -1386,7 +1385,7 @@ describe('OLSKRemoteStorageRecipes', function test_OLSKRemoteStorageRecipes() {
 
 	it('includes all recipes', function () {
 		deepEqual(mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), uLocalized).map(function (e) {
-			return e.LCHRecipeSignature;
+			return e.LCHRecipeSignature || e.LCHRecipeName;
 		}), Object.keys(mainModule).filter(function (e) {
 			return e.match(/Launcher/) && !e.match(/Callback$/);
 		}));

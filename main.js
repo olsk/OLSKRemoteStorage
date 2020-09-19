@@ -515,7 +515,6 @@ const mod = {
 
 	OLSKRemoteStorageLauncherFakeItemProxy () {
 		return {
-			LCHRecipeSignature: 'OLSKRemoteStorageLauncherFakeItemProxy',
 			LCHRecipeName: 'OLSKRemoteStorageLauncherFakeItemProxy',
 			LCHRecipeCallback () {},
 		};
