@@ -9,6 +9,12 @@ const uWindow = function (inputData = {}) {
 	}, inputData);
 };
 
+const uStorage = function (inputData = {}) {
+	return Object.assign({
+		remote: {},
+	}, inputData);
+};
+
 const uLocalized = function (inputData) {
 	return inputData + 'LOCALIZED';
 };
@@ -1291,29 +1297,36 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 
 	it('throws if param1 not window', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink({}, uLocalized);
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink({}, uStorage(), uLocalized);
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if param2 not OLSKLocalized', function () {
+	it('throws if param2 not storageClient', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), null);
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), {}, uLocalized);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param3 not OLSKLocalized', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage(), null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		const item = mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uLocalized);
+		const item = mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage(), uLocalized);
 		deepEqual(item, {
 			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemOpenLoginLink',
 			LCHRecipeName: uLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkText'),
 			LCHRecipeCallback: item.LCHRecipeCallback,
+			LCHRecipeIsExcluded: item.LCHRecipeIsExcluded,
 		});
 	});
 
 	context('LCHRecipeCallback', function () {
 
 		it('returns undefined', function () {
-			deepEqual(mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uLocalized).LCHRecipeCallback(), undefined);
+			deepEqual(mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage(), uLocalized).LCHRecipeCallback(), undefined);
 		});
 
 		it('calls prompt', function () {
@@ -1323,7 +1336,7 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 				prompt () {
 					item.push(...Array.from(arguments));
 				},
-			}), uLocalized).LCHRecipeCallback();
+			}), uStorage(), uLocalized).LCHRecipeCallback();
 
 			deepEqual(item, [uLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText')]);
 		});
@@ -1333,7 +1346,7 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 
 			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow({
 				location: item,
-			}), uLocalized).LCHRecipeCallback();
+			}), uStorage(), uLocalized).LCHRecipeCallback();
 
 			deepEqual(item, {});
 		});
@@ -1346,7 +1359,7 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 					return 'alfa';
 				},
 				location: item,
-			}), uLocalized).LCHRecipeCallback();
+			}), uStorage(), uLocalized).LCHRecipeCallback();
 
 			deepEqual(item, {
 				href: 'alfa',
@@ -1355,15 +1368,23 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 
 	});
 
+	context('LCHRecipeIsExcluded', function () {
+
+		it('returns true if storageClient.connected', function () {
+			deepEqual(mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage({
+				connected: true,
+			}), uLocalized).LCHRecipeIsExcluded(), true);
+		});
+
+		it('returns false', function () {
+			deepEqual(mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage(), uLocalized).LCHRecipeIsExcluded(), false);
+		});
+
+	});
+
 });
 
 describe('OLSKRemoteStorageRecipes', function test_OLSKRemoteStorageRecipes() {
-
-	const uStorage = function (inputData = {}) {
-		return Object.assign({
-			remote: {},
-		}, inputData);
-	};
 
 	it('throws if param1 not window', function () {
 		throws(function () {
