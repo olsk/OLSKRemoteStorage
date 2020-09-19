@@ -1388,28 +1388,46 @@ describe('OLSKRemoteStorageRecipes', function test_OLSKRemoteStorageRecipes() {
 
 	it('throws if param1 not window', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageRecipes({}, uStorage(), uLocalized);
+			mainModule.OLSKRemoteStorageRecipes({}, uStorage(), uLocalized, true);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param2 not storageClient', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageRecipes(uWindow(), {}, uLocalized);
+			mainModule.OLSKRemoteStorageRecipes(uWindow(), {}, uLocalized, true);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param3 not OLSKLocalized', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), null);
+			mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), null, true);
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('includes all recipes', function () {
-		deepEqual(mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), uLocalized).map(function (e) {
+	it('throws if param4 not boolean', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), uLocalized, null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('includes production recipes', function () {
+		deepEqual(mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), uLocalized, false).map(function (e) {
 			return e.LCHRecipeSignature || e.LCHRecipeName;
 		}), Object.keys(mainModule).filter(function (e) {
-			return e.match(/Launcher/) && !e.match(/Callback$/);
+			return e.match(/Launcher/) && !e.match(/Fake/);
 		}));
+	});
+
+	context('OLSK_IS_TESTING_BEHAVIOUR', function () {
+
+		it('includes all recipes', function () {
+			deepEqual(mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), uLocalized, true).map(function (e) {
+				return e.LCHRecipeSignature || e.LCHRecipeName;
+			}), Object.keys(mainModule).filter(function (e) {
+				return e.match(/Launcher/);
+			}));
+		});
+	
 	});
 
 });

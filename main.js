@@ -551,7 +551,7 @@ const mod = {
 		};
 	},
 
-	OLSKRemoteStorageRecipes (param1, param2, param3) {
+	OLSKRemoteStorageRecipes (param1, param2, param3, param4) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -564,10 +564,20 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof param4 !== 'boolean') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
 		return [
 			mod.OLSKRemoteStorageLauncherFakeItemProxy(),
 			mod.OLSKRemoteStorageLauncherItemOpenLoginLink(param1, param2, param3),
-		];
+		].filter(function (e) {
+			if (param4) {
+				return true;
+			}
+
+			return !(e.LCHRecipeSignature || e.LCHRecipeName).match(/Fake/);
+		});
 	},
 
 };
