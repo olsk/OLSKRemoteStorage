@@ -520,7 +520,7 @@ const mod = {
 		};
 	},
 
-	OLSKRemoteStorageLauncherItemOpenLoginLink (param1, param2, param3) {
+	OLSKRemoteStorageLauncherItemOpenLoginLink (param1, param2, OLSKLocalized) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -529,15 +529,15 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof param3 !== 'function') {
+		if (typeof OLSKLocalized !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemOpenLoginLink',
-			LCHRecipeName: param3('OLSKRemoteStorageLauncherItemOpenLoginLinkText'),
+			LCHRecipeName: OLSKLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkText'),
 			LCHRecipeCallback () {
-				const item = param1.prompt(param3('OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText'));
+				const item = param1.prompt(OLSKLocalized('OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText'));
 
 				if (!item) {
 					return;
@@ -566,7 +566,7 @@ const mod = {
 		};
 	},
 
-	OLSKRemoteStorageLauncherItemCopyLoginLink (param1, param2, param3) {
+	OLSKRemoteStorageLauncherItemCopyLoginLink (param1, param2, OLSKLocalized) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -575,13 +575,13 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof param3 !== 'function') {
+		if (typeof OLSKLocalized !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemCopyLoginLink',
-			LCHRecipeName: param3('OLSKRemoteStorageLauncherItemCopyLoginLinkText'),
+			LCHRecipeName: OLSKLocalized('OLSKRemoteStorageLauncherItemCopyLoginLinkText'),
 			LCHRecipeCallback () {
 				return this.api.LCHCopyToClipboard(`${ param1.location.href }#remotestorage=${ param2.remote.userAddress }&access_token=${ param2.remote.token }`.replace(/#+/g, '#'));
 			},
@@ -591,7 +591,7 @@ const mod = {
 		};
 	},
 
-	OLSKRemoteStorageLauncherItemDebugFlushData (param1, param2, param3) {
+	OLSKRemoteStorageLauncherItemDebugFlushData (param1, param2, OLSKLocalized) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -600,15 +600,15 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof param3 !== 'function') {
+		if (typeof OLSKLocalized !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeSignature: 'OLSKRemoteStorageLauncherItemDebugFlushData',
-			LCHRecipeName: param3('OLSKRemoteStorageLauncherItemDebugFlushDataText'),
+			LCHRecipeName: OLSKLocalized('OLSKRemoteStorageLauncherItemDebugFlushDataText'),
 			async LCHRecipeCallback () {
-				if (!param1.confirm(param3('OLSKRemoteStorageLauncherItemDebugFlushDataConfirmText'))) {
+				if (!param1.confirm(OLSKLocalized('OLSKRemoteStorageLauncherItemDebugFlushDataConfirmText'))) {
 					return;
 				}
 
