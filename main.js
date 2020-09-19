@@ -613,13 +613,13 @@ const mod = {
 					return;
 				}
 
-				await Promise.all(Object.entries(param2).filter(function (e) {
-					return e[1].__HOTFIX;
+				await Promise.all(Object.getOwnPropertyNames(param2).filter(function (e) {
+					return param2[e].__HOTFIX;
 				}).map(function (e) {
-					return e[1].__HOTFIX.__OLSKRemoteStorageHotfixFlushData();
+					return param2[e].__HOTFIX.__OLSKRemoteStorageHotfixFlushData();
 				}));
 
-				param1.location.reload();
+				param1.location.reload()
 			},
 			LCHRecipeIsExcluded () {
 				return !param2.connected;
