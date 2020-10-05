@@ -619,7 +619,11 @@ const mod = {
 					return param2[e].__HOTFIX.__OLSKRemoteStorageHotfixFlushData();
 				}));
 
-				param1.location.reload()
+				return new Promise(function (res, rej) {
+					setTimeout(function() {
+						res(param1.location.reload());
+					}, 1000);
+				});
 			},
 			LCHRecipeIsExcluded () {
 				return !param2.connected;
