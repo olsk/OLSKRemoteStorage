@@ -1514,9 +1514,9 @@ describe('OLSKRemoteStorageLauncherItemDebugFlushData', function test_OLSKRemote
 			mainModule.OLSKRemoteStorageLauncherItemDebugFlushData(uWindow(), uStorage({
 				alfa: {
 					__HOTFIX: {
-						__OLSKRemoteStorageHotfixFlushData () {
+						__OLSKRemoteStorageHotfixFlushData: (function () {
 							item.bravo = 'charlie';
-						},
+						}),
 					},
 				},
 			}), uLocalized).LCHRecipeCallback();
@@ -1539,9 +1539,9 @@ describe('OLSKRemoteStorageLauncherItemDebugFlushData', function test_OLSKRemote
 			}), uStorage({
 				alfa: {
 					__HOTFIX: {
-						async __OLSKRemoteStorageHotfixFlushData () {
+						__OLSKRemoteStorageHotfixFlushData: (async function () {
 							item.bravo = 'charlie';
-						},
+						}),
 					},
 				},
 			}), uLocalized).LCHRecipeCallback();
