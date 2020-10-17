@@ -1338,7 +1338,7 @@ describe('OLSKRemoteStorageLauncherItemOpenLoginLink', function test_OLSKRemoteS
 
 			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow({
 				prompt () {
-					item.push(...Array.from(arguments));
+					item.push(...arguments);
 				},
 			}), uStorage(), uLocalized).LCHRecipeCallback();
 
@@ -1501,7 +1501,7 @@ describe('OLSKRemoteStorageLauncherItemDebugFlushData', function test_OLSKRemote
 
 			mainModule.OLSKRemoteStorageLauncherItemDebugFlushData(uWindow({
 				confirm () {
-					item.push(...Array.from(arguments));
+					item.push(...arguments);
 				},
 			}), uStorage(), uLocalized).LCHRecipeCallback();
 
