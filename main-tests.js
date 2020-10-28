@@ -1409,7 +1409,7 @@ describe('OLSKRemoteStorageLauncherItemCopyLoginLink', function test_OLSKRemoteS
 
 	it('throws if param3 not OLSKLocalized', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageLauncherItemOpenLoginLink(uWindow(), uStorage(), null);
+			mainModule.OLSKRemoteStorageLauncherItemCopyLoginLink(uWindow(), uStorage(), null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
