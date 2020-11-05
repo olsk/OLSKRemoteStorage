@@ -1,6 +1,7 @@
 OLSKRemoteStorageStatusOnline: Online
 OLSKRemoteStorageStatusNetworkOffline: Offline
 OLSKRemoteStorageStatusError: Error
+OLSKRemoteStorageConnectConfirmText: Connect your storage to continue. Would you like to do this now?
 OLSKRemoteStorageLauncherItemOpenLoginLinkText: Open access link
 OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText: Access link
 OLSKRemoteStorageLauncherItemCopyLoginLinkText: Copy private access link
