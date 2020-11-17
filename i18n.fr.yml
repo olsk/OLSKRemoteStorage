@@ -1,9 +1,9 @@
 OLSKRemoteStorageStatusOnline: En ligne
 OLSKRemoteStorageStatusNetworkOffline: Hors connexion
 OLSKRemoteStorageStatusError: Erreur
-OLSKRemoteStorageConnectConfirmText: Veuillez brancher votre stockage afin de continuer. Souhaitez-vous faire ça maintenant?
+OLSKRemoteStorageConnectConfirmText: Veuillez brancher votre stockage afin de continuer. Souhaitez-vous faire ça maintenant ?
 OLSKRemoteStorageLauncherItemOpenLoginLinkText: Ouvrir lien d'accès
 OLSKRemoteStorageLauncherItemOpenLoginLinkPromptText: Lien d'accès
 OLSKRemoteStorageLauncherItemCopyLoginLinkText: Copier lien d'accès privé
 OLSKRemoteStorageLauncherItemDebugFlushDataText: Flusher les données
-OLSKRemoteStorageLauncherItemDebugFlushDataConfirmText: Êtes-vous sûr.e?
+OLSKRemoteStorageLauncherItemDebugFlushDataConfirmText: Êtes-vous sûr.e ?
