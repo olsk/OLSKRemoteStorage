@@ -533,7 +533,7 @@ const mod = {
 					
 					delete inputData.__ValueOLSKRemoteStorage;
 
-					return;
+					return inputData.OLSKRemoteStorageLauncherItemFakeFlipConnectedDidFinish();
 				}
 				inputData.__ValueOLSKRemoteStorage = inputData._ValueOLSKRemoteStorage;
 
@@ -547,6 +547,8 @@ const mod = {
 					userAddress: 'OLSK_REMOTE_STORAGE_FAKE_REMOTE_ADDRESS',
 					token: 'OLSK_REMOTE_STORAGE_FAKE_REMOTE_TOKEN',
 				});
+
+				inputData.OLSKRemoteStorageLauncherItemFakeFlipConnectedDidFinish();
 
 				if (typeof window !== 'undefined') {
 					window.FakeOLSKConnected = true;
