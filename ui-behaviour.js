@@ -3,7 +3,7 @@
 
 		// VALUE
 
-		_ValueStorageClient: undefined,
+		_ValueOLSKRemoteStorage: undefined,
 
 		// DATA
 
@@ -24,14 +24,14 @@
 
 		InterfaceLauncherButtonDidClick () {
 			window.Launchlet.LCHSingletonCreate({
-				LCHOptionRecipes: exports.OLSKRemoteStorageRecipes(window, mod._ValueStorageClient, window.OLSKLocalized, true),
+				LCHOptionRecipes: exports.OLSKRemoteStorageRecipes(window, mod._ValueOLSKRemoteStorage, window.OLSKLocalized, true),
 			});
 		},
 
 		// SETUP
 
 		SetupEverything () {
-			mod._ValueStorageClient = mod.DataFakeStorageClient();
+			mod._ValueOLSKRemoteStorage = mod.DataFakeStorageClient();
 		},
 
 		// LIFECYCLE
