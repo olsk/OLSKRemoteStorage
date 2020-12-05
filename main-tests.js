@@ -1572,32 +1572,40 @@ describe('OLSKRemoteStorageLauncherItemDebugFlushData', function test_OLSKRemote
 
 describe('OLSKRemoteStorageRecipes', function test_OLSKRemoteStorageRecipes() {
 
-	it('throws if param1 not window', function () {
+	const _OLSKRemoteStorageRecipes = function (inputData = {}) {
+		return mainModule.OLSKRemoteStorageRecipes(Object.assign({
+			ParamWindow: uWindow(),
+			ParamStorage: uStorage(),
+			OLSKLocalized: uLocalized,
+			ParamMod: {},
+			ParamSpecUI: false,
+		}, inputData))
+	};
+
+	it('throws if not object', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageRecipes({}, uStorage(), uLocalized, true);
+			mainModule.OLSKRemoteStorageRecipes(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if param2 not storageClient', function () {
+	it('throws if ParamMod not object', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageRecipes(uWindow(), {}, uLocalized, true);
+			_OLSKRemoteStorageRecipes({
+				ParamMod: null,
+			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if param3 not OLSKLocalized', function () {
+	it('throws if ParamSpecUI not boolean', function () {
 		throws(function () {
-			mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), null, true);
-		}, /OLSKErrorInputNotValid/);
-	});
-
-	it('throws if param4 not boolean', function () {
-		throws(function () {
-			mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), uLocalized, null);
+			_OLSKRemoteStorageRecipes({
+				ParamSpecUI: null,
+			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('includes production recipes', function () {
-		deepEqual(mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), uLocalized, false).map(function (e) {
+		deepEqual(_OLSKRemoteStorageRecipes().map(function (e) {
 			return e.LCHRecipeSignature || e.LCHRecipeName;
 		}), Object.keys(mainModule).filter(function (e) {
 			return e.match(/Launcher/) && !e.match(/Fake/);
@@ -1607,7 +1615,9 @@ describe('OLSKRemoteStorageRecipes', function test_OLSKRemoteStorageRecipes() {
 	context('OLSK_IS_TESTING_BEHAVIOUR', function () {
 
 		it('includes all recipes', function () {
-			deepEqual(mainModule.OLSKRemoteStorageRecipes(uWindow(), uStorage(), uLocalized, true).map(function (e) {
+			deepEqual(_OLSKRemoteStorageRecipes({
+				ParamSpecUI: true,
+			}).map(function (e) {
 				return e.LCHRecipeSignature || e.LCHRecipeName;
 			}), Object.keys(mainModule).filter(function (e) {
 				return e.match(/Launcher/);

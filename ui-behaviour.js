@@ -24,7 +24,13 @@
 
 		InterfaceLauncherButtonDidClick () {
 			window.Launchlet.LCHSingletonCreate({
-				LCHOptionRecipes: exports.OLSKRemoteStorageRecipes(window, mod._ValueOLSKRemoteStorage, window.OLSKLocalized, true),
+				LCHOptionRecipes: exports.OLSKRemoteStorageRecipes({
+					ParamWindow: window,
+					ParamStorage: mod._ValueOLSKRemoteStorage,
+					OLSKLocalized: window.OLSKLocalized,
+					ParamMod: mod,
+					ParamSpecUI: true,
+				}),
 			});
 		},
 
