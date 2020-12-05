@@ -39,7 +39,7 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 		context('storageClient.connected', function () {
 
 			before(function () {
-				return browser.OLSKLauncherRun('OLSKRemoteStorageLauncherFakeItemConnected');
+				return browser.OLSKLauncherRun('OLSKRemoteStorageLauncherItemFakeFlipConnected');
 			});
 
 			it('localizes OLSKRemoteStorageLauncherItemCopyLoginLink', function () {

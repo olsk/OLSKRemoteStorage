@@ -14,6 +14,11 @@ const uWindow = function (inputData = {}) {
 
 const uStorage = function (inputData = {}) {
 	return Object.assign({
+		access: {
+			scopes: [{
+				name: Math.random().toString(),
+			}],
+		},
 		remote: {},
 	}, inputData);
 };
@@ -1290,6 +1295,72 @@ describe('OLSKRemoteStorageLauncherFakeItemProxy', function test_OLSKRemoteStora
 		
 		it('returns undefined', function () {
 			deepEqual(mainModule.OLSKRemoteStorageLauncherFakeItemProxy().LCHRecipeCallback(), undefined);
+		});
+
+	});
+
+});
+
+describe('OLSKRemoteStorageLauncherItemFakeFlipConnected', function test_OLSKRemoteStorageLauncherItemFakeFlipConnected() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mainModule.OLSKRemoteStorageLauncherItemFakeFlipConnected(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mainModule.OLSKRemoteStorageLauncherItemFakeFlipConnected({});
+		deepEqual(item, {
+			LCHRecipeName: 'OLSKRemoteStorageLauncherItemFakeFlipConnected',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+		
+		it('moves _ValueOLSKRemoteStorage to __ValueOLSKRemoteStorage', function () {
+			const _ValueOLSKRemoteStorage = uStorage();
+
+			const item = {
+				_ValueOLSKRemoteStorage,
+			};
+
+			mainModule.OLSKRemoteStorageLauncherItemFakeFlipConnected(item).LCHRecipeCallback();
+
+			deepEqual(item.__ValueOLSKRemoteStorage, _ValueOLSKRemoteStorage);
+		});
+		
+		it('sets _ValueOLSKRemoteStorage', function () {
+			const mod = {
+				_ValueOLSKRemoteStorage: uStorage(),
+			};
+
+			mainModule.OLSKRemoteStorageLauncherItemFakeFlipConnected(mod).LCHRecipeCallback();
+
+			deepEqual(mod._ValueOLSKRemoteStorage, mod.__ValueOLSKRemoteStorage.access.scopes.reduce(function (coll, item) {
+					return Object.assign(coll, {
+						[item.name]: mod.__ValueOLSKRemoteStorage[item.name],
+					});
+				}, uStorage({
+				access: mod.__ValueOLSKRemoteStorage.access,
+				connected: true,
+				remote: {
+					userAddress: 'OLSK_REMOTE_STORAGE_FAKE_REMOTE_ADDRESS',
+					token: 'OLSK_REMOTE_STORAGE_FAKE_REMOTE_TOKEN',
+				},
+			})));
+		});
+		
+		it('unsets _ValueOLSKRemoteStorage if __ValueOLSKRemoteStorage', function () {
+			const __ValueOLSKRemoteStorage =uStorage();
+			const item = {
+				__ValueOLSKRemoteStorage,
+			};
+
+			mainModule.OLSKRemoteStorageLauncherItemFakeFlipConnected(item).LCHRecipeCallback();
+
+			deepEqual(item._ValueOLSKRemoteStorage, __ValueOLSKRemoteStorage);
 		});
 
 	});

@@ -21,7 +21,7 @@ describe('OLSKRemoteStorage_Access', function () {
 	context('storageClient.connected', function () {
 
 		before(function () {
-			return browser.OLSKLauncherRun('OLSKRemoteStorageLauncherFakeItemConnected');
+			return browser.OLSKLauncherRun('OLSKRemoteStorageLauncherItemFakeFlipConnected');
 		});
 
 		it('hides OLSKRemoteStorageLauncherItemOpenLoginLink', function () {

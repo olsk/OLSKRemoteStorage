@@ -520,6 +520,41 @@ const mod = {
 		};
 	},
 
+	OLSKRemoteStorageLauncherItemFakeFlipConnected (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'OLSKRemoteStorageLauncherItemFakeFlipConnected',
+			LCHRecipeCallback () {
+				if (inputData.__ValueOLSKRemoteStorage) {
+					inputData._ValueOLSKRemoteStorage = inputData.__ValueOLSKRemoteStorage;
+					
+					delete inputData.__ValueOLSKRemoteStorage;
+
+					return;
+				}
+				inputData.__ValueOLSKRemoteStorage = inputData._ValueOLSKRemoteStorage;
+
+				inputData._ValueOLSKRemoteStorage = (inputData.__ValueOLSKRemoteStorage.access.scopes || []).reduce(function (coll, item) {
+					return Object.assign(coll, {
+						[item.name]: inputData.__ValueOLSKRemoteStorage[item.name],
+					});
+				}, Object.assign({}, inputData.__ValueOLSKRemoteStorage));
+				inputData._ValueOLSKRemoteStorage.connected = true;
+				inputData._ValueOLSKRemoteStorage.remote = Object.assign(inputData._ValueOLSKRemoteStorage.remote, {
+					userAddress: 'OLSK_REMOTE_STORAGE_FAKE_REMOTE_ADDRESS',
+					token: 'OLSK_REMOTE_STORAGE_FAKE_REMOTE_TOKEN',
+				});
+
+				if (typeof window !== 'undefined') {
+					window.FakeOLSKConnected = true;
+				}
+			},
+		};
+	},
+
 	OLSKRemoteStorageLauncherItemOpenLoginLink (param1, param2, OLSKLocalized) {
 		if (!param1.location) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -548,21 +583,6 @@ const mod = {
 			},
 			LCHRecipeIsExcluded () {
 				return !!param2.connected;
-			},
-		};
-	},
-
-	OLSKRemoteStorageLauncherFakeItemConnected (inputData) {
-		return {
-			LCHRecipeName: 'OLSKRemoteStorageLauncherFakeItemConnected',
-			LCHRecipeCallback () {
-				Object.assign(inputData, {
-					connected: true,
-					remote: Object.assign(inputData.remote, {
-						userAddress: 'alfa',
-						token: 'bravo',
-					}),
-				});
 			},
 		};
 	},
@@ -646,8 +666,8 @@ const mod = {
 
 		return [
 			mod.OLSKRemoteStorageLauncherFakeItemProxy(),
+			mod.OLSKRemoteStorageLauncherItemFakeFlipConnected(params.ParamMod),
 			mod.OLSKRemoteStorageLauncherItemOpenLoginLink(params.ParamWindow, params.ParamStorage, params.OLSKLocalized),
-			mod.OLSKRemoteStorageLauncherFakeItemConnected(params.ParamStorage),
 			mod.OLSKRemoteStorageLauncherItemCopyLoginLink(params.ParamWindow, params.ParamStorage, params.OLSKLocalized),
 			mod.OLSKRemoteStorageLauncherItemDebugFlushData(params.ParamWindow, params.ParamStorage, params.OLSKLocalized),
 		].filter(function (e) {
