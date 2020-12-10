@@ -1686,7 +1686,7 @@ describe('OLSKRemoteStorageRecipes', function test_OLSKRemoteStorageRecipes() {
 		}));
 	});
 
-	context('OLSK_IS_TESTING_BEHAVIOUR', function () {
+	context('ParamSpecUI', function () {
 
 		it('includes all recipes', function () {
 			deepEqual(_OLSKRemoteStorageRecipes({
