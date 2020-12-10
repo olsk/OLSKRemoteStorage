@@ -1153,7 +1153,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 		it('initializes param1', function () {
 			const item = [];
 			const remotestoragejs = function () {
-			  item.push(Array.from(arguments));
+			  item.push(...arguments);
 
 			  Object.assign(this, new (uStorage()));
 			};
@@ -1172,7 +1172,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 			uQueryFunction(uStorage({
 				access: {
 					claim () {
-					  item.push(Array.from(arguments));
+					  item.push(...arguments);
 					},
 				},
 			}))(function () {});
@@ -1184,7 +1184,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 			const item = [];
 			uQueryFunction(uStorage({
 				stopSync () {
-				  item.push(Array.from(arguments));
+				  item.push(...arguments);
 				},
 			}))(function () {});
 
@@ -1225,7 +1225,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 			const item = [];
 			uQueryFunction(uStorage({
 				connect () {
-				  item.push(Array.from(arguments));
+				  item.push(...arguments);
 				},
 			}), uModule(), 'alfa', 'bravo')(function () {});
 
@@ -1252,7 +1252,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 			const item = [];
 			uQueryFunction(uStorage({
 				connect () {
-				  item.push(Array.from(arguments));
+				  item.push(...arguments);
 				},
 			}), uModule(), 'alfa', 'bravo')(function () {});
 
@@ -1270,7 +1270,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 				  map.connected();
 				},
 				disconnect () {
-				  item.push(Array.from(arguments));
+				  item.push(...arguments);
 				},
 			}))(function () {});
 
@@ -1510,7 +1510,7 @@ describe('OLSKRemoteStorageLauncherItemCopyLoginLink', function test_OLSKRemoteS
 			}), uLocalized).LCHRecipeCallback.call({
 				api: {
 					LCHCopyToClipboard () {
-						return Array.from(arguments);
+						return [...arguments];
 					},
 				},
 			}), ['alfa#remotestorage=bravo&access_token=charlie']);
