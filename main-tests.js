@@ -1153,7 +1153,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 		it('initializes param1', function () {
 			const item = [];
 			const remotestoragejs = function () {
-			  item.push(...arguments);
+			  item.push([...arguments]);
 
 			  Object.assign(this, new (uStorage()));
 			};
@@ -1172,7 +1172,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 			uQueryFunction(uStorage({
 				access: {
 					claim () {
-					  item.push(...arguments);
+					  item.push([...arguments]);
 					},
 				},
 			}))(function () {});
@@ -1184,7 +1184,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 			const item = [];
 			uQueryFunction(uStorage({
 				stopSync () {
-				  item.push(...arguments);
+				  item.push([...arguments]);
 				},
 			}))(function () {});
 
@@ -1225,7 +1225,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 			const item = [];
 			uQueryFunction(uStorage({
 				connect () {
-				  item.push(...arguments);
+				  item.push([...arguments]);
 				},
 			}), uModule(), 'alfa', 'bravo')(function () {});
 
@@ -1252,7 +1252,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 			const item = [];
 			uQueryFunction(uStorage({
 				connect () {
-				  item.push(...arguments);
+				  item.push([...arguments]);
 				},
 			}), uModule(), 'alfa', 'bravo')(function () {});
 
@@ -1270,7 +1270,7 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 				  map.connected();
 				},
 				disconnect () {
-				  item.push(...arguments);
+				  item.push([...arguments]);
 				},
 			}))(function () {});
 
@@ -1324,6 +1324,7 @@ describe('OLSKRemoteStorageLauncherItemFakeFlipConnected', function test_OLSKRem
 
 			const item = {
 				_ValueOLSKRemoteStorage,
+				OLSKRemoteStorageLauncherItemFakeFlipConnectedDidFinish: (function () {}),
 			};
 
 			mainModule.OLSKRemoteStorageLauncherItemFakeFlipConnected(item).LCHRecipeCallback();
@@ -1334,6 +1335,7 @@ describe('OLSKRemoteStorageLauncherItemFakeFlipConnected', function test_OLSKRem
 		it('sets _ValueOLSKRemoteStorage', function () {
 			const mod = {
 				_ValueOLSKRemoteStorage: uStorage(),
+				OLSKRemoteStorageLauncherItemFakeFlipConnectedDidFinish: (function () {}),
 			};
 
 			mainModule.OLSKRemoteStorageLauncherItemFakeFlipConnected(mod).LCHRecipeCallback();
@@ -1356,6 +1358,7 @@ describe('OLSKRemoteStorageLauncherItemFakeFlipConnected', function test_OLSKRem
 			const __ValueOLSKRemoteStorage =uStorage();
 			const item = {
 				__ValueOLSKRemoteStorage,
+				OLSKRemoteStorageLauncherItemFakeFlipConnectedDidFinish: (function () {}),
 			};
 
 			mainModule.OLSKRemoteStorageLauncherItemFakeFlipConnected(item).LCHRecipeCallback();
