@@ -1,9 +1,9 @@
 const RemoteStorage = require('remotestoragejs');
 
-const mainModule = require('./main.js');
+const mod = require('./main.js');
 
 (function OLSKMochaStorage() {
-	const storageModule = mainModule.OLSKRemoteStorageDataModuleGenerator('test_module', {
+	const storageModule = mod.OLSKRemoteStorageDataModuleGenerator('test_module', {
 		OLSKOptionIncludeDebug: true,
 	})([function (privateClient, publicClient, changeDelegate) {
 		return {
@@ -20,7 +20,7 @@ const mainModule = require('./main.js');
 	});
 
 	beforeEach(function() {
-		return mainModule._TestReset(global.OLSKTestingStorageModule);
+		return mod._TestReset(global.OLSKTestingStorageModule);
 	});
 })();
 
