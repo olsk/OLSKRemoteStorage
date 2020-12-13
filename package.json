@@ -2,7 +2,7 @@
   "name": "OLSKRemoteStorage",
   "main": "main.js",
   "dependencies": {
-    "remotestoragejs": "latest",
+    "remotestoragejs": "1.x",
 
     "// I sacrifice myself for the commas of others": null    
   }
