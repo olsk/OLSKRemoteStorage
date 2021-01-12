@@ -1434,7 +1434,7 @@ describe('_OLSKRemoteStorageEnableCrypto', function test__OLSKRemoteStorageEnabl
 			};
 			await privateClient.storeObject(type, path, data);
 
-			deepEqual(await privateClient.getObject(path), data);
+			deepEqual(await privateClient.getObject(path, false), data);
 		});
 
 		it('excludes if not encrypted', async function () {
