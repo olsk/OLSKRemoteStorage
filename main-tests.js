@@ -1281,6 +1281,179 @@ describe('OLSKRemoteStorageQueryFunction', function test_OLSKRemoteStorageQueryF
 
 });
 
+describe('_OLSKRemoteStorageEnableCrypto', function test__OLSKRemoteStorageEnableCrypto() {
+
+	const uEncrypt = function (inputData) {
+		return inputData + 'ENCRYPTED';
+	};
+
+	const uDecrypt = function (inputData) {
+		return inputData.split('ENCRYPTED').join('');
+	};
+
+	const __OLSKRemoteStorageEnableCrypto = function () {
+		return mod._OLSKRemoteStorageEnableCrypto(mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModuleFresh()), uEncrypt, uDecrypt);
+	};
+
+	it('throws if param1 not privateClient', function () {
+		throws(function () {
+			mod._OLSKRemoteStorageEnableCrypto({}, uEncrypt, uDecrypt);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param2 not function', function () {
+		throws(function () {
+			mod._OLSKRemoteStorageEnableCrypto(mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModuleFresh()), null, uDecrypt);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if param3 not function', function () {
+		throws(function () {
+			mod._OLSKRemoteStorageEnableCrypto(mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModuleFresh()), uEncrypt, null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('backs up data operations', function () {
+		const privateClient = mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModuleFresh());
+
+		const backup = {
+			storeFile: privateClient.storeFile,
+			getFile: privateClient.getFile,
+			storeObject: privateClient.storeObject,
+			getObject: privateClient.getObject,
+			getAll: privateClient.getAll,
+		};
+
+		const item = mod._OLSKRemoteStorageEnableCrypto(privateClient, uEncrypt, uDecrypt);
+
+		deepEqual(item._OLSKBackupStoreFile, backup.storeFile);
+		deepEqual(item._OLSKBackupGetFile, backup.getFile);
+		deepEqual(item._OLSKBackupStoreObject, backup.storeObject);
+		deepEqual(item._OLSKBackupGetObject, backup.getObject);
+		deepEqual(item._OLSKBackupGetAll, backup.getAll);
+	});
+
+	context('storeFile', function () {
+		
+		it('calls param2', async function () {
+			const privateClient = __OLSKRemoteStorageEnableCrypto();
+			const contentType = Math.random().toString();
+			const path = Math.random().toString();
+			const data = Math.random().toString();
+			await privateClient.storeFile(contentType, path, data);
+
+			deepEqual(await privateClient._OLSKBackupGetFile(path), {
+				contentType: 'multipart/encrypted',
+				data: uEncrypt(JSON.stringify({
+					type: contentType,
+					data,
+				})),
+				revision: undefined,
+			});
+		});
+	
+	});
+
+	context('getFile', function () {
+		
+		it('calls param3', async function () {
+			const privateClient = __OLSKRemoteStorageEnableCrypto();
+			const contentType = Math.random().toString();
+			const path = Math.random().toString();
+			const data = Math.random().toString();
+			await privateClient.storeFile(contentType, path, data);
+
+			deepEqual(await privateClient.getFile(path), {
+				contentType,
+				data,
+				revision: undefined,
+			});
+		});
+
+		it('passes if not encrypted', async function () {
+			const privateClient = __OLSKRemoteStorageEnableCrypto();
+			const path = Math.random().toString();
+			await privateClient._OLSKBackupStoreFile(Math.random().toString(), path, Math.random().toString());
+
+			deepEqual(await privateClient.getFile(path), {
+				contentType: undefined,
+				data: undefined,
+				revision: undefined,
+			});
+		});
+	
+	});
+
+	context('storeObject', function () {
+		
+		it('calls param2', async function () {
+			const privateClient = __OLSKRemoteStorageEnableCrypto();
+			const type = Math.random().toString();
+			const path = Math.random().toString();
+			const data = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
+			await privateClient.storeObject(type, path, data);
+
+			deepEqual(await privateClient._OLSKBackupGetFile(path), {
+				contentType: 'multipart/encrypted',
+				data: uEncrypt(JSON.stringify({
+					type,
+					data,
+				})),
+				revision: undefined,
+			});
+		});
+	
+	});
+
+	context('getObject', function () {
+		
+		it('calls param3', async function () {
+			const privateClient = __OLSKRemoteStorageEnableCrypto();
+			const type = Math.random().toString();
+			const path = Math.random().toString();
+			const data = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
+			await privateClient.storeObject(type, path, data);
+
+			deepEqual(await privateClient.getObject(path), data);
+		});
+
+		it('excludes if not encrypted', async function () {
+			const privateClient = __OLSKRemoteStorageEnableCrypto();
+			const path = Math.random().toString();
+			await privateClient._OLSKBackupStoreFile(Math.random().toString(), path, Math.random().toString());
+
+			deepEqual(await privateClient.getObject(path, false), undefined);
+		});
+	
+	});
+
+	context('getAll', function () {
+		
+		it.skip('calls param3', async function () {
+			const privateClient = __OLSKRemoteStorageEnableCrypto();
+			const path = Math.random().toString() + '/';
+			const data = Math.random().toString();
+			await privateClient.storeFile(Date.now().toString(), path + Math.random().toString(), data);
+
+			deepEqual(Object.values(await privateClient.getAll(path, false)), [data]);
+		});
+
+		it('excludes if not encrypted', async function () {
+			const privateClient = __OLSKRemoteStorageEnableCrypto();
+			const path = Math.random().toString() + '/';
+			await privateClient._OLSKBackupStoreFile(Math.random().toString(), path + Math.random().toString(), Math.random().toString());
+
+			deepEqual(await privateClient.getAll(path, false), {});
+		});
+	
+	});
+
+});
+
 describe('OLSKRemoteStorageLauncherFakeItemProxy', function test_OLSKRemoteStorageLauncherFakeItemProxy() {
 
 	it('returns object', function () {

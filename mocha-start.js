@@ -17,6 +17,13 @@ const mod = require('./main.js');
 
 		global.OLSKTestingStorageClient.access.claim(storageModule.name, 'rw');
 		global.OLSKTestingStorageModule = OLSKTestingStorageClient.test_rs_module;
+
+		global.OLSKTestingStorageModuleFresh = function () {
+			const client = new RemoteStorage({ modules: [ storageModule ] });
+			client.access.claim(storageModule.name, 'rw');
+			return client.test_rs_module;
+		};
+		
 	});
 
 	beforeEach(function() {
