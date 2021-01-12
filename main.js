@@ -560,7 +560,7 @@ const mod = {
 			storeObject (type, path, data) {
 				return privateClient._OLSKBackupStoreFile('multipart/encrypted', path, encrypt(JSON.stringify({
 					type,
-					data,
+					data: JSON.stringify(data),
 				})));
 			},
 
@@ -569,7 +569,7 @@ const mod = {
 
 				const decrypted = item.contentType !== 'multipart/encrypted' ? {} : JSON.parse(decrypt(item.data));
 
-				return decrypted.data;
+				return !decrypted.data ? null : JSON.parse(decrypted.data);
 			},
 
 			async getAll () {

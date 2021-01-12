@@ -1415,7 +1415,7 @@ describe('_OLSKRemoteStorageEnableCrypto', function test__OLSKRemoteStorageEnabl
 				contentType: 'multipart/encrypted',
 				data: uEncrypt(JSON.stringify({
 					type,
-					data,
+					data: JSON.stringify(data),
 				})),
 				revision: undefined,
 			});
