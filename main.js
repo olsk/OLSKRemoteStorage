@@ -585,8 +585,6 @@ const mod = {
 					});
 				}, {})
 
-				console.log(item);
-
 				const decrypted = item.contentType !== 'multipart/encrypted' ? {} : JSON.parse(decrypt(item.data));
 
 				return decrypted.data;
