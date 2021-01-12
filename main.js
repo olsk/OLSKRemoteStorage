@@ -190,6 +190,8 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		const _this = this;
+
 		return function (inputData) {
 			if (!Array.isArray(inputData)) {
 				throw new Error('OLSKErrorInputNotValid');
@@ -279,7 +281,11 @@ const mod = {
 							coll[collection.OLSKRemoteStorageCollectionName] = collection.OLSKRemoteStorageCollectionExports;
 
 							return coll;
-						}, Object.assign(options.OLSKOptionIncludeDebug ? { __DEBUG } : {}, { __HOTFIX })),
+						}, Object.assign(options.OLSKOptionIncludeDebug ? { __DEBUG } : {}, { __HOTFIX }, {
+							OLSKRemoteStorageEnableCrypto () {
+								return _this._OLSKRemoteStorageEnableCrypto(...[privateClient].concat(...arguments));
+							},
+						})),
 					};
 				},
 			};
@@ -573,7 +579,7 @@ const mod = {
 					if (value === true) {
 						return coll;
 					}
-					
+
 					return Object.assign(coll, {
 						[key]: value,
 					});

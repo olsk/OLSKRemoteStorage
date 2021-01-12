@@ -554,6 +554,22 @@ describe('OLSKRemoteStorageDataModuleGenerator', function test_OLSKRemoteStorage
 								return StubCollectionObjectValid();
 							}]).builder(uInputValid()).exports.__DEBUG, 'undefined');
 						});
+
+						context('OLSKRemoteStorageEnableCrypto', function () {
+
+							it('calls _OLSKRemoteStorageEnableCrypto', function () {
+								const item = Date.now().toString();
+
+								deepEqual(Object.assign(Object.assign({}, mod), {
+									_OLSKRemoteStorageEnableCrypto: (function () {
+										return [...arguments];
+									}),
+								}).OLSKRemoteStorageDataModuleGenerator(Math.random().toString())([function () {
+									return StubCollectionObjectValid();
+								}]).builder(uInputValid()).exports.OLSKRemoteStorageEnableCrypto(item).slice(1), [item]);
+							});
+						
+						});
 					
 					});
 				
