@@ -8,7 +8,9 @@ const mod = require('./main.js');
 	})([function (privateClient, publicClient, changeDelegate) {
 		return {
 			OLSKRemoteStorageCollectionName: 'xyz_documents',
-			OLSKRemoteStorageCollectionExports: {},
+			OLSKRemoteStorageCollectionExports: {
+				
+			},
 		};
 	}]);
 

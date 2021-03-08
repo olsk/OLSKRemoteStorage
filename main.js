@@ -39,65 +39,6 @@ const mod = {
 		return inputData.replace(/\w+ErrorNot/, '').toLowerCase();
 	},
 
-	OLSKRemoteStorageChangeDelegateMethods () {
-		return [
-			'OLSKChangeDelegateCreate',
-			'OLSKChangeDelegateUpdate',
-			'OLSKChangeDelegateDelete',
-			'OLSKChangeDelegateConflict',
-		];
-	},
-
-	OLSKRemoteStorageChangeDelegateProperty (inputData) {
-		if (typeof inputData !== 'object' || inputData === null) {
-			return;
-		}
-
-		if (inputData.origin === 'remote' && typeof inputData.oldValue === 'undefined' && typeof inputData.newValue !== 'undefined') {
-			return 'OLSKChangeDelegateCreate';
-		}
-
-		if (inputData.origin === 'remote' && typeof inputData.oldValue !== 'undefined' && typeof inputData.newValue !== 'undefined') {
-			return 'OLSKChangeDelegateUpdate';
-		}
-
-		if (inputData.origin === 'remote' && typeof inputData.oldValue !== 'undefined' && typeof inputData.newValue === 'undefined') {
-			return 'OLSKChangeDelegateDelete';
-		}
-
-		if (inputData.origin === 'conflict') {
-			return 'OLSKChangeDelegateConflict';
-		}
-
-		return;
-	},
-
-	OLSKRemoteStorageChangeDelegateInput (inputData) {
-		console.log('OLSKRemoteStorageChangeDelegateInput DEPRECATED: use OLSKRemoteStorageChangeDelegateData');
-		
-		if (!mod.OLSKRemoteStorageChangeDelegateMethods().includes(inputData)) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		return inputData === 'OLSKChangeDelegateDelete' ? 'oldValue' : 'newValue';
-	},
-
-	OLSKRemoteStorageChangeDelegateData (param1, param2) {
-		if (!mod.OLSKRemoteStorageChangeDelegateMethods().includes(param1)) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (!param2.origin) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (param1 === 'OLSKChangeDelegateConflict') {
-			return param2;
-		}
-
-		return param2[param1 === 'OLSKChangeDelegateDelete' ? 'oldValue' : 'newValue'];
-	},
-
 	OLSKRemoteStorageChangeDelegateConflictSelectRecent (inputData) {
 		if (inputData.origin !== 'conflict') {
 			throw new Error('OLSKErrorInputNotValid');
@@ -114,51 +55,6 @@ const mod = {
 		}
 
 		return inputData.newValue;
-	},
-
-	OLSKRemoteStorageStatus (param1, param2, OLSKLocalized = function (inputData) {
-		return inputData;
-	}) {
-		if (typeof param1 !== 'object' || param1 === null) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (typeof param1.on !== 'function') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (typeof param2 !== 'function') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		param1.on('connected', function () {
-			param2(OLSKLocalized('OLSKRemoteStorageStatusOnline'));
-		});
-
-		let isOffline;
-		param1.on('network-offline', function () {
-			param2(OLSKLocalized('OLSKRemoteStorageStatusNetworkOffline'));
-
-			isOffline = true;
-		});
-
-		param1.on('network-online', function () {
-			param2(OLSKLocalized('OLSKRemoteStorageStatusOnline'));
-
-			isOffline = false;
-		});
-
-		param1.on('error', function (inputData) {
-			if (isOffline && inputData.message === 'Sync failed: Network request failed.') {
-				return;
-			}
-
-			param2(OLSKLocalized('OLSKRemoteStorageStatusError'));
-		});
-
-		param1.on('disconnected', function () {
-			param2('');
-		});
 	},
 
 	OLSKRemoteStorageIsCollection (inputData) {
@@ -320,25 +216,6 @@ const mod = {
 		return uFlatten(await Promise.all((await mod.OLSKRemoteStorageListing(privateClient, inputData)).map(async function (e) {
 			return e.slice(-1) == '/' ? await mod.OLSKRemoteStorageListingRecursive(privateClient, e) : e;
 		})));
-	},
-
-	async OLSKRemoteStorageObjects (privateClient, inputData) {
-		if (typeof inputData !== 'string') {
-			return Promise.reject(new Error('OLSKErrorInputNotValid'));
-		}
-
-		return Object.entries(await privateClient.getAll(inputData, false)).reduce(function (coll, item) {
-			if (item[0].includes('/')) {
-				coll.folders.push(item[0]);
-			} else {
-				coll.objects.push(item[1]);
-			}
-
-			return coll;
-		}, {
-			objects: [],
-			folders: [],
-		});
 	},
 
 	async OLSKRemoteStorageObjectsRecursive (privateClient, inputData, cacheAge = false) {
