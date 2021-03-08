@@ -6,11 +6,40 @@ const mod = require('./main.js');
 	const storageModule = mod.OLSKRemoteStorageDataModuleGenerator('test_rs_module', {
 		OLSKOptionIncludeDebug: true,
 	})([function (privateClient, publicClient, changeDelegate) {
+		const uFlatten = function (inputData) {
+			return [].concat.apply([], inputData);
+		};
+
+		const mod = {
+			async XYZListing (inputData) {
+				return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
+					if (typeof path !== 'string') {
+						return Promise.reject(new Error('OLSKErrorInputNotValid'));
+					}
+
+					try {
+						return await Object.keys(await privateClient.getListing(path, false)).map(function (e) {
+							return path + e;
+						});
+					} catch {}
+
+					return [];
+				})));
+			},
+			async XYZRecursive (inputData) {
+				return uFlatten(await Promise.all((await mod.XYZListing(inputData)).map(async function (e) {
+					return e.slice(-1) == '/' ? await mod.XYZRecursive(e) : e;
+				})));
+			},
+			async XYZReset () {
+				return await Promise.all((await mod.XYZRecursive('')).map(async function (path) {
+					return await privateClient.remove(path);
+				}));
+			},
+		};
 		return {
 			OLSKRemoteStorageCollectionName: 'xyz_documents',
-			OLSKRemoteStorageCollectionExports: {
-				
-			},
+			OLSKRemoteStorageCollectionExports: mod,
 		};
 	}]);
 
@@ -29,7 +58,7 @@ const mod = require('./main.js');
 	});
 
 	beforeEach(function() {
-		return mod._TestReset(global.OLSKTestingStorageModule);
+		return global.OLSKTestingStorageModule.xyz_documents.XYZReset();
 	});
 })();
 
