@@ -31,7 +31,7 @@ const mod = {
 			return false;
 		}
 
-		if (inputData.OLSKRemoteStorageCollectionName.trim() === '') {
+		if (!inputData.OLSKRemoteStorageCollectionName.trim()) {
 			return false;
 		}
 
