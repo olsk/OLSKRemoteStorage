@@ -3,9 +3,7 @@ const RemoteStorage = require('remotestoragejs');
 const mod = require('./main.js');
 
 (function OLSKMochaStorage() {
-	const storageModule = mod.OLSKRemoteStorageDataModuleGenerator('test_rs_module', {
-		OLSKOptionIncludeDebug: true,
-	})([function (privateClient, publicClient, changeDelegate) {
+	const storageModule = mod.OLSKRemoteStorageDataModuleGenerator('test_rs_module')([function (privateClient, publicClient, changeDelegate) {
 		const uFlatten = function (inputData) {
 			return [].concat.apply([], inputData);
 		};
@@ -30,6 +28,9 @@ const mod = require('./main.js');
 				return uFlatten(await Promise.all((await mod.XYZListing(inputData)).map(async function (e) {
 					return e.slice(-1) == '/' ? await mod.XYZRecursive(e) : e;
 				})));
+			},
+			XYZPrivateClient () {
+				return privateClient;
 			},
 			async XYZReset () {
 				return await Promise.all((await mod.XYZRecursive('')).map(async function (path) {

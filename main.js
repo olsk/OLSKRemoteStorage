@@ -42,7 +42,7 @@ const mod = {
 		return true;
 	},
 
-	OLSKRemoteStorageDataModuleGenerator (kModuleName, options = {}) {
+	OLSKRemoteStorageDataModuleGenerator (kModuleName) {
 		if (typeof kModuleName !== 'string') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -61,14 +61,6 @@ const mod = {
 			return {
 				name: kModuleName,
 				builder (privateClient, publicClient) {
-					const __DEBUG = {
-
-						__OLSKRemoteStoragePrivateClient () {
-							return privateClient;
-						},
-						
-					};
-
 					return {
 						exports: inputData.reduce(function (coll, item) {
 							const collection = item(privateClient, publicClient, item.OLSKChangeDelegate);
@@ -80,7 +72,7 @@ const mod = {
 							coll[collection.OLSKRemoteStorageCollectionName] = collection.OLSKRemoteStorageCollectionExports;
 
 							return coll;
-						}, Object.assign(options.OLSKOptionIncludeDebug ? { __DEBUG } : {}, {
+						}, Object.assign({
 							OLSKRemoteStorageEnableCrypto () {
 								return _this._OLSKRemoteStorageEnableCrypto(...[privateClient].concat(...arguments));
 							},
@@ -97,10 +89,6 @@ const mod = {
 		}
 
 		return !!inputData.trim();
-	},
-
-	_OLSKRemoteStoragePrivateClient (storageModule) {
-		return storageModule.__DEBUG.__OLSKRemoteStoragePrivateClient();
 	},
 
 	OLSKRemoteStorageSafeCopy (inputData) {

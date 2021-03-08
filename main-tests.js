@@ -222,14 +222,6 @@ describe('_OLSKRemoteStorageIsPath', function test__OLSKRemoteStorageIsPath() {
 
 });
 
-describe('_OLSKRemoteStoragePrivateClient', function test__OLSKRemoteStoragePrivateClient() {
-
-	it('returns object', function() {
-		deepEqual(typeof mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), 'object');
-		deepEqual(mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModule), OLSKTestingStorageModule.__DEBUG.__OLSKRemoteStoragePrivateClient());
-	});
-});
-
 describe('OLSKRemoteStorageSafeCopy', function test_OLSKRemoteStorageSafeCopy() {
 
 	const item = {
@@ -511,7 +503,7 @@ describe('_OLSKRemoteStorageEnableCrypto', function test__OLSKRemoteStorageEnabl
 	};
 
 	const __OLSKRemoteStorageEnableCrypto = function () {
-		return mod._OLSKRemoteStorageEnableCrypto(mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModuleFresh()), uEncrypt, uDecrypt);
+		return mod._OLSKRemoteStorageEnableCrypto(OLSKTestingStorageModuleFresh().xyz_documents.XYZPrivateClient(), uEncrypt, uDecrypt);
 	};
 
 	it('throws if param1 not privateClient', function () {
@@ -522,18 +514,18 @@ describe('_OLSKRemoteStorageEnableCrypto', function test__OLSKRemoteStorageEnabl
 
 	it('throws if param2 not function', function () {
 		throws(function () {
-			mod._OLSKRemoteStorageEnableCrypto(mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModuleFresh()), null, uDecrypt);
+			mod._OLSKRemoteStorageEnableCrypto(OLSKTestingStorageModuleFresh().xyz_documents.XYZPrivateClient(), null, uDecrypt);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if param3 not function', function () {
 		throws(function () {
-			mod._OLSKRemoteStorageEnableCrypto(mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModuleFresh()), uEncrypt, null);
+			mod._OLSKRemoteStorageEnableCrypto(OLSKTestingStorageModuleFresh().xyz_documents.XYZPrivateClient(), uEncrypt, null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('backs up data operations', function () {
-		const privateClient = mod._OLSKRemoteStoragePrivateClient(OLSKTestingStorageModuleFresh());
+		const privateClient = OLSKTestingStorageModuleFresh().xyz_documents.XYZPrivateClient();
 
 		const backup = {
 			storeFile: privateClient.storeFile,
