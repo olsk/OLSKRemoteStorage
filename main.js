@@ -63,7 +63,7 @@ const mod = {
 				builder (privateClient, publicClient) {
 					return {
 						exports: inputData.reduce(function (coll, item) {
-							const collection = item(privateClient, publicClient, item.OLSKChangeDelegate);
+							const collection = item(privateClient, publicClient);
 
 							if (!mod.OLSKRemoteStorageIsCollection(collection)) {
 								throw new Error('OLSKErrorInputNotValid');
