@@ -514,46 +514,6 @@ describe('OLSKRemoteStorageSafeCopy', function test_OLSKRemoteStorageSafeCopy() 
 
 });
 
-describe('OLSKRemoteStoragePreJSONSchemaValidate', function test_OLSKRemoteStoragePreJSONSchemaValidate() {
-
-	it('returns input', function() {
-		deepEqual(mod.OLSKRemoteStoragePreJSONSchemaValidate({}), {});
-	});
-
-	it('returns passes string', function() {
-		deepEqual(mod.OLSKRemoteStoragePreJSONSchemaValidate({
-			alfaDate: '2018-12-09T19:07:01.902Z',
-		}), {
-			alfaDate: '2018-12-09T19:07:01.902Z',
-		});
-	});
-
-	it('returns input with *Date as string', function() {
-		deepEqual(mod.OLSKRemoteStoragePreJSONSchemaValidate({
-			alfaDate: new Date('2018-12-09T19:07:01.902Z'),
-		}), {
-			alfaDate: '2018-12-09T19:07:01.902Z',
-		});
-	});
-
-	it('returns input with Array *Date as string', function() {
-		deepEqual(mod.OLSKRemoteStoragePreJSONSchemaValidate({
-			alfa: [
-				{
-					bravoDate: new Date('2018-12-09T19:07:01.902Z'),
-				}
-			],
-		}), {
-			alfa: [
-				{
-					bravoDate: '2018-12-09T19:07:01.902Z',
-				}
-			],
-		});
-	});
-
-});
-
 describe('OLSKRemoteStoragePostJSONParse', function test_OLSKRemoteStoragePostJSONParse() {
 
 	it('returns input null', function() {
