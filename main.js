@@ -67,10 +67,6 @@ const mod = {
 							return privateClient;
 						},
 						
-						__OLSKRemoteStoragePublicClient () {
-							return publicClient;
-						},
-						
 					};
 
 					const __HOTFIX = {
@@ -113,10 +109,6 @@ const mod = {
 
 	_OLSKRemoteStoragePrivateClient (storageModule) {
 		return storageModule.__DEBUG.__OLSKRemoteStoragePrivateClient();
-	},
-
-	_OLSKRemoteStoragePublicClient (storageModule) {
-		return storageModule.__DEBUG.__OLSKRemoteStoragePublicClient();
 	},
 
 	OLSKRemoteStorageSafeCopy (inputData) {

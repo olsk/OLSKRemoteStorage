@@ -230,15 +230,6 @@ describe('_OLSKRemoteStoragePrivateClient', function test__OLSKRemoteStoragePriv
 	});
 });
 
-describe('_OLSKRemoteStoragePublicClient', function test__OLSKRemoteStoragePublicClient() {
-
-	it('returns object', function() {
-		deepEqual(typeof mod._OLSKRemoteStoragePublicClient(OLSKTestingStorageModule), 'object');
-		deepEqual(mod._OLSKRemoteStoragePublicClient(OLSKTestingStorageModule), OLSKTestingStorageModule.__DEBUG.__OLSKRemoteStoragePublicClient());
-	});
-
-});
-
 describe('OLSKRemoteStorageSafeCopy', function test_OLSKRemoteStorageSafeCopy() {
 
 	const item = {
