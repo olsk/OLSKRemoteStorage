@@ -25,7 +25,6 @@
 		InterfaceLauncherButtonDidClick () {
 			window.Launchlet.LCHSingletonCreate({
 				LCHOptionRecipes: exports.OLSKRemoteStorageRecipes({
-					ParamWindow: window,
 					ParamStorage: mod._ValueOLSKRemoteStorage,
 					OLSKLocalized: window.OLSKLocalized,
 					ParamMod: mod,
