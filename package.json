@@ -2,8 +2,6 @@
   "name": "OLSKRemoteStorage",
   "main": "main.js",
   "dependencies": {
-    "remotestoragejs": "1.x",
-
-    "//": "I sacrifice myself for the commas of others"
+    "remotestoragejs": "1.x"
   }
 }
