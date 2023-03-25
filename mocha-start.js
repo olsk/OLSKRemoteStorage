@@ -3,62 +3,58 @@ const RemoteStorage = require('remotestoragejs');
 const mod = require('./main.js');
 
 (function OLSKMochaStorage() {
-	const storageModule = mod.OLSKRemoteStorageDataModuleGenerator('test_rs_module')([function (privateClient, publicClient, changeDelegate) {
-		const uFlatten = function (inputData) {
-			return [].concat.apply([], inputData);
-		};
+	const storageModule = {
+		name: 'test_rs_module',
+		builder (privateClient, publicClient) {
+			const uFlatten = function (inputData) {
+				return [].concat.apply([], inputData);
+			};
 
-		const mod = {
-			async XYZListing (inputData) {
-				return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
-					if (typeof path !== 'string') {
-						return Promise.reject(new Error('OLSKErrorInputNotValid'));
-					}
+			const mod = {
+				async XYZListing (inputData) {
+					return uFlatten(await Promise.all(uFlatten([inputData]).map(async function (path) {
+						if (typeof path !== 'string') {
+							return Promise.reject(new Error('OLSKErrorInputNotValid'));
+						}
 
-					try {
-						return await Object.keys(await privateClient.getListing(path, false)).map(function (e) {
-							return path + e;
-						});
-					} catch {}
+						try {
+							return await Object.keys(await privateClient.getListing(path, false)).map(function (e) {
+								return path + e;
+							});
+						} catch {}
 
-					return [];
-				})));
-			},
-			async XYZRecursive (inputData) {
-				return uFlatten(await Promise.all((await mod.XYZListing(inputData)).map(async function (e) {
-					return e.slice(-1) == '/' ? await mod.XYZRecursive(e) : e;
-				})));
-			},
-			XYZPrivateClient () {
-				return privateClient;
-			},
-			async XYZReset () {
-				return await Promise.all((await mod.XYZRecursive('')).map(privateClient.remove));
-			},
-		};
-		return {
-			OLSKRemoteStorageCollectionName: 'xyz_documents',
-			OLSKRemoteStorageCollectionExports: mod,
-		};
-	}]);
+						return [];
+					})));
+				},
+				async XYZRecursive (inputData) {
+					return uFlatten(await Promise.all((await mod.XYZListing(inputData)).map(async function (e) {
+						return e.slice(-1) == '/' ? await mod.XYZRecursive(e) : e;
+					})));
+				},
+				XYZPrivateClient () {
+					return privateClient;
+				},
+				
+				async XYZReset () {
+					return await Promise.all((await mod.XYZRecursive('')).map(privateClient.remove));
+				},
+			};
+
+			return {
+				exports: {
+					xyz_documents: mod,
+				},
+			};
+		},
+	};
 
 	before(function() {
-		global.OLSKTestingStorageClientFresh = function () {
-			const client = new RemoteStorage({ modules: [ storageModule ] });
-			client.access.claim(storageModule.name, 'rw');
-			return client;
-		};
-
-		global.OLSKTestingStorageModuleFresh = function () {
-			return global.OLSKTestingStorageClientFresh().test_rs_module;
-		};
-
-		global.OLSKTestingStorageClient = global.OLSKTestingStorageClientFresh();
-		global.OLSKTestingStorageModule = OLSKTestingStorageClient.test_rs_module;
+		global.OLSKTestingStorageClient = new RemoteStorage({ modules: [ storageModule ] });
+		global.OLSKTestingStorageClient.access.claim(storageModule.name, 'rw');
 	});
 
 	beforeEach(function() {
-		return global.OLSKTestingStorageModule.xyz_documents.XYZReset();
+		return OLSKTestingStorageClient.test_rs_module.xyz_documents.XYZReset();
 	});
 })();
 

@@ -42,43 +42,6 @@ const mod = {
 		return true;
 	},
 
-	OLSKRemoteStorageDataModuleGenerator (kModuleName) {
-		if (typeof kModuleName !== 'string') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (!kModuleName.trim()) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		const _this = this;
-
-		return function (inputData) {
-			if (!Array.isArray(inputData)) {
-				throw new Error('OLSKErrorInputNotValid');
-			}
-
-			return {
-				name: kModuleName,
-				builder (privateClient, publicClient) {
-					return {
-						exports: inputData.reduce(function (coll, item) {
-							const collection = item(privateClient, publicClient);
-
-							if (!mod.OLSKRemoteStorageIsCollection(collection)) {
-								throw new Error('OLSKErrorInputNotValid');
-							}
-
-							coll[collection.OLSKRemoteStorageCollectionName] = collection.OLSKRemoteStorageCollectionExports;
-
-							return coll;
-						}, {}),
-					};
-				},
-			};
-		};
-	},
-
 	_OLSKRemoteStorageIsPath (inputData) {
 		if (typeof inputData !== 'string') {
 			throw new Error('OLSKErrorInputNotValid');
