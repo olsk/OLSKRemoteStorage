@@ -33,9 +33,7 @@ const mod = require('./main.js');
 				return privateClient;
 			},
 			async XYZReset () {
-				return await Promise.all((await mod.XYZRecursive('')).map(async function (path) {
-					return await privateClient.remove(path);
-				}));
+				return await Promise.all((await mod.XYZRecursive('')).map(privateClient.remove));
 			},
 		};
 		return {
@@ -45,17 +43,18 @@ const mod = require('./main.js');
 	}]);
 
 	before(function() {
-		global.OLSKTestingStorageClient = new RemoteStorage({ modules: [ storageModule ] });
-
-		global.OLSKTestingStorageClient.access.claim(storageModule.name, 'rw');
-		global.OLSKTestingStorageModule = OLSKTestingStorageClient.test_rs_module;
-
-		global.OLSKTestingStorageModuleFresh = function () {
+		global.OLSKTestingStorageClientFresh = function () {
 			const client = new RemoteStorage({ modules: [ storageModule ] });
 			client.access.claim(storageModule.name, 'rw');
-			return client.test_rs_module;
+			return client;
 		};
-		
+
+		global.OLSKTestingStorageModuleFresh = function () {
+			return global.OLSKTestingStorageClientFresh().test_rs_module;
+		};
+
+		global.OLSKTestingStorageClient = global.OLSKTestingStorageClientFresh();
+		global.OLSKTestingStorageModule = OLSKTestingStorageClient.test_rs_module;
 	});
 
 	beforeEach(function() {
