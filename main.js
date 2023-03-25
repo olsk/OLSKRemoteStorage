@@ -72,11 +72,7 @@ const mod = {
 							coll[collection.OLSKRemoteStorageCollectionName] = collection.OLSKRemoteStorageCollectionExports;
 
 							return coll;
-						}, Object.assign({
-							OLSKRemoteStorageEnableCrypto () {
-								return _this._OLSKRemoteStorageEnableCrypto(...[privateClient].concat(...arguments));
-							},
-						})),
+						}, {}),
 					};
 				},
 			};
@@ -181,80 +177,6 @@ const mod = {
 				storageClient.connect(param3, param4);
 			});
 		};
-	},
-
-	_OLSKRemoteStorageEnableCrypto (privateClient, encrypt, decrypt) {
-		if (!privateClient.storeFile) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (typeof encrypt !== 'function') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		if (typeof decrypt !== 'function') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-
-		return Object.assign(privateClient, {
-			_OLSKBackupStoreFile: privateClient.storeFile,
-			_OLSKBackupGetFile: privateClient.getFile,
-			_OLSKBackupStoreObject: privateClient.storeObject,
-			_OLSKBackupGetObject: privateClient.getObject,
-			_OLSKBackupGetAll: privateClient.getAll,
-
-			storeFile (mimetype, path, body) {
-				return privateClient._OLSKBackupStoreFile('multipart/encrypted', path, encrypt(JSON.stringify({
-					type: mimetype,
-					data: body,
-				})));
-			},
-
-			async getFile () {
-				const item = await privateClient._OLSKBackupGetFile(...arguments);
-
-				const decrypted = item.contentType !== 'multipart/encrypted' ? {} : JSON.parse(decrypt(item.data));
-
-				return Object.assign(item, {
-					contentType: decrypted.type,
-					data: decrypted.data,
-				})
-			},
-
-			storeObject (type, path, data) {
-				return privateClient._OLSKBackupStoreFile('multipart/encrypted', path, encrypt(JSON.stringify({
-					type,
-					data: JSON.stringify(data),
-				})));
-			},
-
-			async getObject () {
-				const item = await privateClient._OLSKBackupGetFile(...arguments);
-
-				const decrypted = item.contentType !== 'multipart/encrypted' ? {} : JSON.parse(decrypt(item.data));
-
-				return !decrypted.data ? null : JSON.parse(decrypted.data);
-			},
-
-			async getAll () {
-				const item = await privateClient._OLSKBackupGetAll(...arguments);
-
-				return Object.entries(item).reduce(function (coll, [key, value]) {
-					if (value === true) {
-						return coll;
-					}
-
-					return Object.assign(coll, {
-						[key]: value,
-					});
-				}, {})
-
-				const decrypted = item.contentType !== 'multipart/encrypted' ? {} : JSON.parse(decrypt(item.data));
-
-				return decrypted.data;
-			},
-
-		});
 	},
 
 	OLSKRemoteStorageLauncherFakeItemProxy () {
