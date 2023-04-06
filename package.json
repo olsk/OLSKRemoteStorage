@@ -2,6 +2,6 @@
   "name": "OLSKRemoteStorage",
   "main": "main.js",
   "dependencies": {
-    "remotestoragejs": "1.x"
+    "remotestoragejs": "2.0.0-beta.6"
   }
 }
